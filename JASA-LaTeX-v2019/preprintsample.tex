@@ -10,7 +10,7 @@
 %%%%%%% For Preprint
 %% For manuscript, 12pt, one column style
 
-\documentclass[preprint]{JASA}
+\documentclass[reprint]{JASA}
 
 %%%%% Preprint Options %%%%%
 %% The track changes option allows you to mark changes
@@ -50,19 +50,19 @@
 
 \begin{document}
 
-\title[JASA/Sample JASA Article]{Sample JASA Article}
+\title[JASA/Sample JASA Article]{Dynamic Grids for Finite Difference Schemes: Changing Parameters of Musical Instrument Simulations in Real Time}
 \author{Silvin Willemsen}
+\email{sil@create.aau.dk}
 \author{Stefania Serafin}
-\affiliation{Multisensory Experience Lab, CREATE, Aalborg University, Copenhagen, 2450, Denmark}
+\affiliation{Multisensory Experience Lab, CREATE, Aalborg University, Copenhagen, Denmark}
 
 \author{Michele Ducceschi}
 \author{Stefan Bilbao}
-\email{author.four@university.edu}
-\affiliation{Department2,  University2, City, State ZipCode, Country}
+\affiliation{Acoustics and Audio Group, University of Edinburgh, Edinburgh, Scotland}
  
-\author{Author Five}			
-\altaffiliation{Also at: Department, University, City, State ZipCode, Country.}
-\affiliation{Department3,  University3, City, State ZipCode, Country}
+% \author{Author Five}			
+% \altaffiliation{Also at: Department, University, City, State ZipCode, Country.}
+% \affiliation{Department3,  University3, City, State ZipCode, Country}
 
 
 \preprint{Author, JASA}		%  if you want want this message to appear in upper right corner of title page
@@ -70,12 +70,8 @@
 \date{\today} 
 
 \begin{abstract}
-Put your abstract here. Abstracts are limited to 200 words for
-regular articles and 100 words for Letters to the Editor. Please no
-personal pronouns, also please do not use the words ``new'' and/or
-``novel'' in the abstract. An article usually includes an abstract, a
-concise summary of the work covered at length in the main body of the
-article.     
+Musical instrument simulation
+This article proposes a technique to dynamically alter the grids of finite-difference schemes (FDSs) . This allows for dynamic parameter changes in physical models of musical instruments based on this technique. Furthermore, using this technique, the stability condition that 
 \end{abstract}
 
 %% pacs numbers not used
@@ -87,61 +83,90 @@ article.
 
 
 \section{\label{sec:1} Introduction}
-This sample document demonstrates the use of JASA in manuscripts 
-prepared for submission to the Journal of the Acoustical Society of America. 
+Simulation of musical instruments through physical modelling is a well established field.
 
-See JASA-TeXGuide.pdf, which is part of this package, for extensive
-documentation on using commands for JASA.
+of simulating musical instruments rather than recording them and playing them back (samples), is the flexibility of control and playability of the instrument. Imagine trying to record the entire control space of a violin, i.e., all possible combinations of bowing force, bowing velocity and fingering positions. The recording procedure would take a great amount of time and resources, let alone the amount of data storage required to store all of the high-quality audio.
 
-You can compare the .tex version of this file with the resulting .pdf
-version to give you an idea of what  commands are available and how
-they work. At the top of the .tex file you'll find a listing of the
-documentclass options, and an explanation of their results.
-Some additional suggestions are included in the body of this
-manuscript.  
-
-  Beginner Latex users should refer to their favorite online documentation. A 
-  useful place to start is the primer from the TeX Users Group 
-  \url{https://www.tug.org/twg/mactex/tutorials/ltxprimer-1.0.pdf}
+Due to the vast parameter space of many instruments, using simulations is a much more viable solution for capturing the full expressivity of an instrument than sampling.
 
 
-EXAMPLE TEXT: This is example text. This is example text. This is example text. This is example text. This is example text. This is example text. This is example text. This is example text. This is example text. This is example text. This is example text. This is example text. This is example text. This is example text. This is example text. This is example text. 
+One of the incentives of simulating the physics of musical instruments rather than recording real ones, is that we can manipulate the virtual instrument in physically impossible ways! Examples of this could be to change material properties, or even the shape of the instrument on the fly.
 
-The paper is organized as follows: Section~\ref{sec:2} presents
-initial information, while
-Section~\ref{sec:3} presents examples of mathematical expressions.
+An example of a real-world instrument that requires these real-time parameter changes is the trombone, where the variable tube-length is used to play the instrument. In a companion article we describe a physical model of this instrument as a case study for the techniques presented here. 
 
- % Sample showing how to include figure, this is a floating figure
+Existing physical modelling techniques include mass-spring systems and digital waveguides. Modal synthesis, though requiring a closed-form solution, does allow for easy and smooth parameter changes and could thus be a good candidate for implementing the aforementioned dynamic parameters. Finite-difference time domain (FDTD) methods for physical modelling are more flexible and generalisable and do not need a closed-form solution as modal synthesis does. These methods subdivide continuous partial differential equations (PDEs) that describe the physics of the system at hand (string, tube, etc.) into discrete points in space and time. 
+
+\subsection{Grids and stability}
+The grid spacing between two discrete points in space and the time step between two discrete moments in time are closely connected through a \textit{stability condition}. This condition dictates the maximum number of points allowed to describe system before it gets unstable and the simulation ``explodes''. The closer the number of points is to the stability condition, the higher the quality of the simulation. If the condition is satisfied with equality, the quality of the simulation is at a maximum.
+
+Furthermore, the stability condition depends on the parameters of the model, such as material properties or size of the system, i.e., parameters that could be changed on the fly.
+
+It is possible to set and fix the number of points of a discrete system and tune the parameters away from the stability condition, ending up with a simulation with a lower output bandwidth than could be.
+
+This article proposes a way to smoothly add and subtract points from a system in real time so that the stability condition is always satisfied with equality. This allows for a simulation where the parameters can be changed on the fly without running into either stability or bandwidth / quality issues. 
+
+
+
+% This sample document demonstrates the use of JASA in manuscripts 
+% prepared for submission to the Journal of the Acoustical Society of America. 
+
+% See JASA-TeXGuide.pdf, which is part of this package, for extensive
+% documentation on using commands for JASA.
+
+% You can compare the .tex version of this file with the resulting .pdf
+% version to give you an idea of what  commands are available and how
+% they work. At the top of the .tex file you'll find a listing of the
+% documentclass options, and an explanation of their results.
+% Some additional suggestions are included in the body of this
+% manuscript.  
+
+%   Beginner Latex users should refer to their favorite online documentation. A 
+%   useful place to start is the primer from the TeX Users Group 
+%   \url{https://www.tug.org/twg/mactex/tutorials/ltxprimer-1.0.pdf}
+
+
+% EXAMPLE TEXT: This is example text. This is example text. This is example text. This is example text. This is example text. This is example text. This is example text. This is example text. This is example text. This is example text. This is example text. This is example text. This is example text. This is example text. This is example text. This is example text. 
+
+% The paper is organized as follows: Section~\ref{sec:2} presents
+% initial information, while
+% Section~\ref{sec:3} presents examples of mathematical expressions.
+
+%  % Sample showing how to include figure, this is a floating figure
  
-\begin{figure}[ht]
-%% \reprintcolumnwidth is the same in preprint and reprint for
-%% ease of use for authors:
-\includegraphics[width=\reprintcolumnwidth]{figsamp.jpg}
-\caption{\label{fig:FIG1}{Caption here.}}
+% \begin{figure}[ht]
+% %% \reprintcolumnwidth is the same in preprint and reprint for
+% %% ease of use for authors:
+% \includegraphics[width=\reprintcolumnwidth]{figsamp.jpg}
+% \caption{\label{fig:FIG1}{Caption here.}}
 
-\raggedright
-Note: The only figure formats allowed are the following: 
-.pdf, .ps, .eps, or .jpg. Figure files must be named in this fashion:
-Figure\#.xxx, where ``\#'' is the figure number and ``xxx'' is the file format
-(Figure1.eps, Figure2.jpg, Figure3a.ps, Figure3b.ps, etc). 
+% \raggedright
+% Note: The only figure formats allowed are the following: 
+% .pdf, .ps, .eps, or .jpg. Figure files must be named in this fashion:
+% Figure\#.xxx, where ``\#'' is the figure number and ``xxx'' is the file format
+% (Figure1.eps, Figure2.jpg, Figure3a.ps, Figure3b.ps, etc). 
 
-[For these sample pages we have used only figsamp.jpg for convenience]
-\end{figure}
+% [For these sample pages we have used only figsamp.jpg for convenience]
+% \end{figure}
 
-\section{\label{sec:2} Section Two}
+\section{\label{sec:2} The 1D wave equation with a dynamic grid}
 
-An example of another first-level Section with following example text that refers to subsections using 
-\verb+\ref{subsec:XXX}+ ...  EXAMPLE: Some background in
-section~\ref{sec:2} and details  in subsection~\ref{subsec:2:1}. 
-
-\subsection{\label{subsec:2:1} Sample subsection}
+\begin{equation}
+    \frac{\partial^2 u}{\partial t^2}= c^2\frac{\partial^2 u}{\partial x^2}
+\end{equation}
 
 
-   \subsubsection{Sample subsubsection\label{subsubsec:1}}
+% An example of another first-level Section with following example text that refers to subsections using 
+% \verb+\ref{subsec:XXX}+ ...  EXAMPLE: Some background in
+% section~\ref{sec:2} and details  in subsection~\ref{subsec:2:1}. 
 
-\paragraph{Sample paragraph}Here is text following the paragraph
-heading.
-Here is a figure reference: is shown in Fig.~\ref{fig:FIG1}.
+% \subsection{\label{subsec:2:1} Sample subsection}
+
+
+%   \subsubsection{Sample subsubsection\label{subsubsec:1}}
+
+% \paragraph{Sample paragraph}Here is text following the paragraph
+% heading.
+% Here is a figure reference: is shown in Fig.~\ref{fig:FIG1}.
 
 \section{Inline and display math samples\label{sec:3}}
 
