@@ -116,19 +116,12 @@ This article is structured as follows:
 \item Section 6: Conclusions and Future work
 \end{itemize}
 \section{\label{sec:2} Introduction to FDTD Methods}
-To aid the illustration of the proposed method, the 1D-wave equation will be used. Consider a 1-dimensional system with length $L$ (in m) described by state variable $u = u(x, t)$ defined over space $x \in [0, L]$ and time $t \geq 0$. The partial differential equation (PDE) of the 1D-wave equation is then described as
+To aid the illustration of the proposed method, the 1D wave equation will be used. Consider a 1-dimensional system with length $L$ (in m) described by state variable $u = u(x, t)$ defined over space $x \in [0, L]$ and time $t \geq 0$. The partial differential equation (PDE) of the 1D wave equation is then described as
 \begin{equation}\label{eq:1dwave}
     \frac{\partial^2 u}{\partial t^2}= c^2\frac{\partial^2 u}{\partial x^2}\ ,
 \end{equation}
-parameterised by wave speed $c$ (in m/s). As $x$ is only defined over a finite region, boundary conditions need to be given. Two possible conditions for Eq. \eqref{eq:1dwave} are
-\begin{subequations}\label{eq:continuousBoundaries}
-    \begin{align}
-        u(0, t) = u(L, t) &= 0\quad \text{(Dirichlet)},\\
-        \frac{\partial}{\partial x} u(0, t) = \frac{\partial}{\partial x} u(L, t) &= 0\quad \text{(Neumann)},
-    \end{align}
-\end{subequations}
-or, `fixed' and `free' respectively. 
-
+parameterised by wave speed $c$ (in m/s).
+%continuous boundaries here?
 This continuous system can then be discretised into points in space and time. The spatial variable can be discretised using $x_l = lh$ (read: $x$ at location $l$) with integer $l \in [0, \hdots, N]$, grid spacing (distance between two consecutive points) $h$ (in m) and total number of points $N + 1$ (including the boundaries) where $N$ is calculated as 
 \begin{equation}\label{eq:numberOfPoints}
     N = \text{floor}(L/h).
@@ -154,25 +147,15 @@ Expanding the operators as in %the Eqs. in
 Here, $\lambda = ck/h$ is referred to as the Courant number and determines the quality and behaviour of the simulation. For stability, it can be shown -- using Von Neumann stability analysis [REF] -- that \begin{equation}\label{eq:CFL}
     \lambda \leq 1,
 \end{equation}
-referred to as the Courant-Friedrichs-Lewy (CFL) stability condition. One can rewrite Eq. \eqref{eq:CFL} in terms of grid spacing $h$ to get
+referred to as the Courant-Friedrichs-Lewy (CFL) stability condition. The closer $\lambda$ is to this condition, the higher the quality of the output of the system (see Section \ref{sec:quality}) and if $\lambda = 1$ Eq. \eqref{eq:updateEq} provides an exact solution to Eq. \eqref{eq:1dwave}%(this is true for the 1D wave equation)
+. One can rewrite Eq. \eqref{eq:CFL} in terms of grid spacing $h$ to get
 \begin{equation}\label{eq:stabilityCond}
     h \geq ck,
 \end{equation}
-i.e., the grid spacing has a lower bound (for the discrete system to be stable), which is based on the sample rate and wave speed used. $N$ can then be calculated using Eq. \eqref{eq:numberOfPoints} with \eqref{eq:stabilityCond} written as an equality ($h = ck$) after which $h$ needs be recalculated based on $N$ (due to the flooring operation in Eq. \eqref{eq:numberOfPoints}) according to $h = L/N$. This causes the CFL condition in \eqref{eq:CFL} to not always be satisfied with equality.
+i.e., the grid spacing has a lower bound (for the discrete system to be stable), which is based on the sample rate and wave speed used. $N$ can then be calculated using Eq. \eqref{eq:numberOfPoints} with \eqref{eq:stabilityCond} written as an equality ($h = ck$) after which $h$ needs be recalculated based on $N$ (due to the flooring operation in Eq. \eqref{eq:numberOfPoints}) according to $h = L/N$. This causes the CFL condition in \eqref{eq:CFL} to not always be satisfied with equality. This results in a decrease in quality of the simulation described in the following section.
 
-Finally, the boundary conditions shown in \eqref{eq:continuousBoundaries} can be discretised as follows:
-\begin{align}
-    u_0^n = u_N^n &= 0 \quad\text{(Dirichlet)}\\
-    \delta_{x\cdot} u_0^n = \delta_{x\cdot} u_N^n &= 0 \quad \text{(Neumann)}
-\end{align}
-where 
-\begin{equation}
-    \frac{\partial u}{\partial x} \approx \delta_{x\cdot}u_l^n = \frac{1}{2h}\left(u_{l+1}^n - u_{l-1}^n\right)
-\end{equation}
-is a second-order accurate approximation of the first-order spatial derivative.
-
-\subsection{Simulation Quality and Bandwidth}
-As mentioned before, the Courant number $\lambda$ affects the quality of the system. The closer this value is to the CFL condition described in Eq. \eqref{eq:CFL}, the higher the quality of our system. Taking values away from this condition will decrease the maximum frequency that the simulation is able to produce, i.e., it will decrease the bandwidth of the system output. See Figure \ref{fig:bandWidths}.
+\subsection{Simulation Quality and Bandwidth}\label{sec:quality}
+As mentioned before, the Courant number $\lambda$ decides the quality of the simulation. Choosing $\lambda < 1$ will decrease this quality in two ways. Firstly, it will decrease the maximum frequency that the simulation is able to produce, i.e., it will decrease the bandwidth of the system output. See Figure \ref{fig:bandWidths}.
 %
 \begin{figure*}
 \figline{\fig{bandwidthLambda1}{.25\textwidth}{(A)}
@@ -182,13 +165,13 @@ As mentioned before, the Courant number $\lambda$ affects the quality of the sys
 \label{fig:bandWidths}}}
 \end{figure*}
 %
-Analysing the scheme in Eq. \eqref{eq:updateEq}, it can be shown that the maximum frequency produced by the system can be calculated using [REF]
+By analysing the scheme in Eq. \eqref{eq:updateEq}, it can be shown that the maximum frequency produced by the system can be calculated using [REF]
 \begin{equation}
     f_\text{max} = \frac{f_\text{s}}{\pi} \sin^{-1}(\lambda),
 \end{equation}
 shown in Figure \ref{fig:bandWidthFormula}.
 %
-Note, that only small deviations of $\lambda$ from condition \eqref{eq:CFL} already have a great effect on the bandwidth of the output.
+Note, that only a small deviation of $\lambda$ from condition \eqref{eq:CFL} already has a profound effect on the bandwidth of the output.
 
 \begin{figure}
 %% \reprintcolumnwidth is the same in preprint and reprint for
@@ -197,11 +180,29 @@ Note, that only small deviations of $\lambda$ from condition \eqref{eq:CFL} alre
 \caption{\label{fig:bandWidthFormula}{The effect of the Courant number $\lambda$ on the output bandwidth.}}
 \end{figure} 
 
-Another effect that the Courant number has on the output of the system is numerical dispersion. This can be seen from Figure \ref{fig:bandWidths} where the harmonic partials get closer together at higher frequencies (i.e. get more inharmonic) as $\lambda$ decreases. This is an undesired effect.
+Secondly, choosing a value  numerical dispersion. This can be seen from Figure \ref{fig:bandWidths} where the harmonic partials get closer together at higher frequencies (i.e. get more inharmonic) as $\lambda$ decreases. This is an undesired effect.
 
 
 Why would we want to be away from the condition
+\subsection{Boundary Conditions}
 
+As $x$ is only defined over a finite region, boundary conditions need to be given. Two possible conditions for Eq. \eqref{eq:1dwave} are
+\begin{subequations}\label{eq:continuousBoundaries}
+    \begin{align}
+        u(0, t) = u(L, t) &= 0\quad \text{(Dirichlet)},\\
+        \frac{\partial}{\partial x} u(0, t) = \frac{\partial}{\partial x} u(L, t) &= 0\quad \text{(Neumann)},
+    \end{align}
+\end{subequations}
+or, `fixed' and `free' respectively. These conditions can be discretised as follows:
+\begin{align}
+    u_0^n = u_N^n &= 0 \quad\text{(Dirichlet)}\\
+    \delta_{x\cdot} u_0^n = \delta_{x\cdot} u_N^n &= 0 \quad \text{(Neumann)}
+\end{align}
+where 
+\begin{equation}
+    \frac{\partial u}{\partial x} \approx \delta_{x\cdot}u_l^n = \frac{1}{2h}\left(u_{l+1}^n - u_{l-1}^n\right)
+\end{equation}
+is a second-order accurate approximation of the first-order spatial derivative.
 \section{Dynamic Parameters}
 
 \section{Dynamic Grids}
