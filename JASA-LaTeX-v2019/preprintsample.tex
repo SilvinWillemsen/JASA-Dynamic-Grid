@@ -11,7 +11,10 @@
 %% For manuscript, 12pt, one column style
 
 \documentclass[preprint]{JASA}
-
+\usepackage[pdftex]{}
+\graphicspath{{figures/}}
+\usepackage[dvips]{epsfig,graphicx}
+\DeclareGraphicsExtensions{.pdf,.jpeg,.png, .eps}
 %%%%% Preprint Options %%%%%
 %% The track changes option allows you to mark changes
 %% and will produce a list of changes, their line number
@@ -46,6 +49,8 @@
 %% include another package if you prefer another way to make
 %% algorithms examples (but please check that the package is compatible with 
 %%Editorial Manager; see JASA-EL-TeXGuide.pdf).
+
+
 \usepackage{algpseudocode}
 
 \begin{document}
@@ -153,6 +158,15 @@ referred to as the Courant-Friedrichs-Lewy (CFL) stability condition. Taking val
 \begin{equation}
     f_\text{max} = \frac{f_\text{s}}{\pi} \sin^{-1}(\lambda).
 \end{equation}
+
+\begin{figure*}
+\figline{\fig{bandwidthLambda1}{.2\textwidth}{(A)}
+\fig{bandwidthLambda1}{.2\textwidth}{(B)}
+\fig{bandwidthLambda1}{.2\textwidth}{(C)}
+\narrowcaption{.25\textwidth}{Caption for three illustrations. 
+The caption may produce many lines, but only one paragraph.
+}}
+\end{figure*}
 
 
 One can rewrite \eqref{eq:CFL} in terms of grid spacing $h$ to get
