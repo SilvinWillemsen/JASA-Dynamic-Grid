@@ -148,32 +148,17 @@ Substituting these definitions into Eq. \eqref{eq:1dwave} yields the following f
 \end{equation}
 Expanding the operators as in %the Eqs. in
 \eqref{eq:operators} and solving for $u_l^{n+1}$ (which is the only unknown) yields the following update equation
-\begin{equation}
+\begin{equation}\label{eq:updateEq}
     u_l^{n+1} = 2u_l^n-u_l^{n-1} + \lambda^2 \left(u_{l+1}^n-2u_l^n + u_{l-1}^n\right).
 \end{equation}
 Here, $\lambda = ck/h$ is referred to as the Courant number and determines the quality and behaviour of the simulation. For stability, it can be shown -- using Von Neumann stability analysis [REF] -- that \begin{equation}\label{eq:CFL}
     \lambda \leq 1,
 \end{equation}
-referred to as the Courant-Friedrichs-Lewy (CFL) stability condition. Taking values lower than this condition will decrease the maximum frequency that the simulation is able to produce, i.e., the bandwidth of our output. It can be shown that this happens according to the following [REF]
-\begin{equation}
-    f_\text{max} = \frac{f_\text{s}}{\pi} \sin^{-1}(\lambda).
-\end{equation}
-
-\begin{figure*}
-\figline{\fig{bandwidthLambda1}{.2\textwidth}{(A)}
-\fig{bandwidthLambda1}{.2\textwidth}{(B)}
-\fig{bandwidthLambda1}{.2\textwidth}{(C)}
-\narrowcaption{.25\textwidth}{Caption for three illustrations. 
-The caption may produce many lines, but only one paragraph.
-}}
-\end{figure*}
-
-
-One can rewrite \eqref{eq:CFL} in terms of grid spacing $h$ to get
+referred to as the Courant-Friedrichs-Lewy (CFL) stability condition. One can rewrite Eq. \eqref{eq:CFL} in terms of grid spacing $h$ to get
 \begin{equation}\label{eq:stabilityCond}
     h \geq ck,
 \end{equation}
-i.e., we can put a lower bound on the grid spacing based on the sample rate and wave speed used. $N$ can then be calculated using Eq. \eqref{eq:numberOfPoints} with \eqref{eq:stabilityCond} written as an equality ($h = ck$) after which $h$ can be recalculated based on $N$ according to $h = L/N$
+i.e., the grid spacing has a lower bound (for the discrete system to be stable), which is based on the sample rate and wave speed used. $N$ can then be calculated using Eq. \eqref{eq:numberOfPoints} with \eqref{eq:stabilityCond} written as an equality ($h = ck$) after which $h$ needs be recalculated based on $N$ (due to the flooring operation in Eq. \eqref{eq:numberOfPoints}) according to $h = L/N$. This causes the CFL condition in \eqref{eq:CFL} to not always be satisfied with equality.
 
 Finally, the boundary conditions shown in \eqref{eq:continuousBoundaries} can be discretised as follows:
 \begin{align}
@@ -187,9 +172,40 @@ where
 is a second-order accurate approximation of the first-order spatial derivative.
 
 \subsection{Simulation Quality and Bandwidth}
-As mentioned before, the Courant number 
+As mentioned before, the Courant number $\lambda$ affects the quality of the system. The closer this value is to the CFL condition described in Eq. \eqref{eq:CFL}, the higher the quality of our system. Taking values away from this condition will decrease the maximum frequency that the simulation is able to produce, i.e., it will decrease the bandwidth of the system output. See Figure \ref{fig:bandWidths}.
+%
+\begin{figure*}
+\figline{\fig{bandwidthLambda1}{.25\textwidth}{(A)}
+\fig{bandwidthLambda0.9}{.25\textwidth}{(B)}
+\fig{bandwidthLambda0.5}{.25\textwidth}{(C)}
+\narrowcaption{.25\textwidth}{Output bandwidths of Eq. \eqref{eq:updateEq} with $N = 50$ and (A) $\lambda = 1$, (B) $\lambda = 0.9$ and (C) $\lambda = 0.5$ excited with a raised cosine with a width of 5 at center-location $N = 25$. 
+\label{fig:bandWidths}}}
+\end{figure*}
+%
+Analysing the scheme in Eq. \eqref{eq:updateEq}, it can be shown that the maximum frequency produced by the system can be calculated using [REF]
+\begin{equation}
+    f_\text{max} = \frac{f_\text{s}}{\pi} \sin^{-1}(\lambda),
+\end{equation}
+shown in Figure \ref{fig:bandWidthFormula}.
+%
+Note, that only small deviations of $\lambda$ from condition \eqref{eq:CFL} already have a great effect on the bandwidth of the output.
 
-Numerical dispersion
+\begin{figure}
+%% \reprintcolumnwidth is the same in preprint and reprint for
+%% ease of use for authors:
+\includegraphics[width=\reprintcolumnwidth]{bandwidthPlot}
+\caption{\label{fig:bandWidthFormula}{The effect of the Courant number $\lambda$ on the output bandwidth.}}
+\end{figure} 
+
+Another effect that the Courant number has on the output of the system is numerical dispersion. This can be seen from Figure \ref{fig:bandWidths} where the harmonic partials get closer together at higher frequencies (i.e. get more inharmonic) as $\lambda$ decreases. This is an undesired effect.
+
+
+Why would we want to be away from the condition
+
+\section{Dynamic Parameters}
+
+\section{Dynamic Grids}
+
 \bibliography{sampbib}
 \end{document}
 
