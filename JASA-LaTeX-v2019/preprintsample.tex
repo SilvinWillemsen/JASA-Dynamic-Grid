@@ -163,7 +163,14 @@ Here, $\lambda = ck/h$ is referred to as the Courant number and determines the q
     \lambda \leq 1,
 \end{equation}
 referred to as the Courant-Friedrichs-Lewy (CFL) stability condition. The closer $\lambda$ is to this condition, the higher the quality of the output of the system (see Section \ref{sec:quality}) and if $\lambda = 1$ Eq. \eqref{eq:updateEq} provides an exact solution to Eq. \eqref{eq:1dwave} %(this is true for the 1D wave equation)
-[REF]. 
+[REF] (see Figures \ref{fig:lambda1} and \ref{fig:lambda0.9}). If $\lambda \geq 1$ the system will become unstable (see Figure \ref{fig:lambda1.001}).
+\begin{figure*}
+\figline{\fig{ulnLambda1}{.25\textwidth}{(A)}\label{fig:lambda1}
+\fig{ulnLambda0.9}{.25\textwidth}{(B)}\label{fig:lambda0.9}
+\fig{ulnLambda1001}{.25\textwidth}{(C)}\label{fig:lambda1.001}
+\narrowcaption{.25\textwidth}{State $u_l^n$ with $N = 50$ and $f_\text{s} = 44100$ visualised. (A) If $\lambda = 1$, the solution is exact. (B) If $\lambda < 1$ dispersive behaviour shows. (C) If $\lambda > 1$ the stability condition and the system ``explodes".
+\label{fig:dispersion}}}
+\end{figure*}
 % discrete boundaries here?
 One can rewrite Eq. \eqref{eq:CFL} in terms of grid spacing $h$ to get
 \begin{equation}\label{eq:stabilityCond}
