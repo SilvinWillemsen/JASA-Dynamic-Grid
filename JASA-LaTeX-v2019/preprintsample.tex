@@ -93,7 +93,7 @@ Simulating musical instruments using physical modelling is a well-established fi
 
 
 
-\section{\label{sec:1} Introduction}
+\section{\label{sec:introduction} Introduction}
 Simulation of musical instruments through physical modelling is a well established field... 
 \SWcomment[Much more intro here obviously]{}
 % of simulating musical instruments rather than recording them and playing them back (samples), is the flexibility of control and playability of the instrument. Imagine trying to record the entire control space of a violin, i.e., all possible combinations of bowing force, bowing velocity and fingering positions. The recording procedure would take a great amount of time and resources, let alone the amount of data storage required to store all of the high-quality audio.
@@ -137,11 +137,11 @@ Consider a 1-dimensional system with length $L$ (in m) described by state variab
 \end{equation}
 parameterised by wave speed $c$ (in m/s).
 %continuous boundaries here?
-This continuous system can then be discretised into points in space and time. The spatial variable can be discretised using $x_l = lh$ (read: $x$ at location $l$) with integer $l \in [0, \hdots, N]$, grid spacing (distance between two consecutive points) $h$ (in m) and total number of points $N + 1$ (including the boundaries) where $N$ is calculated as 
+This continuous system can then be discretised into points in space and time. The spatial variable can be discretised using $x_l = lh$ (read: $x$ at location $l$) with integer $l \in [0, \hdots, N]$, grid spacing (distance between two consecutive grid points) $h$ (in m) and total number of points $N + 1$ (including the boundaries) where
 \begin{equation}\label{eq:numberOfPoints}
-    N = \text{floor}(L/h).
+    N = \text{floor}(L/h),
 \end{equation}
-The temporal variable can be discretised using $t_n = nk$ with positive integer $n$, time step $k = 1/f_\text{s}$ (in s) and sample rate $f_\text{s}$ (in Hz). The state variable $u$ can then be approximated using $u(x,t) \approx u_l^n$, where grid function $u_l^n$ can be read as ``the state $u$ at spatial index $l$ and time index $n$".
+is the total number of intervals between the grid points. The temporal variable can be discretised using $t_n = nk$ with positive integer $n$, time step $k = 1/f_\text{s}$ (in s) and sample rate $f_\text{s}$ (in Hz). The state variable $u$ can then be approximated using $u(x,t) \approx u_l^n$, where grid function $u_l^n$ can be read as ``the state $u$ at spatial index $l$ and time index $n$".
 %
 The following operators can then be applied to $u_l^n$ to get the following approximations to the derivatives in Eq. \eqref{eq:1dwave}
 \begin{subequations}\label{eq:operators}
@@ -163,7 +163,7 @@ Here, $\lambda = ck/h$ is referred to as the Courant number and determines the q
     \lambda \leq 1,
 \end{equation}
 referred to as the Courant-Friedrichs-Lewy (CFL) stability condition. The closer $\lambda$ is to this condition, the higher the quality of the output of the system (see Section \ref{sec:quality}) and if $\lambda = 1$ Eq. \eqref{eq:updateEq} provides an exact solution to Eq. \eqref{eq:1dwave} %(this is true for the 1D wave equation)
-[REF] (see Figures \ref{fig:lambda1} and \ref{fig:lambda0.9}). If $\lambda \geq 1$ the system will become unstable (see Figure \ref{fig:lambda1.001}).
+[REF] (see Figures \ref{fig:lambda1} and \ref{fig:lambda0.9}). If $\lambda > 1$ the system will become unstable (see Figure \ref{fig:lambda1.001}).
 \begin{figure*}
 \figline{\fig{ulnLambda1}{.25\textwidth}{(A)}\label{fig:lambda1}
 \fig{ulnLambda0.9}{.25\textwidth}{(B)}\label{fig:lambda0.9}
@@ -176,11 +176,11 @@ One can rewrite Eq. \eqref{eq:CFL} in terms of grid spacing $h$ to get
 \begin{equation}\label{eq:stabilityCond}
     h \geq ck.
 \end{equation}
-This shows that in order for the discrete system to be stable, Eq. \eqref{eq:CFL} puts a lower bound on the grid spacing, which is based on the sample rate and wave speed used. Usually, the following steps are taken in implementation
+This shows that the CFL condition in \eqref{eq:CFL} puts a lower bound on the grid spacing, which is based on the sample rate and wave speed. Usually, the following steps are taken in implementation
 \begin{equation}\label{eq:orderOfCalcGrid}
-    h := ck,\qquad N := \text{floor}(L/h), \qquad h := L/N, \qquad \lambda := \frac{ck}{h}.
+    h := ck,\ \ N := \text{floor}(L/h), \ \ h := L/N, \ \ \lambda := \frac{ck}{h}.
 \end{equation}
-In other words, condition \eqref{eq:stabilityCond} is first satisfied with equality and used to calculate $N$ according to Eq. \eqref{eq:numberOfPoints}. Thereafter $h$ is recalculated based on (integer) $N$ (due to the flooring operation) and used to calculate $\lambda$. This causes the CFL condition in \eqref{eq:CFL} to not always be satisfied with equality and results in a decrease in quality of the simulation described in the following section.
+In other words, condition \eqref{eq:stabilityCond} is first satisfied with equality and used to calculate $N$ according to Eq. \eqref{eq:numberOfPoints}. Thereafter $h$ is recalculated based on (integer) $N$ (due to the flooring operation) and used to calculate $\lambda$. This causes the CFL condition in \eqref{eq:CFL} to not always be satisfied with equality and results in a reduced simulation quality described in the following section.
 
 \subsection{Simulation Quality and Bandwidth}\label{sec:quality}
 As mentioned before, the Courant number $\lambda$ decides the quality of the simulation. Choosing $\lambda < 1$ will decrease this quality in two ways. Firstly, it will decrease the maximum frequency that the simulation is able to produce, i.e., it will decrease the bandwidth of the system output. See Figure \ref{fig:bandWidths}.
@@ -211,16 +211,16 @@ Note that only a small deviation of $\lambda$ from condition \eqref{eq:CFL} alre
 \caption{\label{fig:bandWidthFormula}{The effect of the Courant number $\lambda$ on the output bandwidth.}}
 \end{figure} 
 
-Secondly, choosing $\lambda < 1$ causes numerical dispersion. Harmonic partials get closer together at higher frequencies (i.e. get more inharmonic) as $\lambda$ decreases, as shown in Figure \ref{fig:bandWidths}, which is generally undesirable.
+Secondly, choosing $\lambda < 1$ causes numerical dispersion. See Figures \ref{fig:lambda0.9} and \ref{fig:bandWidths}. Harmonic partials get closer together at higher frequencies (i.e. get more inharmonic) as $\lambda$ decreases, which is generally undesirable.
 
 Apart from the recalculation of $\lambda$ due to the flooring operation in Eq. \eqref{eq:orderOfCalcGrid}, a reason that one would choose $\lambda < 1$ could be to increase $h$ and consequently decrease the total number of points used in the simulation. This makes the simulation less computationally expensive, while keeping a desired wave speed $c$ and time step $k$. 
 
 \subsection{Boundary Conditions}
-The last step needed to be able to fully implement the update in Eq. \eqref{eq:updateEq} is to define what happens at the boundaries of the 1D wave equation. As $x$ in Eq. \eqref{eq:1dwave} is only defined over a finite region, boundary conditions need to be given. Two possible conditions are
+The last step needed to be able to fully implement the 1D wave equation is to define what happens at the boundaries. As $x$ in Eq. \eqref{eq:1dwave} is only defined over a finite region, boundary conditions need to be given. Two possible conditions are
 \begin{subequations}\label{eq:continuousBoundaries}
     \begin{align}
-        u(0, t) = u(L, t) &= 0\quad \text{(Dirichlet)},\\
-        \frac{\partial}{\partial x} u(0, t) = \frac{\partial}{\partial x} u(L, t) &= 0\quad \text{(Neumann)},
+        u(0, t) = u(L, t) &= 0\quad \text{(Dirichlet)},\label{eq:contDirichlet}\\
+        \frac{\partial}{\partial x} u(0, t) = \frac{\partial}{\partial x} u(L, t) &= 0\quad \text{(Neumann)},\label{eq:contNeumann}
     \end{align}
 \end{subequations}
 or, `fixed' and `free' respectively. In the descrete system described in \eqref{eq:FDS}, the boundary locations are at $l = 0$ and $l = N$. Substituting these locations into Eq. \eqref{eq:updateEq} seemingly shows that grid points outside of our defined domain are needed: $u_{-1}^n$ and $u_{N+1}^n$. These can be referred to as \textit{virtual grid points} and can be defined by using the boundary conditions in Eq. \eqref{eq:continuousBoundaries}. Discretising these yields
@@ -241,34 +241,45 @@ is a second-order accurate approximation of the first-order spatial derivative. 
 
 
 \section{Dynamic Parameters}
-This section will describe how parameters could be changed using the state of the art and what this means for the simulation quality described in Section \ref{sec:quality}.
+This section will describe how parameters could be made dynamic using the state of the art and what this means for the simulation quality detailed in Section \ref{sec:quality}. %To clarify, for a parameter to be dynamic refers to its ability to vary over time while the simulation is running.  
+To clarify, a \textit{dynamic} parameter refers to one that is time-varying while the simulation is running. 
 
-Usually when physically modelling instruments, the parameters that describe the system are fixed for the entire simulation. For the 1D wave equation used in Section \ref{sec:FDTD}, these are the wave speed $c$ and time step $k$ from which the grid spacing $h$ and Courant number $\lambda$ are calculated. As 
+Usually when simulating instruments, the parameters that describe the system are fixed for the entire simulation. For the 1D wave equation used in Section \ref{sec:FDTD}, these are the wave speed $c$ and time step $k$ (calculated from the sample rate $f_\text{s}$) from which the grid spacing $h$ and Courant number $\lambda$ are calculated. On top of this, the length $L$ can be changed, but as will be shown below, this can be directly translated to a change in $c$. As $f_\text{s}$ is rarely changed, the sole parameter that could be interesting to make time-varying is $c$. 
+% Modal synthesis is based on the addition of many sinusoids and is thus defined over the entire space. One can simply change the frequency of these sinusoids and 
 
+% \begin{equation}\label{eq:modalSum}
+%     u(x,t) = \sum_{m=1}^M C_m\sin(\omega_mt+\phi_m)\sin\Big(\frac{m\pi x}{L}\Big),
+% \end{equation}
+%
+% The amount of modes that can be included also depends on a stability condition, but it is much easier to work with. One simply excludes modes that do not satisfy this condition. 
+%
+% Using FDTD methods, one uses a discrete set number of points making it hard to transition from one setting to the next.
 
-Section \ref{sec:quality} shows several arguments for why these parameters should be fixed. The stability of the simulation relies on the parameters of the scheme and needs to be satisfied as close to the condition  When the stability condition is calculated,
+As the number of grid points hangs tightly together with these parameters, changing $c$ would mean a change in $N$ according to \eqref{eq:orderOfCalcGrid}. This raises questions as to \textit{where} and especially \textit{how} one would add and remove points to the grid according to the now-dynamic wave speed. To avoid this, one could set and fix the number of points of a discrete system and tune the parameters away from the stability condition, such as done in [REF]. As such, one could choose a wave speed $c$, set and fix $N$ at the beginning of the simulation and decrease the value of $c$. This would avoid problems with stability, as decreasing $c$ would continue to satisfy condition \eqref{eq:stabilityCond}, but the simulation would, however, end up with lower quality, exhibiting dispersive and bandlimiting effects as discussed in Section \ref{sec:quality}. In essence, decreasing the value of $c$ immediately translates to decreasing the value of $\lambda$ as $h$ and $k$ are left unchanged.
 
+To implement a physical model with dynamic parameters and optimal quality at all times, a method needs to be devised to dynamically change the number of grid points.
 
-It is possible to set and fix the number of points of a discrete system and tune the parameters away from the stability condition, ending up with a simulation with a lower quality (shown in the limited bandwidth of the output of the simulation) than could be.
+% Section \ref{sec:quality} shows several arguments for why these parameters should be fixed. The stability of the simulation relies on the parameters of the scheme and needs to be satisfied as close to the condition  When the stability condition is calculated,
 
-In this case we could initialise the system to have a wave speed of $c = 300$ m/s and a sample rate of $f_\text{s} = 44100$ Hz yielding $N = 147$ and $lambda = 1$ (satisfying condition \eqref{eq:CFL} with equality
+% In this case we could initialise the system to have a wave speed of $c = 300$ m/s and a sample rate of $f_\text{s} = 44100$ Hz yielding $N = 147$ and $lambda = 1$ (satisfying condition \eqref{eq:CFL} with equality.
 
-Essentially $c$ is made time-varying / dynamic / changed on the fly $c^n$
-
-
-
-This section described why it would be undesirable to 
-
-A solution to this would be to implement a system where grid points can be added on the fly when changing parameters (such as wave speed $c$) according to Eq. \eqref{eq:orderOfCalcGrid}.
+% Essentially $c$ is made time-varying / dynamic / changed on the fly $c^n$
+\subsection{Connection between $c$ and $L$}
+If Dirichlet-type boundary conditions are used, as defined in Eqs. \eqref{eq:contDirichlet} and \eqref{eq:discreteDirichlet}, the fundamental frequency $f_0$ of the 1D wave equation can be calculated according to
+\begin{equation}\label{eq:fundamentalFreq}
+    f_0 = \frac{c}{2L}\,.
+\end{equation}
+If $\lambda = 1$ in \eqref{eq:CFL} and thus condition \eqref{eq:stabilityCond} is satisfied with equality, $L/h$ in Eq. \eqref{eq:numberOfPoints} is an integer and the flooring operation can be ignored. Substituting \eqref{eq:numberOfPoints} into \eqref{eq:fundamentalFreq} yields
+\begin{equation}
+    f_0 = \frac{1}{2Nk}\ ,
+\end{equation}
+which shows that if $\lambda = 1$, $N$ solely decides the fundamental frequency of the simulation.
 
 \section{Dynamic Grids}
-By now, it is hopefully clear to the reader why dynamic parameters would make an interesting case in the field of physical modelling, and why dynamic grids would be a good solution to undesirable behaviour such as a decrease in bandwidth and increase in numerical dispersion. 
+By now, it is hopefully clear to the reader why dynamic parameters would make an interesting case in the field of physical modelling, and why dynamic grids would be a good solution to undesirable behaviour such as a decrease in bandwidth and increase in numerical dispersion. This section will describe the problems that arise when adding and removing grid points. Afterwards, some iterations and their drawbacks will be shown, leading up to the final implementation of the dynamic grid. 
 
-So, why can't points simply be added and subtracted? 
+The first questions that need to be answered are ``where to add points?" and ``how to add points?" The problems when doing this range from artifacts or auditory `clicks' in the output sound to ``exploding" systems due to instability.
 
-The problems range from artifacts or auditory `clicks' in the output sound to ``exploding" systems due to instability.
-
-The questions that need to be answered are ``where to add points?" and ``how to add points?"
 
 The iterations done over the course of this project contained the following options:
 \begin{itemize}
@@ -278,12 +289,26 @@ The iterations done over the course of this project contained the following opti
         \item using Taylor series expansion
         \item using interpolated boundary conditions
     \end{itemize}
-    \item Adding / removing points at the center
+    \item Adding / removing points along the grid
 \end{itemize}
-In the following, the 1D wave equation with a wave speed of $c = 1470$ m/s, a length of $L = 1$ m and a sample rate of $f_\text{s} = 44100$ Hz is considered, and -- through Eq. \eqref{eq:orderOfCalcGrid} -- satisfies the CFL condition with equality. Then, the wave speed is decreased to $c \approx 1422.6$ m/s, i.e., the wave speed that results in $N=31$ and satisfies the stability condition with equality again. 
+In the following, the 1D wave equation with a wave speed of $c = 1470$ m/s, a length of $L = 1$ m and a sample rate of $f_\text{s} = 44100$ Hz is considered, and -- through Eq. \eqref{eq:orderOfCalcGrid} -- satisfies the CFL condition with equality. These values result in $N = 30$, or a grid of 31 points including the boundaries. Then, the wave speed is decreased to $c \approx 1422.6$ m/s, i.e., the wave speed that results in $N=31$ and satisfies the stability condition with equality again. 
 
-\subsection{Full Grid Interpolation}
-One way 
+As he variables $c^n$ $h^n$, $\lambda^n$ and $N^n$ are now time-varying, they will have a superscript $n$.
+
+\subsection{Full-Grid Interpolation}
+One way to go from one grid to another is performing a full-grid interpolation. Bilbao describes this operation in [REF]. 
+
+$N$ will be updated according to Eq. \eqref{eq:orderOfCalcGrid} after which will be checked whether 
+
+The Courant number $\lambda$ will slightly deviate from the CFL condition but not as much as it would without dynamically adding points to the grid.
+
+If $N^n \neq N^{n-1}$
+\subsection{Adding and Removing points at the Boundary}
+The by-product of this is that the stability condition can now always be satisfied with equality no matter what the wave speed is
+
+\subsection{Adding and Removing Points Along the Grid}
+
+
 \bibliography{sampbib}
 \end{document}
 
