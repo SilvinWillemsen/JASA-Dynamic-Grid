@@ -82,7 +82,7 @@
 \date{\today} 
 
 \begin{abstract}
-Simulating musical instruments using physical modelling is a well-established field. Among the reasons of why one would simulate an instrument rather than sample an existing one, is that one could extend the capabilities of this instrument beyond what is physically possible, such as changing material properties or size of the instrument on the fly. Many modelling techniques exist of which finite-difference time-domain (FDTD) methods are considered the most flexible and generalisable in terms of the type of systems they can model, both linear and nonlinear. These methods do, however, lack the capability of handling smooth parameter changes, something other techniques are better suited for. This article proposes a method to dynamically alter the grids of simulations based on FDTD methods by smoothly adding and subtracting points from the system. This allows for dynamic parameter changes in physical models of musical instruments which are based on this technique. Furthermore, this technique allows the stability condition that the schemes using FDTD methods are based on, to always be satisfied with equality and thus have the highest output bandwidth possible. 
+Simulating musical instruments using physical modelling is a well-established field. Among the reasons of why one would simulate an instrument rather than sample an existing one, is that one could extend the capabilities of this instrument beyond what is physically possible, such as changing material properties or size of the instrument on the fly. Many modelling techniques exist of which finite-difference time-domain (FDTD) methods are considered the most flexible and generalisable in terms of the type of systems they can model, both linear and nonlinear. These methods do, however, lack the capability of handling smooth parameter changes while retaining optimal simulation quality, something other techniques are better suited for. This article proposes a method to dynamically alter the grids of simulations based on FDTD methods by smoothly adding and removing grid points from the system, which allows for dynamic parameter changes in physical models of musical instruments which are based on this technique. Furthermore, this technique allows the stability condition that the schemes using FDTD methods are based on, to always be satisfied with equality and thus have the highest simulation quality possible. 
 \end{abstract}
 
 %% pacs numbers not used
@@ -197,7 +197,7 @@ with
 \end{figure*}
 %
 By analysing the scheme in Eq. \eqref{eq:updateEq}, it can be shown that the maximum frequency produced by the system can be calculated using [REF]
-\begin{equation}
+\begin{equation}\label{eq:fmax}
     f_\text{max} = \frac{f_\text{s}}{\pi} \sin^{-1}(\lambda),
 \end{equation}
 shown in Figure \ref{fig:bandWidthFormula}.
@@ -296,27 +296,31 @@ In the following, the 1D wave equation with a wave speed of $c = 1470$ m/s, a le
 As he variables $c^n$ $h^n$, $\lambda^n$ and $N^n$ are now time-varying, they will have a superscript $n$.
 
 \subsection{Full-Grid Interpolation}
-One way to go from one grid to another is performing a full-grid interpolation. Bilbao describes this operation in [REF]. 
+One way to go from one grid to another is performing a full-grid interpolation. Bilbao describes this operation in \cite[Ch. 5]{bilbao2009Ch5}. 
 
 \begin{figure}
 %% \reprintcolumnwidth is the same in preprint and reprint for
 %% ease of use for authors:
 \includegraphics[width=\reprintcolumnwidth]{fullGrid}
-\caption{\label{fig:fullGrid}{Upsampling using full grid interpolation with $N^{n-1} = 30$ and $N^n = 31$. The x-axis is normalised with respect to $N^n$}}
+\caption{\label{fig:fullGrid}{Upsampling using full grid interpolation with $N^{n-1} = 30$ and $N^n = 31$. The x-axis is normalised with respect to $N^n$.}}
 \end{figure} 
 
 $N$ will be updated according to Eq. \eqref{eq:orderOfCalcGrid} after which will be checked whether 
 
-The Courant number $\lambda$ will slightly deviate from the CFL condition but not as much as it would without dynamically adding points to the grid.
+The Courant number $\lambda$ will slightly deviate from the CFL condition, in this case, with a minimum of $\lambda \approx 0.9677$. After this, lower values of $c$ yield $N = 31$. According to Eq. \eqref{eq:fmax} $f_\text{max} \approx 18,475 $ Hz. 
+
+but not as much as it would without dynamically adding points to the grid.
 
 If $N^n \neq N^{n-1}$
+
+
 \subsection{Adding and Removing points at the Boundary}
 The by-product of this is that the stability condition can now always be satisfied with equality no matter what the wave speed is
 
 \subsection{Adding and Removing Points Along the Grid}
 
 
-\bibliography{sampbib}
+\bibliography{myBib}
 \end{document}
 
 
