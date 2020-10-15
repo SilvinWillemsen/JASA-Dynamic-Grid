@@ -298,6 +298,13 @@ As he variables $c^n$ $h^n$, $\lambda^n$ and $N^n$ are now time-varying, they wi
 \subsection{Full-Grid Interpolation}
 One way to go from one grid to another is performing a full-grid interpolation. Bilbao describes this operation in [REF]. 
 
+\begin{figure}
+%% \reprintcolumnwidth is the same in preprint and reprint for
+%% ease of use for authors:
+\includegraphics[width=\reprintcolumnwidth]{bandwidthPlot}
+\caption{\label{fig:bandWidthFormula}{The effect of the Courant number $\lambda$ on the output bandwidth.}}
+\end{figure} 
+
 $N$ will be updated according to Eq. \eqref{eq:orderOfCalcGrid} after which will be checked whether 
 
 The Courant number $\lambda$ will slightly deviate from the CFL condition but not as much as it would without dynamically adding points to the grid.
