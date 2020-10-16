@@ -105,7 +105,7 @@ One of the incentives of simulating the physics of musical instruments rather th
 
 This can be extended from musical instruments to rooms and acoustic simulation with variable shapes
 
-Existing physical modelling techniques include mass-spring systems [REF] and digital waveguides [REF]. Modal synthesis [REF], though requiring some assumptions and simplifications for most systems, does allow for easy and smooth parameter changes -- as seen in [REF] and [REF] -- and could thus be a good candidate for implementing the aforementioned manipulations. Finite-difference time domain (FDTD) methods, though generally more computationally expensive than other techniques, are more flexible and generalisable and do not need as many simplifications as modal synthesis does. These methods subdivide continuous partial differential equations (PDEs) that describe the physics of the system at hand into a grid of discrete points in space and time. 
+Existing physical modelling techniques include mass-spring systems [REF] and digital waveguides [REF]. Modal synthesis [REF], though requiring some assumptions and simplifications for most systems, does allow for easy and smooth parameter changes -- as seen in [REF] and [REF] -- and could thus be a good candidate for implementing the aforementioned manipulations. \SWcomment[In the case of the trombone, and due to its non-homogenous geometry, there is no closed-form solution available and the modes would need to be calculated for every single slide configuration.] Finite-difference time domain (FDTD) methods, though generally more computationally expensive than other techniques, are more flexible and generalisable and do not need as many simplifications as modal synthesis does. These methods subdivide continuous partial differential equations (PDEs) that describe the physics of the system at hand into a grid of discrete points in space and time. 
 %
 % Below, a brief introduction about grids and their relationship to stability is explained.
 %
@@ -202,7 +202,7 @@ with $f_\text{s} = 44100$ Hz and
 \label{fig:bandWidths}}}
 \end{figure*}
 %
-\SWcomment[The output sound of the system can be retrieved by following the state $u_l^n$ in Eq. \eqref{eq:updateEq} at any $l$ and listening to that at the given sample rate $f_\text{s}$.] By analysing the scheme in Eq. \eqref{eq:updateEq}, it can be shown that the maximum frequency produced by the system can be calculated using \cite[Chap. 6]{bilbao2009}
+\SWcomment[The output sound of the system can be retrieved by following the state $u_l^n$ in Eq. \eqref{eq:updateEq} at any $l$ and listening to that at the given sample rate $f_\text{s}$. (NEED TO FIND A BETTER PLACE FOR THIS)] By analysing the scheme in Eq. \eqref{eq:updateEq}, it can be shown that the maximum frequency produced by the system can be calculated using \cite[Chap. 6]{bilbao2009}
 \begin{equation}\label{eq:fmax}
     f_\text{max} = \frac{f_\text{s}}{\pi} \sin^{-1}(\lambda),
 \end{equation}
@@ -308,7 +308,7 @@ The iterations done over the course of this project contained the following meth
     \end{itemize}
     \item Adding / removing points along the grid
 \end{itemize}
-In the following, the 1D wave equation with a wave speed of $c = 1470$ m/s, a length of $L = 1$ m and a sample rate of $f_\text{s} = 44100$ Hz is considered, and -- through Eq. \eqref{eq:compactLambda} -- satisfies the CFL condition with equality. These values result in $N = 30$, or a grid of 31 points including the boundaries. Then, the wave speed is decreased to $c \approx 1422.6$ m/s, i.e., the wave speed that results in $N=31$ and satisfies the stability condition with equality again. 
+In the following, the 1D wave equation with a wave speed of $c = 1470$ m/s, a length of $L = 1$ m, Dirichlet boundary conditions and a sample rate of $f_\text{s} = 44100$ Hz is considered, and -- through Eq. \eqref{eq:compactLambda} -- satisfies the CFL condition with equality. These values result in $N = 30$, or a grid of 31 points including the boundaries. Then, the wave speed is decreased to $c \approx 1422.6$ m/s, i.e., the wave speed that results in $N=31$ and satisfies the stability condition with equality again. 
 
 As the variables $c$, $h$, $\lambda$ and $N$ are now time-varying, a superscript $n$ or $n-1$ is added when necessary. If omitted, a time index $n$ is assumed.
 
@@ -334,11 +334,35 @@ Furthermore, this state-interpolation causes artefacts or `clicks' in the output
 All the aforementioned issues could be solved by using a (much) higher sample rate and thus more grid points, but this would render this method impossible to work in real time.
 
 \subsection{Adding and removing Points at the Boundary}\label{sec:addAtBoundary}
+To solve the issues exhibited by a full-grid interpolation, we can add and remove points at a single location and leave most points unaffected by the parameter changes. A good candidate for a location to do this is at a fixed (Dirichlet) boundary. The state $u$ at this location is always $0$ so points can be added smoothly. 
+
+As $c$ decreases, $h$ can be calculated according to Eq. \eqref{eq:orderOfCalcGrid} and decreases as well.
+
+This has a physical analogy with tuning a guitar string. Material enters and exits the neck (playable part of the string) at the nut, which in discrete time means grid points appearing and disappearing at one boundary.
+
+To yield smooth changes between grid configurations, an interpolated boundary has been developed, the possibility of which has been briefly mentioned in \cite[p. 145]{bilbao2009}. The Dirichlet condition in Eq. \eqref{eq:contDirichlet} can be extended to be the simply supported boundary condition:
+\begin{equation}
+    u(x, t) = \frac{\partial^2}{\partial x^2}u(x, t) = 0 \quad \text{where} \quad x = 0, L,
+\end{equation}
+or, when discretised,
+\begin{equation}
+    u_l^n = \delta_{xx}u_l^n = 0, \quad \text{where} \quad l = 0, N.
+\end{equation}
+This means that on top of that the state of the boundary should be $0$, the curvature around it should also be $0$. One can again solve for the virtual grid points at the boundary locations, yielding
+\begin{equation}
+    u_{-1}^n = -u_1^n \quad \text{and} \quad u_{N+1}^n = -u_{N-1}^n.
+\end{equation}
+This is visualised in Fig
 
 
-The by-product of this is that the CFL condition in \eqref{eq:CFL} can now always be satisfied with equality no matter what the wave speed is.
+If the flooring operation in Eq. \eqref{eq:numberOfPoints} is removed this introduces a fractional number of grid points.
 
-An issue with this method is that 
+
+The by-product of using a fractional $N$ this is that the CFL condition in \eqref{eq:CFL} can now always be satisfied with equality no matter what the wave speed is.
+
+An issue with this method is that removing points is much harder than adding.
+
+their interactions change through a change in the grid spacing and wavespeed. This interaction, though, is defined by $\lambda$ which 
 
 \begin{figure}
 %% \reprintcolumnwidth is the same in preprint and reprint for
@@ -347,12 +371,15 @@ An issue with this method is that
 \caption{\label{fig:fullGrid}{The grid changing over time}}
 \end{figure} 
 
+\subsubsection{\SWcomment[If the above iterations need to be summarised:]}
+One method that could be used to go from one grid configuration to the next is full-grid interpolation as described in \cite[Chap. 5]{bilbao2009}. However, this method essentially has a lowpassing effect on the system state and can cause `clicks' in the output sound due to the interpolation. 
+
+Another method is to add and remove points at the boundary. If the boundary is fixed (Eq. \eqref{eq:contDirichlet}), the state at this location will always be $0$ and potentially allows for smooth entry and exit of grid points. This is analogous to tuning a guitar string where string-material enters and leaves the playable part of the string at the nut, the boundary. 
+
 \subsection{Adding and removing Points along the Grid}
 
 
 For simplicity, the center of the scheme is chosen.
-
-
 
 
 As with the previous iteration described in \ref{sec:addAtBoundary}, the CFL condition in \eqref{eq:CFL} will always be satisfied with equality.
