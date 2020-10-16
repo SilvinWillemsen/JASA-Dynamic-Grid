@@ -103,6 +103,8 @@ Simulation of musical instruments through physical modelling is a well establish
 
 One of the incentives of simulating the physics of musical instruments rather than recording their real-world counterparts, is that the virtual instrument can be manipulated in physically impossible ways. Examples of this could be to change material properties, or even the shape of the instrument on the fly. An example of a real-world instrument that requires these manipulations is the trombone, where tube-length needs to be dynamic in order to play the instrument. In a companion article the authors describe a physical model of this instrument as a case study for the techniques presented here. 
 
+This can be extended from musical instruments to rooms and acoustic simulation with variable shapes
+
 Existing physical modelling techniques include mass-spring systems [REF] and digital waveguides [REF]. Modal synthesis [REF], though requiring some assumptions and simplifications for most systems, does allow for easy and smooth parameter changes -- as seen in [REF] and [REF] -- and could thus be a good candidate for implementing the aforementioned manipulations. Finite-difference time domain (FDTD) methods, though generally more computationally expensive than other techniques, are more flexible and generalisable and do not need as many simplifications as modal synthesis does. These methods subdivide continuous partial differential equations (PDEs) that describe the physics of the system at hand into a grid of discrete points in space and time. 
 %
 % Below, a brief introduction about grids and their relationship to stability is explained.
@@ -200,7 +202,7 @@ with $f_\text{s} = 44100$ Hz and
 \label{fig:bandWidths}}}
 \end{figure*}
 %
-\SWcomment[The output sound of the system can be retrieved by following the state $u_l^n$ in Eq. \eqref{eq:updateEq} at any $l$ and listening to that at the given sample rate $f_\text{s}$.] By analysing the scheme in Eq. \eqref{eq:updateEq}, it can be shown that the maximum frequency produced by the system can be calculated using [REF]
+\SWcomment[The output sound of the system can be retrieved by following the state $u_l^n$ in Eq. \eqref{eq:updateEq} at any $l$ and listening to that at the given sample rate $f_\text{s}$.] By analysing the scheme in Eq. \eqref{eq:updateEq}, it can be shown that the maximum frequency produced by the system can be calculated using \cite[Chap. 6]{bilbao2009}
 \begin{equation}\label{eq:fmax}
     f_\text{max} = \frac{f_\text{s}}{\pi} \sin^{-1}(\lambda),
 \end{equation}
@@ -281,8 +283,9 @@ To implement a physical model with dynamic parameters and optimal quality at all
 \subsection{Connection between $c$ and $L$ \SWcomment[(might be better as an appendix)]}
 If Dirichlet-type boundary conditions are used, as defined in Eqs. \eqref{eq:contDirichlet} and \eqref{eq:discreteDirichlet}, the fundamental frequency $f_0$ of the 1D wave equation can be calculated according to
 \begin{equation}\label{eq:fundamentalFreq}
-    f_0 = \frac{c}{2L}\,.
+    f_0 = \frac{c}{2L}\,,
 \end{equation}
+from which one can see that, in terms of fundamental frequency a halving the length is identical to doubling the wave speed. 
 If $\lambda = 1$ in \eqref{eq:CFL} and thus condition \eqref{eq:stabilityCond} is satisfied with equality, $L/h$ in Eq. \eqref{eq:numberOfPoints} is an integer and the flooring operation can be ignored. Substituting \eqref{eq:numberOfPoints} into \eqref{eq:fundamentalFreq} yields
 \begin{equation}
     f_0 = \frac{1}{2Nk}\ ,
@@ -310,13 +313,13 @@ In the following, the 1D wave equation with a wave speed of $c = 1470$ m/s, a le
 As the variables $c$, $h$, $\lambda$ and $N$ are now time-varying, a superscript $n$ or $n-1$ is added when necessary. If omitted, a time index $n$ is assumed.
 
 \subsection{Full-Grid Interpolation}
-One way to go from one grid to another is performing a full-grid interpolation \cite[Ch. 5]{bilbao2009Ch5}. If the number of points changes according to Eq. \eqref{eq:orderOfCalcGrid}, i.e., if $N^n \neq N^{n-1}$ the full state of the system ($u_l^n, u_l^{n-1}\ \forall\ l$)  can be interpolated to the new state. See Figure \ref{fig:fullGrid}. 
+One way to go from one grid to another is performing a full-grid interpolation \cite[Chap. 5]{bilbao2009}. If the number of points changes according to Eq. \eqref{eq:orderOfCalcGrid}, i.e., if $N^n \neq N^{n-1}$ the full state of the system ($u_l^n, u_l^{n-1}\ \forall\ l$)  can be interpolated to the new state. See Figure \ref{fig:fullGrid}. 
 
 \begin{figure}
 %% \reprintcolumnwidth is the same in preprint and reprint for
 %% ease of use for authors:
 \includegraphics[width=\reprintcolumnwidth]{fullGrid}
-\caption{\label{fig:fullGrid}{Upsampling $u$ (with an arbitrary state) using (linear) full-grid interpolation with $N^{n-1} = 30$ and $N^n = 31$. The x-axis is normalised with respect to $N^n$.}}
+\caption{\label{fig:fullGrid}{Upsampling $u$ (with an arbitrary state) using (linear) full-grid interpolation with $N^{n-1} = 30$ and $N^n = 31$. The horizontal axis is normalised with respect to $N^n$.}}
 \end{figure} 
 
 An issue that arises using this method is that the Courant number $\lambda$ will slightly deviate from the CFL condition as $c$ changes. Using Eq. \eqref{eq:compactLambda} with $L/ck$ approaching $31$ (from below), the minimum value of $\lambda \approx 30/31 \approx 0.9677$.
@@ -326,7 +329,7 @@ This, employing Eq. \eqref{eq:fmax}, has a maximum frequency output of $f_\text{
 The Courant number will deviate more for higher values of $c$ and thus lower values for $N$ -- for instance, if $N$ approaches $11$ (from below), $\lambda \approx 10/11 \approx 0.9091$ and $f_\text{max} \approx 16,018$ Hz.
 
 Another problem with full-grid interpolation, is that it has a low-passing effect on the system state, and thus on the output sound. %Figure \ref{fig:fullGrid} shows the biggest changes are in the state are at the locations with the biggest difference between the states of consecutive grid points.
-Furthermore, this state-interpolation causes artefacts or `clicks' in the output as sudden variations in the states due to interpolation occur.  
+Furthermore, this state-interpolation causes artefacts or `clicks' in the output sound as the method causes sudden variations in the states.  
 
 All the aforementioned issues could be solved by using a (much) higher sample rate and thus more grid points, but this would render this method impossible to work in real time.
 
@@ -340,11 +343,16 @@ An issue with this method is that
 \begin{figure}
 %% \reprintcolumnwidth is the same in preprint and reprint for
 %% ease of use for authors:
-\includegraphics[width=\reprintcolumnwidth]{fullGrid}
-\caption{\label{fig:fullGrid}{Adding at the boundary}}
+\includegraphics[width=\reprintcolumnwidth]{boundaryGrid}
+\caption{\label{fig:fullGrid}{The grid changing over time}}
 \end{figure} 
 
 \subsection{Adding and removing Points along the Grid}
+
+
+For simplicity, the center of the scheme is chosen.
+
+
 
 
 As with the previous iteration described in \ref{sec:addAtBoundary}, the CFL condition in \eqref{eq:CFL} will always be satisfied with equality.
