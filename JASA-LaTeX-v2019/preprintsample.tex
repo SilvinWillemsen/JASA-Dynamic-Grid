@@ -295,25 +295,86 @@ which shows that if $\lambda = 1$, $N$ solely decides the fundamental frequency 
 \section{Dynamic Grids}
 By now, it is hopefully clear to the reader why dynamic parameters would make an interesting case in the field of physical modelling, and why dynamic grids would be a good solution to undesirable behaviour such as a decrease in bandwidth and increase in numerical dispersion. This section will describe the problems that arise when adding and removing grid points. Afterwards, some iterations done over the course of this project and their drawbacks will be shown, leading up to the final implementation of the dynamic grid. 
 
-The first questions that need to be answered are ``where to add points?" and ``how to add points?" The problems when doing this range from artifacts or auditory `clicks' in the output sound to ``exploding" systems due to instability.
-
-
-The iterations done over the course of this project contained the following methods:
-\begin{itemize}
-    \item Full-grid interpolation
-    \item Adding / removing points at the boundary
-    \begin{itemize}
-        \item using Taylor series expansion
-        \item using interpolated boundary conditions
-    \end{itemize}
-    \item Adding / removing points along the grid
-\end{itemize}
-In the following, the 1D wave equation with a wave speed of $c = 1470$ m/s, a length of $L = 1$ m, Dirichlet boundary conditions and a sample rate of $f_\text{s} = 44100$ Hz is considered, and -- through Eq. \eqref{eq:compactLambda} -- satisfies the CFL condition with equality. These values result in $N = 30$, or a grid of 31 points including the boundaries. Then, the wave speed is decreased to $c \approx 1422.6$ m/s, i.e., the wave speed that results in $N=31$ and satisfies the stability condition with equality again. 
+The first questions that need to be answered are ``where to add points?" and ``how to add points?" The problems when doing this range from artifacts or auditory `clicks' in the output sound to ``exploding" systems due to instability. In this section, the iterations done over the course of this project will briefly be described. The details of each can be found in \ref{app:A}. 
 
 As the variables $c$, $h$, $\lambda$ and $N$ are now time-varying, a superscript $n$ or $n-1$ is added when necessary. If omitted, a time index $n$ is assumed.
 
+\subsection{Iterations}\label{sec:iterations}
+One method that could be used to go from one grid configuration to the next is full-grid interpolation as described in \cite[Chap. 5]{bilbao2009}. However, this method essentially has a lowpassing effect on the system state and can cause `clicks' in the output sound due to the interpolation. 
+
+Another method is to add and remove points at the boundary using an interpolated boundary condition. If the boundary is fixed (Eq. \eqref{eq:contDirichlet}), the state at this location will always be $0$ and potentially allows for smooth entry and exit of grid points. This method can be seen analogous to tuning a guitar string where string-material enters and leaves the playable part of the string at the nut, the boundary. The interpolated nature of the boundary allows for a fractional number of points, removing the flooring operation in Eq. \eqref{eq:compactLambda} and always satisfying the CFL condition with equality. Though informal testing shows that adding points to the grid can happen smoothly, removing points smoothly is more challenging. This is due to the fact that to-be-removed points are already moving and their displacement that needs to be reduced to 0 to satisfy the simply supported boundary condition in \eqref{eq:simplySupportedDiscrete}. Even though the $\delta_{xx}u$ part of this condition can be easily satisfied, the $u=0$ part can not.
+
+\subsection{Adding and removing Points along the Grid}
+To avoid the issues of adding and removing points at the boundary due to boundary conditions, they can be added or removed along the grid instead. For simplicity, the center of the scheme is chosen. 
+
+Consider a system, $u$ with $M_u = \text{ceil}(0.5/ck)$ (or simply $M$ below for brevity) and $w$ with $M_w = \text{floor}(0.5/ck)$ points, i.e., half the number of points allowed by the stability condition, plus one for overlap (see Figure \ref{fig:twoFreeStrings}). The total number of points that $u$ and $w$ have are $M + 1$ and $M_{w} + 1$ respectively when including the boundary. Then the following boundary conditions are imposed:
+\begin{equation}\label{eq:halfStringBoundaryCond}
+    \begin{aligned}
+        u_0 = w_{M_w} &= 0,\quad \text{(Dirichlet)}\\
+        \delta_{x\cdot}u_M = \delta_{x\cdot}w_0 &= 0\ \quad \text{(Neumann)}.
+    \end{aligned}
+\end{equation}
+
+\begin{figure}[h]
+\centerline{\includegraphics[width=\columnwidth]{twoFreeStrings.eps} }
+\caption{\label{fig:twoFreeStrings}{Two strings connected at one of their boundaries.}}
+\end{figure}
+%
+The systems can then be connected at $u_M$ and $w_0$ using a rigid connection, i.e.,
+\begin{equation}\label{eq:rigid}
+    u_M^n = w_0^n,\quad \forall n.
+\end{equation}
+The system will now be
+\begin{equation}
+    \begin{cases}\label{eq:systemHalfStrings}
+        \delta_{tt}u_l^n = c^2\delta_{xx}u_l^n + J(x_{u_M})F\\
+        \delta_{tt}w_l^n = c^2\delta_{xx}w_l^n - J(x_{w_0})F
+    \end{cases}
+\end{equation}
+where spreading operator
+\begin{equation}
+    J(x_i) =
+    \begin{cases}
+        \frac{1}{h}, & l = l_i\\
+        0,& \text{otherwise}
+    \end{cases}
+\end{equation}
+and $F$ (in m$^2$/s$^2$) is the effect of the connection (\SWcomment[connection force, but not really as it isn't in N]).
+%
+Expanding the spatial operators in system \eqref{eq:systemHalfStrings} at $u_M$ and $w_0$, and recalling the conditons in  \eqref{eq:halfStringBoundaryCond} yields
+\begin{equation}\label{eq:expandedSystem}
+    \begin{cases}
+        \delta_{tt}u_M^n = \frac{c^2}{h^2}(2u_{M-1}^n-2u_M^n) + \frac{1}{h}F\\
+        \delta_{tt}w_0^n = \frac{c^2}{h^2}(2w_1^n-2w_0^n) - \frac{1}{h}F.
+    \end{cases}
+\end{equation}
+Because \eqref{eq:rigid} is true, $\delta_{tt}u_M^n = \delta_{tt}w_0^n$, and $F$ can be calculated by setting the equations in \eqref{eq:systemHalfStrings} equal to each other:
+\begin{align}
+     \frac{c^2}{h^2}(2u_{M-1}^n-2u_M^n) + \frac{1}{h} F&= 
+     \frac{c^2}{h^2}(2w_1^n-2w_0^n) - \frac{1}{h} F\nonumber\\
+    \frac{2}{h}F &= \frac{c^2}{h^2}(2w_1^n - 2u_{M-1}^n)\nonumber\\
+    F &= h \frac{c^2}{h^2}(w_1^n - u_{M-1}^n)
+\end{align}
+Substituting this into system \eqref{eq:expandedSystem} after expansion of the second-time derivative yields
+\begin{equation}\label{eq:resultOneConnectedPoint}
+    \begin{cases}
+    u^{n+1}_M = 2u_M^n - u_n^{n-1} + \lambda^2(u_{M-1}^n-2u_M^n+w_1^n)\\
+    w^{n+1}_0 = 2w_0^n - w_0^{n-1} + \lambda^2(u_{M-1}^n-2w_0^n+w_1^n)
+    \end{cases}
+\end{equation}
+which, (again, recalling \eqref{eq:rigid}) are indeed equivalent expressions for the connected point. Here, $w_1$ in the first expression acts as virtual grid point $u_{M+1}^n$ and $u_{M-1}^n$ as virtual grid point $w_{-1}^n$. So essentially, to connect the two strings, the state of one string is used in the update of the other. As with the previous iteration described in \ref{sec:iterations}, the CFL condition in \eqref{eq:CFL} can always be satisfied with equality.
+
+
+
+\section{Discussion}
+Applications could be non-linear systems where parameters are modulated based on the state of the system. 
+
+\appendix
+\section{Iterations}\label{app:A}
+In this appendix, some iterations done over the course of this project will be shown. In the following, the 1D wave equation with a wave speed of $c = 1470$ m/s, a length of $L = 1$ m, Dirichlet boundary conditions and a sample rate of $f_\text{s} = 44100$ Hz is considered, and -- through Eq. \eqref{eq:compactLambda} -- satisfies the CFL condition with equality. These values result in $N = 30$, or a grid of 31 points including the boundaries. Then, the wave speed is decreased to $c \approx 1422.6$ m/s, i.e., the wave speed that results in $N=31$ and satisfies the stability condition with equality again. 
+
 \subsection{Full-Grid Interpolation}
-One way to go from one grid to another is performing a full-grid interpolation \cite[Chap. 5]{bilbao2009}. If the number of points changes according to Eq. \eqref{eq:orderOfCalcGrid}, i.e., if $N^n \neq N^{n-1}$ the full state of the system ($u_l^n, u_l^{n-1}\ \forall\ l$)  can be interpolated to the new state. See Figure \ref{fig:fullGrid}. 
+One way to go from one grid to another is performing a full-grid interpolation \cite[Chap. 5]{bilbao2009}. If the number of points changes according to Eq. \eqref{eq:orderOfCalcGrid}, i.e., if $N^n \neq N^{n-1}$ the full state of the system ($u_l^n, u_l^{n-1}\ \forall l$)  can be interpolated to the new state. See Figure \ref{fig:fullGrid}. 
 
 \begin{figure}
 %% \reprintcolumnwidth is the same in preprint and reprint for
@@ -334,7 +395,7 @@ Furthermore, this state-interpolation causes artefacts or `clicks' in the output
 All the aforementioned issues could be solved by using a (much) higher sample rate and thus more grid points, but this would render this method impossible to work in real time.
 
 \subsection{Adding and removing Points at the Boundary}\label{sec:addAtBoundary}
-To solve the issues exhibited by a full-grid interpolation, we can add and remove points at a single location and leave most points unaffected by the parameter changes. A good candidate for a location to do this is at a fixed (Dirichlet) boundary. The state $u$ at this location is always $0$ so points can be added smoothly. 
+To solve the issues exhibited by a full-grid interpolation, points can be added and removed at a single location and leave most points unaffected by the parameter changes. A good candidate for a location to do this is at a fixed (Dirichlet) boundary. The state $u$ at this location is always $0$ so points can be added smoothly. 
 
 As $c$ decreases, $h$ can be calculated according to Eq. \eqref{eq:orderOfCalcGrid} and decreases as well.
 
@@ -376,84 +437,6 @@ their interactions change through a change in the grid spacing and wavespeed. Th
 \end{figure} 
 
 \subsubsection{\SWcomment[If the above iterations need to be summarised:]}
-One method that could be used to go from one grid configuration to the next is full-grid interpolation as described in \cite[Chap. 5]{bilbao2009}. However, this method essentially has a lowpassing effect on the system state and can cause `clicks' in the output sound due to the interpolation. 
-
-Another method is to add and remove points at the boundary. If the boundary is fixed (Eq. \eqref{eq:contDirichlet}), the state at this location will always be $0$ and potentially allows for smooth entry and exit of grid points. This method can be seen analogous to tuning a guitar string where string-material enters and leaves the playable part of the string at the nut, the boundary. Though informal testing shows that adding points to the grid can happen smoothly, removing points smoothly is more challenging. This is due to the fact that to-be-removed points are already moving and their displacement that needs to be reduced to 0 to satisfy the simply supported boundary condition in \eqref{eq:simplySupportedDiscrete}. Even though the $\delta_{xx}u$ part of this condition can be easily satisfied, the $u=0$ part can not.
-
-\subsection{Adding and removing Points along the Grid}
-To avoid the issues of adding and removing points at the boundary due to boundary conditions, they can be added or removed along the grid instead. For simplicity, the center of the scheme is chosen. 
-
-Consider a system, $u$ with $M_u = \text{ceil}(0.5/ck)$ (or simply $M$ below for brevity) and $w$ with $M_w = \text{floor}(0.5/ck)$ points, i.e., half the number of points allowed by the stability condition $N$, plus one for overlap due to the combined $\text{ceil}$ $\text{floor}$ operations (will elaborate below). The total number of points that $u$ and $w$ have are $M + 1$ and $M_{w} + 1$ respectively when including the boundary. Then the following boundary conditions are imposed:
-\begin{equation}\label{eq:halfStringBoundaryCond}
-    \begin{aligned}
-        u_0 = w_{M_w} &= 0,\quad \text{(Dirichlet)}\\
-        \delta_{x\cdot}u_M = \delta_{x\cdot}w_0 &= 0\ \quad \text{(Neumann)}.
-    \end{aligned}
-\end{equation}
-
-\begin{figure}[h]
-\centerline{\includegraphics[width=\columnwidth]{twoFreeStrings.eps} }
-\caption{\label{fig:twoFreeStrings}{Two strings connected at one of their boundaries.}}
-\end{figure}
-%
-The systems can then be connected at $u_M$ and $w_0$ using a rigid connection, i.e.,
-\begin{equation}\label{eq:rigid}
-    u_M^n = w_0^n.
-\end{equation}
-The system will now be
-\begin{equation}
-    \begin{cases}\label{eq:systemHalfStrings}
-        \delta_{tt}u_l^n = c^2\delta_{xx}u_l^n + J(x_{u_M})F\\
-        \delta_{tt}w_l^n = c^2\delta_{xx}w_l^n - J(x_{w_0})F
-    \end{cases}
-\end{equation}
-where spreading operator
-\begin{equation}
-    J(x_i) =
-    \begin{cases}
-        \frac{1}{h}, & l = l_i\\
-        0,& \text{otherwise}
-    \end{cases}
-\end{equation}
-and $F$ (in m$^2$/s$^2$) is the effect of the connection (\SWcomment[connection force, but not really as it isn't in N].
-%
-Expanding the spatial operators in \eqref{eq:systemHalfStrings} at $u_M$ and $w_0$, and recalling \eqref{eq:halfStringBoundaryCond} yields
-\begin{equation}\label{eq:expandedSystem}
-    \begin{cases}
-        \delta_{tt}u_M^n = \frac{c^2}{h^2}(2u_{M-1}^n-2u_M^n) + \frac{1}{h}F\\
-        \delta_{tt}w_0^n = \frac{c^2}{h^2}(2w_1^n-2w_0^n) - \frac{1}{h}F.
-    \end{cases}
-\end{equation}
-Because \eqref{eq:rigid} is true we also know that $\delta_{tt}u_M^n = \delta_{tt}w_0^n$ for all $n$. We can then calculate $F$, by setting the equations in \eqref{eq:systemHalfStrings} equal to each other:
-
-\begin{equation}
-\begin{aligned}
-    c^2\delta_{xx}u_M^n + \frac{1}{h} F &= c^2\delta_{xx}w_0^n - \frac{1}{h} F\\
-    \frac{c^2}{h^2}(u_{M-1}^n-2u_M^n+u_{M+1}^n) + \frac{1}{h} F &= \frac{c^2}{h^2}(w_{-1}^n-2w_0^n+w_1^n) - \frac{1}{h} F
-\end{aligned}\nonumber
-\end{equation}
-
-\noindent Knowing through \eqref{eq:halfStringBoundaryCond} that $u_{M+1} = u_{M-1}$ and $w_{-1} = w_1$   yields
-\begin{align}
-     \frac{c^2}{h^2}(2u_{M-1}^n-2u_M^n) + \frac{1}{h} F&= 
-     \frac{c^2}{h^2}(2w_1^n-2w_0^n) - \frac{1}{h} F\\
-    \frac{2}{h}F &= \frac{c^2}{h^2}(2w_1^n - 2u_{M-1}^n)\nonumber\\
-    F &= h \frac{c^2}{h^2}(w_1^n - u_{M-1}^n)
-\end{align}
-Filling this into \eqref{eq:expandedSystem} after expansion of the second-time derivative yields
-\begin{equation}\label{eq:resultOneConnectedPoint}
-    \begin{cases}
-    u^{n+1}_M = 2u_M^n - u_n^{n-1} + \lambda^2(u_{M-1}^n-2u_M^n+w_1^n)\\
-    w^{n+1}_0 = 2w_0^n - w_0^{n-1} + \lambda^2(u_{M-1}^n-2w_0^n+w_1^n)
-    \end{cases}
-\end{equation}
-which, (again, recalling \eqref{eq:rigid}) are indeed equivalent expressions for the connected point. Here, $w_1$ in the first expression acts as virtual grid point $u_{M+1}^n$ and $u_{M-1}^n$ as virtual grid point $w_{-1}^n$. So essentially, to connect the two strings we add a state of one string to the update of the other.
-
-
-As with the previous iteration described in \ref{sec:addAtBoundary}, the CFL condition in \eqref{eq:CFL} will always be satisfied with equality.
-
-\section{Discussion}
-Applications could be non-linear systems where parameters are modulated based on the state of the system. 
 \bibliography{myBib}
 \end{document}
 
