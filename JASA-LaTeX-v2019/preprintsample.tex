@@ -364,7 +364,12 @@ Substituting this into system \eqref{eq:expandedSystem} after expansion of the s
 \end{equation}
 which, (again, recalling \eqref{eq:rigid}) are indeed equivalent expressions for the connected point. Here, $w_1$ in the first expression acts as virtual grid point $u_{M+1}^n$ and $u_{M-1}^n$ as virtual grid point $w_{-1}^n$. So essentially, to connect the two strings, the state of one string is used in the update of the other. As with the previous iteration described in \ref{sec:iterations}, the CFL condition in \eqref{eq:CFL} can always be satisfied with equality.
 
+\subsection{Changing the grid}
 
+\begin{figure}[h]
+\centerline{\includegraphics[width=\columnwidth]{twoFreeStrings} }
+\caption{\label{fig:twoFreeStrings}{Two strings connected at one of their boundaries.}}
+\end{figure}
 
 \section{Discussion}
 Applications could be non-linear systems where parameters are modulated based on the state of the system. 
