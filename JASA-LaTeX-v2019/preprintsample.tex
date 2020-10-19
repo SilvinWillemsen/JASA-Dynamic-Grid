@@ -10,7 +10,7 @@
 %%%%%%% For Preprint
 %% For manuscript, 12pt, one column style
 
-\documentclass[dvipsnames, preprint]{JASA}
+\documentclass[dvipsnames, reprint]{JASA}
 \usepackage[pdftex]{}
 \graphicspath{{figures/}}
 \usepackage[dvips]{epsfig,graphicx}
@@ -383,7 +383,7 @@ Another method is to add and remove points at the boundary. If the boundary is f
 \subsection{Adding and removing Points along the Grid}
 To avoid the issues of adding and removing points at the boundary due to boundary conditions, they can be added or removed along the grid instead. For simplicity, the center of the scheme is chosen. 
 
-Consider a string, $u$ with $M_u = \text{ceil}(0.5/ck)$ (simply $M$ below for brevity) and $w$ with $M_w = \text{floor}(0.5/ck)$ points, i.e., half the number of points allowed by the stability condition $N$, plus one for overlap due to the combined $\text{ceil}$ $\text{floor}$ operations (will elaborate below). Then the following boundary conditions are imposed:
+Consider a system, $u$ with $M_u = \text{ceil}(0.5/ck)$ (or simply $M$ below for brevity) and $w$ with $M_w = \text{floor}(0.5/ck)$ points, i.e., half the number of points allowed by the stability condition $N$, plus one for overlap due to the combined $\text{ceil}$ $\text{floor}$ operations (will elaborate below). The total number of points that $u$ and $w$ have are $M + 1$ and $M_{w} + 1$ respectively when including the boundary. Then the following boundary conditions are imposed:
 \begin{equation}\label{eq:halfStringBoundaryCond}
     \begin{aligned}
         u_0 = w_{M_w} &= 0,\quad \text{(Dirichlet)}\\
@@ -395,19 +395,19 @@ Consider a string, $u$ with $M_u = \text{ceil}(0.5/ck)$ (simply $M$ below for br
 \centerline{\includegraphics[width=0.6\columnwidth]{twoFreeStrings.eps} }
 \caption{\label{fig:twoFreeStrings}{Two strings connected at one of their boundaries.}}
 \end{figure}
-
-\noindent Then we can connect $u_M$ and $w_0$ using a rigid connection, i.e.,
+%
+The systems can then be connected at $u_M$ and $w_0$ using a rigid connection, i.e.,
 \begin{equation}\label{eq:rigid}
-    u_M^n = w_0^n
+    u_M^n = w_0^n.
 \end{equation}
-for all $n$. The system will now be
+The system will now be
 \begin{equation}
     \begin{cases}\label{eq:systemHalfStrings}
         \delta_{tt}u_l^n = c^2\delta_{xx}u_l^n + J(x_{u_M})F\\
         \delta_{tt}w_l^n = c^2\delta_{xx}w_l^n - J(x_{w_0})F
     \end{cases}
 \end{equation}
-where
+where spreading operator
 \begin{equation}
     J(x_i) =
     \begin{cases}
@@ -415,7 +415,9 @@ where
         0,& \text{otherwise}
     \end{cases}
 \end{equation}
-If we expand the spatial derivative operators in \eqref{eq:systemHalfStrings} at $u_M$ and $w_0$ we get, recalling \eqref{eq:halfStringBoundaryCond}
+and $F$ (in m$^2$/s$^2$) is the effect of the connection (\SWcomment[connection force, but not really as it isn't in N].
+%
+Expanding the spatial operators in \eqref{eq:systemHalfStrings} at $u_M$ and $w_0$, and recalling \eqref{eq:halfStringBoundaryCond} yields
 \begin{equation}\label{eq:expandedSystem}
     \begin{cases}
         \delta_{tt}u_M^n = \frac{c^2}{h^2}(2u_{M-1}^n-2u_M^n) + \frac{1}{h}F\\
