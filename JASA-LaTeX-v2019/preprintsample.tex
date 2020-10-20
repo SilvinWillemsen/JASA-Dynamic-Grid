@@ -241,7 +241,7 @@ where
     \frac{\partial u}{\partial x} \approx \delta_{x\cdot}u_l^n = \frac{1}{2h}\left(u_{l+1}^n - u_{l-1}^n\right)
 \end{equation}
 is a second-order accurate approximation of the first-order spatial derivative. The Dirichlet condition in \eqref{eq:discreteDirichlet} says that the states at the boundary locations are always 0. In practice, this means that these grid points do not need to be updated and the spatial range of calculation for Eq. \eqref{eq:updateEq} then becomes $l = [1, \hdots, N-1]$. If the Neumann condition is used, the boundary points do need to be updated as these are not necessarily $0$; rather, their `slope' is $0$. Eq. \eqref{eq:discreteNeumann} can then be expanded to yield defnitions for these virtual grid points
-\begin{equation}
+\begin{equation}\label{eq:neumannSolution}
     u_{-1}^n = u_1^n \quad \text{and} \quad u_{N+1}^n = u_{N-1}^n.
 \end{equation}
 
@@ -293,38 +293,48 @@ If $\lambda = 1$ in \eqref{eq:CFL} and thus condition \eqref{eq:stabilityCond} i
 which shows that if $\lambda = 1$, $N$ solely decides the fundamental frequency of the simulation.
 
 \section{Dynamic Grids}
-By now, it is hopefully clear to the reader why dynamic parameters would make an interesting case in the field of physical modelling, and why dynamic grids would be a good solution to undesirable behaviour such as a decrease in bandwidth and increase in numerical dispersion. This section will describe the problems that arise when adding and removing grid points. Afterwards, some iterations done over the course of this project and their drawbacks will be shown, leading up to the final implementation of the dynamic grid. 
+By now, it is hopefully clear to the reader why dynamic parameters would make an interesting case in the field of physical modelling, and why dynamic grids would be a good solution to undesirable behaviour such as a decrease in bandwidth and increase in numerical dispersion. %This section will describe the problems that arise when adding and removing grid points. Afterwards, some iterations done over the course of this project and their drawbacks will be shown, leading up to the final implementation of the dynamic grid. 
 
 The first questions that need to be answered are ``where to add points?" and ``how to add points?" The problems when doing this range from artifacts or auditory `clicks' in the output sound to ``exploding" systems due to instability. In this section, the iterations done over the course of this project will briefly be described. The details of each can be found in \ref{app:A}. 
 
-As the variables $c$, $h$, $\lambda$ and $N$ are now time-varying, a superscript $n$ or $n-1$ is added when necessary. If omitted, a time index $n$ is assumed.
+%As the variables $c$, $h$, $\lambda$ and $N$ are now time-varying, a superscript $n$ or $n-1$ is added when necessary. If omitted, a time index $n$ is assumed.
 
 \subsection{Iterations}\label{sec:iterations}
-One method that could be used to go from one grid configuration to the next is full-grid interpolation as described in \cite[Chap. 5]{bilbao2009}. However, this method essentially has a lowpassing effect on the system state and can cause `clicks' in the output sound due to the interpolation. 
+One method that could be used to go from one grid configuration to the next is full-grid interpolation as described in \cite[Chap. 5]{bilbao2009}. However, this method essentially has a lowpassing effect on the system state and can cause `clicks' in the output sound due to the interpolation. A (much) higher sample rate could be used to avoid these issues, but this would render this method impossible to work in real time.
 
-Another method is to add and remove points at the boundary using an interpolated boundary condition, the possibility of which has been briefly mentioned in \cite[p. 145]{bilbao2009}. If the boundary is fixed (Eq. \eqref{eq:contDirichlet}), the state at this location will always be $0$ and potentially allows for smooth entry and exit of grid points. This method can be seen analogous to tuning a guitar string where string-material enters and leaves the playable part of the string at the nut, the boundary. The interpolated nature of the boundary allows for a fractional number of points, removing the flooring operation in Eq. \eqref{eq:compactLambda} and always satisfying the CFL condition with equality. Though informal testing shows that adding points to the grid can happen smoothly, removing points smoothly is more challenging. This is due to the fact that points which are about to be removed are already moving and their displacement that needs to be reduced to 0 to satisfy the simply supported boundary condition in \eqref{eq:simplySupportedDiscrete}. Even though the $\delta_{xx}u$ part of this condition can be easily satisfied, the $u=0$ part can not.
+Another method is to add and remove points at the boundary using an interpolated boundary condition, the possibility of which has been briefly mentioned in \cite[p. 145]{bilbao2009}. If the boundary is fixed (Eq. \eqref{eq:contDirichlet}), the state at this location will always be $0$ and potentially allows for smooth entry and exit of grid points. This method can be seen analogous to tuning a guitar string where string-material enters and leaves the playable part of the string at the nut, the boundary. The interpolated nature of the boundary allows for a fractional number of points, removing the flooring operation in Eq. \eqref{eq:compactLambda} and always satisfying the CFL condition with equality. Though informal testing shows that adding points to the grid can happen smoothly, removing points smoothly is more challenging. This is due to the fact that the grid point at the boundary will be moving right before it is removed and its displacement needs to (somehow) be reduced to 0 to satisfy the fixed boundary condition in Eq. \eqref{eq:contDirichlet}. %\SWcomment[$\leftarrow$ if simply supported condition is mentioned here] Even though the $\delta_{xx}u$ part of this condition can be easily satisfied, the $u=0$ part can not.
 
 \subsection{Adding and removing Points along the Grid}
-To avoid the issues of adding and removing points at the boundary due to boundary conditions, they can be added or removed along the grid instead. For simplicity, the center of the scheme is chosen. In the following, the location of grid point $u_l$ (in m from the left boundary) is denoted by $x_{u_l}$. 
+To avoid the issues of adding and removing points at the boundary due to boundary conditions, they can be added or removed along the grid instead. For simplicity, the center of the scheme is chosen. In the following, the location of a grid point $q_l$ (in m from the left boundary) is denoted by $x_{q_l}$. 
 
-Consider a grid function, $u_l^n$ with $M_u = \text{ceil}(0.5/ck)$ (or simply $M$ below for brevity) and $w_l^n$ with $M_w = \text{floor}(0.5/ck)$ points, i.e., half the number of points allowed by the stability condition, plus one for overlap (see Figure \ref{fig:twoFreeStrings}). The total number of points that $\mathbf{u}$ ($u_l^n\ \forall l$) and $\mathbf{w}$ ($w_l^n\ \forall l$) have are $M + 1$ and $M_{w} + 1$ respectively (including the boundary). Then the following boundary conditions are imposed:
+Consider a grid function, $u_l^n$ with $M_u = \text{ceil}(0.5/ck)$ (or simply $M$ below for brevity) and $w_l^n$ with $M_w = \text{floor}(0.5/ck)$ points, i.e., half the number of points allowed by the stability condition, plus one for overlap (see Figure \ref{fig:twoFreeStrings}). The total number of points that $\mathbf{u}$ ($u_l^n\ \forall l$) and $\mathbf{w}$ ($w_l^n\ \forall l$) have are $M + 1$ and $M_{w} + 1$ respectively (including the boundary). Then the following boundary conditions are imposed (see Figure \ref{fig:twoFreeStrings}):
 \begin{equation}\label{eq:halfStringBoundaryCond}
     \begin{aligned}
-        u_0 = w_{M_w} &= 0,\quad \text{(Dirichlet)}\\
-        \delta_{x\cdot}u_M = \delta_{x\cdot}w_0 &= 0.\, \quad\text{(Neumann)}.
+        u_0^n = w_{M_w}^n &= 0,\quad \text{(Dirichlet)}\\
+        \delta_{x\cdot}u_M^n = \delta_{x\cdot}w_0^n &= 0.\, \quad\text{(Neumann)},
     \end{aligned}
 \end{equation}
-
+i.e., the outer boundaries are fixed and the inner boundaries are free.
+% \begin{figure}[h]
+% \centerline{\includegraphics[width=\columnwidth]{twoFreeStrings.eps} }
+% \caption{\label{fig:twoFreeStrings}{Two (1D wave) systems connected at one of their boundaries.}}
+% \end{figure}
+%
 \begin{figure}[h]
-\centerline{\includegraphics[width=\columnwidth]{twoFreeStrings.eps} }
-\caption{\label{fig:twoFreeStrings}{Two (1D wave) systems connected at one of their boundaries.}}
+% \baselineskip=12pt
+\figcolumn{
+\fig{twoFreeStrings}{\columnwidth}{(A)}\label{fig:twoFreeStrings}
+\fig{twoFreeStringGridMove}{\columnwidth}{(B)}\label{fig:twoFreeStringsGridMove}
+\fig{twoFreeStringGridMoveZoomed}{\columnwidth}{(C)}\label{fig:twoFreeStringsGridZoomed}
+}
+\caption{Illustration of the proposed method. (A) Two (1D wave) systems connected at one of their boundaries ($N = 30$). (B) When the grid changes ($N = 30.5$). (C) Figure \ref{fig:twoFreeStringsGridMove} zoomed around $x_{u_M}$ and $x_{w_0}$. The states at the inner boundaries $u_M$ and $w_0$ are shown together with virtual grid points $u_{M+1}$ and $w_{-1}$. In all figures, the x-axis shows the location (in m) of the respective grid points (fx. $x_{u_l^n}$), but the $x$ is omitted for clarity.}
 \end{figure}
 %
-The systems can then be connected at $u_M$ and $w_0$ using a rigid connection, i.e.,
+The systems can then be connected at the inner boundaries ($u_M$ and $w_0$) using a rigid connection, i.e.,
 \begin{equation}\label{eq:rigid}
     u_M^n = w_0^n,\quad \forall n.
 \end{equation}
-The system will now be
+Essentially, the complete system is divided into separate two systems connected at the inner boundary. The system will now be
 \begin{equation}
     \begin{cases}\label{eq:systemHalfStrings}
         \delta_{tt}u_l^n = c^2\delta_{xx}u_l^n + J(x_{u_M})F\\
@@ -341,18 +351,18 @@ where spreading operator
 \end{equation}
 and $F$ (in m$^2$/s$^2$) is the effect of the connection \SWcomment[(connection force, but not really as it isn't in N)].
 %
-Expanding the spatial operators in system \eqref{eq:systemHalfStrings} at $u_M$ and $w_0$, and recalling the conditons in  \eqref{eq:halfStringBoundaryCond} yields
+Expanding the spatial operators in system \eqref{eq:systemHalfStrings} at $u_M^n$ and $w_0^n$, and recalling the conditions in  \eqref{eq:halfStringBoundaryCond} and the definition for the virtual grid points needed for the Neumann condition in Eq. \eqref{eq:neumannSolution} yields
 \begin{equation}\label{eq:expandedSystem}
     \begin{cases}
         \delta_{tt}u_M^n = \frac{c^2}{h^2}(2u_{M-1}^n-2u_M^n) + \frac{1}{h}F\\
         \delta_{tt}w_0^n = \frac{c^2}{h^2}(2w_1^n-2w_0^n) - \frac{1}{h}F.
     \end{cases}
 \end{equation}
-Because \eqref{eq:rigid} is true, $\delta_{tt}u_M^n = \delta_{tt}w_0^n$, and $F$ can be calculated by setting the equations in \eqref{eq:systemHalfStrings} equal to each other:
+Because \eqref{eq:rigid} is true, $\delta_{tt}u_M^n = \delta_{tt}w_0^n$, and $F$ can be calculated by setting the \SWcomment[right side of the] equations in \eqref{eq:systemHalfStrings} equal to each other:
 \begin{align}
      \frac{c^2}{h^2}(2u_{M-1}^n-2u_M^n) + \frac{1}{h} F&= 
      \frac{c^2}{h^2}(2w_1^n-2w_0^n) - \frac{1}{h} F\nonumber\\
-    \frac{2}{h}F &= \frac{c^2}{h^2}(2w_1^n - 2u_{M-1}^n)\nonumber\\
+    % \frac{2}{h}F &= \frac{c^2}{h^2}(2w_1^n - 2u_{M-1}^n)\nonumber\\
     F &= h \frac{c^2}{h^2}(w_1^n - u_{M-1}^n)
 \end{align}
 Substituting this into system \eqref{eq:expandedSystem} after expansion of the second-time derivative yields
@@ -362,15 +372,15 @@ Substituting this into system \eqref{eq:expandedSystem} after expansion of the s
     w^{n+1}_0 = 2w_0^n - w_0^{n-1} + \lambda^2(u_{M-1}^n-2w_0^n+w_1^n)
     \end{cases}
 \end{equation}
-which, (again, recalling \eqref{eq:rigid}) are indeed equivalent expressions for the connected point. Here, $w_1$ in the first expression acts as virtual grid point $u_{M+1}^n$ and $u_{M-1}^n$ as virtual grid point $w_{-1}^n$, essentially connecting the two systems using the state of one in the update of the other. As with the previous iteration described in \ref{sec:iterations}, the CFL condition in Eq. \eqref{eq:CFL} can always be satisfied with equality.
+which, (again, recalling Eq. \eqref{eq:rigid}) are indeed equivalent expressions for the connected point. Here, $w_1$ in the first expression acts as virtual grid point $u_{M+1}^n$ and $u_{M-1}^n$ as virtual grid point $w_{-1}^n$, essentially connecting the two systems using the state of one in the update of the other.
 
 \subsubsection{Changing the Grid}
-The previous describes the case in which the stability condition is satisfied with equality, i.e, when $1/ck$ is an integer and $x_{u_M} = x_{w_0}$ \SWcomment[(read as: the locations of grid points $u_M$ and $w_0$ are identical)]. If $c$ is then decreased (and consequently $h$ according to $h=ck$), the locations of the outer boundaries ($x_{u_0}$ and $x_{w_{M_w}}$) are fixed and all other points move towards their respective outer boundary (see Figure \ref{fig:twoFreeStringsGridMove}). 
+The previous describes the case in which the stability condition is satisfied with equality, i.e, when $1/ck$ is an integer and $x_{u_M} = x_{w_0}$ \SWcomment[(read as: the locations of grid points $u_M$ and $w_0$ are identical)]. If $c$ is then decreased, and consequently $h$ according to $h=ck$, the locations of the outer boundaries ($x_{u_0}$ and $x_{w_{M_w}}$) are fixed and all other points move towards their respective outer boundary (see Figure \ref{fig:twoFreeStringsGridMove}). This method allows the CFL condition in Eq. \eqref{eq:CFL} to always be satisfied with equality, as with the previous iteration described in \ref{sec:iterations}.
 
-\begin{figure}[h]
-\centerline{\includegraphics[width=\columnwidth]{twoFreeStringGridMove} }
-\caption{\label{fig:twoFreeStringsGridMove}{When the grid changes ($N = 30.5$). The x-axis shows the location (in m) of the respective grid points (fx. $x_{u_l^n}$), but the $x$ is omitted for clarity.}}
-\end{figure}
+% \begin{figure}[h]
+% \centerline{\includegraphics[width=\columnwidth]{twoFreeStringGridMove} }
+% \caption{\label{fig:twoFreeStringsGridMove}{When the grid changes ($N = 30.5$). The x-axis shows the location (in m) of the respective grid points (fx. $x_{u_l^n}$), but the $x$ is omitted for clarity.}}
+% \end{figure}
 %
 As mentioned above, the state of $w$ can be used to calculate the virtual grid point needed at the right boundary of $u$ and vice versa. If $x_{u_{M+1}} \neq x_{w_1}$ (and thus $x_{w_{-1}} \neq x_{u_{M-1}}$) an interpolator $I(x_l)$ at location $x_l$ can be used to calculate the value of this virtual grid point
 \begin{subequations}\label{eq:interpolationGeneral}
@@ -400,12 +410,12 @@ where
     \alpha = \frac{x_{w_0} - x_{u_M}}{h}\,.
 \end{equation}
 Also see Figure \ref{fig:twoFreeStringsGridZoomed}.
-\begin{figure}[h]
-\centerline{\includegraphics[width=\columnwidth]{twoFreeStringGridMoveZoomed} }
-\caption{\label{fig:twoFreeStringsGridZoomed}{When the grid changes (zoomed). The states at the inner boundaries $u_M^n$ and $w_0^n$ are shown together with virtual grid points $u_{M+1}^n$ and $w_{-1}^n$.}}
-\end{figure}
+% \begin{figure}[h]
+% \centerline{\includegraphics[width=\columnwidth]{twoFreeStringGridMoveZoomed} }
+% \caption{\label{fig:twoFreeStringsGridZoomed}{When the grid changes (zoomed). The states at the inner boundaries $u_M$ and $w_0$ are shown together with virtual grid points $u_{M+1}$ and $w_{-1}$.}}
+% \end{figure}
 
-Using $I_1$, informal testing shows that the expected fundamental frequency in Eq. \eqref{eq:fundamentalFreq} is slightly too high when interpolation needed to happen. Instead of a linear interpolation, cubic interpolator $I_3$ can be used according to 
+Using $I_1$, informal testing shows that the expected fundamental frequency calculated using Eq. \eqref{eq:fundamentalFreq} is slightly too high when interpolation needs to happen. Instead of a linear interpolation, cubic interpolator $I_3$ can be used according to 
 \begin{equation}\label{eq:connectionInterpol}
     \begin{aligned}
         u_{M+1}^n &= I_3(x_{u_{M+1}})w_l^n\\
@@ -419,7 +429,7 @@ where
     \alpha_\text{I} = \frac{\alpha(\alpha - 1)(\alpha - 2)}{-6}, \quad \beta_\text{I} = \frac{(\alpha - 1)(\alpha + 1)(\alpha - 2)}{2}\\
     \gamma_\text{I} = \frac{\alpha(\alpha + 1)(\alpha - 2)}{-2}, \quad \text{and} \quad\delta_\text{I} = \frac{\alpha(\alpha + 1)(\alpha - 1)}{6}\,.
 \end{gather*}
-Treating \eqref{eq:connectionInterpol} as a system of linear equations, the virtual grid point $u_{M+1}^n$ and $w_{-1}^n$ can be solved for using
+Treating \eqref{eq:connectionInterpol} as a system of linear equations, the virtual grid points $u_{M+1}^n$ and $w_{-1}^n$ can be solved for using
 \begin{equation}
     \begin{bmatrix}
     u_{M+1}^n \\
@@ -457,27 +467,31 @@ Points need to be added and removed in a specific way.
 When the boundary points surpass the virtual points (i.e. $x_{u_M} \leq x_{w_{-1}}$ and $x_{u_{M+1}} \leq x_{w_0}$) a point is added to the right boundary of $\mathbf{u}$ and the left boundary of $\mathbf{w}$ in an alternating fashion  
 
 \begin{equation}
-        \begin{cases}\mathbf{u}^n = [\mathbf{u}^n, I_3(x_{u_{M+1}})\mathbf{wu}^n]^T & \text{if $N^n$ is odd}\\
-        \mathbf{w}^n = [I_3(x_{w_{-1}})\mathbf{uw}^n, \mathbf{w}^n]^T & \text{if $N^n$ is even}
+        \begin{cases}\mathbf{u}^n = [\mathbf{u}^n, I_3(x_{u_{M+1}})\mathbf{v}^n]^T & \text{if $N^n$ is odd}\\
+        \mathbf{w}^n = [I_3(x_{w_{-1}})\mathbf{v}_\star^n, \mathbf{w}^n]^T & \text{if $N^n$ is even}
         \end{cases}
 \end{equation}
 where 
-\begin{gather*}
-\mathbf{wu}^n = [w_1^n, w_0^n, u_M^n, u_{M-1}^n] \\
-    \mathbf{uw}^n = [u_{M-1}^n, u_M^n, w_0^n, w_1^n]
-\end{gather*}
-As $\alpha$ in Eq. \eqref{eq:connectionInterpol} is expected to be close to zero \SWcomment[maybe explain?], the second term in either $\mathbf{wu}^n$ or $\mathbf{uw}^n$ is expected to have the biggest contribution to the newly added point. This makes sense by looking at Figure \ref{fig:twoFreeStringsGridZoomed}, as right when the boundary points ($u_M^n$ and $w_0^n$) surpass the virtual points ($u_{M+1}^n$ and $w_{-1}^n$), these are going to be close to overlapping.
+\begin{align*}
+\mathbf{v}^n &= [w_1^n, w_0^n, u_M^n, u_{M-1}^n], \quad\text{and}\\
+    \mathbf{v}_\star^n &= [u_{M-1}^n, u_M^n, w_0^n, w_1^n].
+\end{align*}
+As $\alpha$ in Eq. \eqref{eq:connectionInterpol} is expected to be close to zero \SWcomment[maybe explain?], the second term in either $\mathbf{v}^n$ or $\mathbf{v}_\star^n$ is expected to have the biggest contribution to the newly added point. This makes sense by looking at Figure \ref{fig:twoFreeStringsGridZoomed}, as exactly when the boundary points ($u_M^n$ and $w_0^n$) surpass the virtual points ($u_{M+1}^n$ and $w_{-1}^n$), these are going to be close to overlapping.
 
 Removing grid points is slightly easier, where points are simply removed from $\mathbf{u}$ and $\mathbf{w}$ in an alternating fashion
 \begin{equation}
 \begin{cases}
-    \mathbf{u}^n = [u_0^n, u_1^n ..., u_{M-1}^n]^T & \text{if $N^n$ is even} \\
-     \mathbf{w}^n = [w_1^n, w_2^n ..., w_{M_w}^n]^T & \text{if $N^n$ is odd} 
+    \mathbf{u}^n = [u_0^n, u_1^n ..., u_{M-1}^n]^T & \text{if $N^n$ is even,} \\
+     \mathbf{w}^n = [w_1^n, w_2^n ..., w_{M_w}^n]^T & \text{if $N^n$ is odd.} 
     \end{cases}
 \end{equation}
 
 
 \section{Results}\label{sec:results}
+\begin{itemize}
+    \item Comparing linear and cubic interpolation
+\end{itemize}
+
 \section{Discussion}
 Applications could be non-linear systems where parameters are modulated based on the state of the system. 
 
