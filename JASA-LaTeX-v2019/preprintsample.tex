@@ -330,7 +330,7 @@ Although informal testing shows that adding points to the grid can happen smooth
 This section introduces the proposed method of dynamically and smoothly changing the grid to account for dynamic parameter changes. To avoid the issues of adding and removing points at the boundary due to boundary conditions, they can be added or removed along the grid instead. For the sake of simplicity in explanation, the center of the system is chosen. In the following, the location of a grid point (in m from the left boundary) $i$ (such as $i = u_0$) is denoted by $x_i$. 
 
 \subsubsection{System Setup}\label{sec:systSetup}
-Consider a grid function, $u_l^n$ with $M_u = \text{ceil}(0.5/ck)$ (or simply $M$ below for brevity) and $w_l^n$ with $M_w = \text{floor}(0.5/ck)$ points, i.e., half the number of points allowed by the stability condition, plus one for overlap (see Figure \ref{fig:twoFreeStrings}). The total number of points that state vectors $\mathbf{u}$ ($u_l^n\ \forall l$) and $\mathbf{w}$ ($w_l^n\ \forall l$) have are $M + 1$ and $M_{w} + 1$ respectively (including the boundary). The following boundary conditions are then imposed:
+Consider a grid function, $u_l^n$ with $M_u = \text{ceil}(0.5/ck)$ (or simply $M$ below for brevity) and $w_l^n$ with $M_w = \text{floor}(0.5/ck)$ points, i.e., half the number of points allowed by the stability condition, plus one for overlap (see Figure \ref{fig:twoFreeStrings}). In the following, state vectors $\mathbf{u}$ and $\mathbf{w}$ are defined as  $u_l^n$ with $l = [0, \hdots, M]$ and $w_l^n$ with $l = [0, \hdots, M_w]$ respectively and have $M + 1$ and $M_{w} + 1$ points respectively (including the boundary). The following boundary conditions are then imposed:
 \begin{equation}\label{eq:halfStringBoundaryCond}
     \begin{aligned}
         u_0^n = w_{M_w}^n &= 0,\quad \text{(Dirichlet)}\\
@@ -487,17 +487,14 @@ Treating \eqref{eq:connectionInterpol} as a system of linear equations, tpvishe 
 As will be shown in Section \ref{sec:results}, cubic interpolation yields the expected fundamental frequency at all times.% also when interpolation needs to happen.
 
 \subsubsection{Adding and removing Grid Points}
-When $c$, and consequently $h$, is decreased and the boundary points surpass the virtual points (i.e. $x_{u_M} \leq x_{w_{-1}}$ and $x_{u_{M+1}} \leq x_{w_0}$) and $N^n > N^{n-1}$, a point is added to the right boundary of $\mathbf{u}$ and the left boundary of $\mathbf{w}$ (for both time indices $n$ and $n-1$) in an alternating fashion  
+The location at where points are added and removed greatly influences the behaviour of the system, especially in the higher frequencies (see Section \ref{sec:results}). The best behaviour is obtained when the location is as close to a boundary as possible. Consider grid functions $u_l^n$ and $w_l^n$ as described before, but now with $M = N - 1$ and $M_w = 2$. When $c$, and consequently $h$, is decreased and the boundary points surpass the virtual points (i.e. $x_{u_M} \leq x_{w_{-1}}$ and $x_{u_{M+1}} \leq x_{w_0}$) and $N^n > N^{n-1}$, a point is added at the right boundary of $\mathbf{u}^n$ (for both time indices $n$ and $n-1$)
 \begin{equation}
-        \begin{cases}\mathbf{u}^n = [\mathbf{u}^n, I_3'(x_{u_{M+1}})\mathbf{v}^n]^T & \text{if $N^n$ is odd},\\
-        \mathbf{w}^n = [I_3'(x_{w_{-1}})\mathbf{v}_\star^n, \mathbf{w}^n]^T & \text{if $N^n$ is even},
-        \end{cases}
+       \mathbf{u}^n = [\mathbf{u}^n, I_3'(x_{u_{M+1}})\mathbf{v}^n]^T
 \end{equation}
 where 
-\begin{align*}
-\mathbf{v}^n &= [u_{M-1}^n, u_M^n, w_0^n, w_1^n], \quad\text{and}\\
-    \mathbf{v}_\star^n &= [w_1^n, w_0^n, u_M^n, u_{M-1}^n],
-\end{align*}
+\begin{equation*}
+\mathbf{v}^n = [u_{M-1}^n, u_M^n, w_0^n, w_1^n], 
+\end{equation*}
 and
 \begin{equation}\label{eq:customIp}
     I_3' = \begin{bmatrix} -\frac{\alpha'(\alpha'+1)}{(\alpha'+2)(\alpha'+3)} &\frac{2\alpha'}{\alpha'+2} &\frac{2}{\alpha'+2} 
@@ -518,14 +515,11 @@ See Figure \ref{fig:addingPoint}.
 \caption{\label{fig:addingPoint}{The moment when a point is added to $\mathbf{u}$ at location $x_{u_M} + h$ in Eq. \eqref{eq:addingPoint}. This figure shows an extreme case where this location is far from $x_{w_0}$, i.e., $\alpha' \not\approx 0$ in Eq. \eqref{eq:customIp}.}}
 \end{figure} 
 
-As $\alpha'$ in Eq. \eqref{eq:customIp} is expected to be close to zero \SWcomment[maybe explain that at low parameter variations this happens?], the third term in either $\mathbf{v}^n$ or $\mathbf{v}_\star^n$ is expected to have the biggest contribution to the newly added point. This makes sense by looking at Figure \ref{fig:twoFreeStringsGridZoomed}, as exactly when the boundary points $u_M^n$ and $w_0^n$ surpass the virtual points $w_{-1}^n$ and $u_{M+1}^n$, these are going to be close to overlapping.
+As $\alpha'$ in Eq. \eqref{eq:customIp} is expected to be close to zero \SWcomment[maybe explain that at low parameter variations this happens?], the third term in $\mathbf{v}^n$ is expected to have the biggest contribution to the newly added point. This makes sense by looking at Figure \ref{fig:twoFreeStringsGridZoomed}, as exactly when the boundary points $u_M^n$ and $w_0^n$ surpass the virtual points $w_{-1}^n$ and $u_{M+1}^n$, these are going to be close to overlapping.
 
-Removing grid points happens when $c$, and consequently $h$, is increased and the boundary points surpass the virtual points (i.e. $x_{u_M} \geq x_{w_{-1}}$ and $x_{u_{M+1}} \geq x_{w_0}$) and $N^n < N^{n-1}$. Compared to adding, removing grid points is slightly easier where points are simply removed from $\mathbf{u}$ and $\mathbf{w}$ in an alternating fashion
+Removing grid points happens when $c$, and consequently $h$, is increased and the boundary points surpass the virtual points (i.e. $x_{u_M} \geq x_{w_{-1}}$ and $x_{u_{M+1}} \geq x_{w_0}$) and $N^n < N^{n-1}$. Compared to adding, removing grid points is slightly easier where points are simply removed from $\mathbf{u}$
 \begin{equation}\label{eq:addingPoint}
-\begin{cases}
-    \mathbf{u}^n = [u_0^n, u_1^n ..., u_{M-1}^n]^T & \text{if $N^n$ is even}, \\
-     \mathbf{w}^n = [w_1^n, w_2^n ..., w_{M_w}^n]^T & \text{if $N^n$ is odd}.
-    \end{cases}
+    \mathbf{u}^n = [u_0^n, u_1^n ..., u_{M-1}^n]^T. 
 \end{equation}
 
 
