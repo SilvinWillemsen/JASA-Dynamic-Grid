@@ -546,7 +546,8 @@ Removing grid points happens when $c$, and consequently $h$, is increased and th
 This section shows the analysis of the system presented in the previous section and its behaviour.
 
 \subsection{Static}
-In order to determine that the correct frequency is achieved also 
+In order to determine that the correct frequency is achieved when the system is static, but when interpolation needs to be used (i.e., $\alpha\neq 0$ in Eq. \eqref{eq:connectionInterpol}) the spectrum is plotted 
+
 \begin{itemize}
     \item Comparing static linear and cubic interpolation ($N = 30.5$)
     \item Comparing full-grid interpolation at insane sample rates
@@ -565,7 +566,7 @@ In order to determine that the correct frequency is achieved also
 \begin{figure}[ht]
 %% \reprintcolumnwidth is the same in preprint and reprint for
 %% ease of use for authors:
-\includegraphics[width=\reprintcolumnwidth]{specAddright.eps}
+\includegraphics[width=\reprintcolumnwidth]{specAddPointsAtRightBound.eps}
 \caption{\label{fig:addingPoint}{System output}}
 \end{figure} 
 
