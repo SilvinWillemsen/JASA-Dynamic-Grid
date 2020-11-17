@@ -496,15 +496,17 @@ The location at where points are added and removed greatly influences the behavi
 \begin{equation}
     w_{M_w}^n = \delta_{xx}w_{M_w}^n = 0, \quad \text{(simply supported)}
 \end{equation}
-which after expansion and knowing $M_w = 1$ can be  solved to \SWcomment[(similarly to Eq. \eqref{eq:neumannSolution})]
+which after expansion and knowing $M_w = 1$ can be solved to \SWcomment[(similarly to Eq. \eqref{eq:neumannSolution})]
 \begin{equation}\label{eq:simplySupportedSolved}
     w_1 = 0 \quad \text{and} \quad w_2^n = -w_0^n.
 \end{equation}
 This simplifies Eq. \eqref{eq:calcUMP1} to
 \begin{equation}
-    u_{M+1}^n = (\gamma_\text{I} - \alpha_\text{I})w_0^n + \delta_\text{I}w_{-1}^n.
+    u_{M+1}^n = (\gamma_\text{I} - \alpha_\text{I})w_0^n + \delta_\text{I}w_{-1}^n,
 \end{equation}
-\SWcomment[Note that this also changes Eq. \eqref{eq:linSystSolution}.] When $c$, and consequently $h$, is decreased and the boundary points surpass the virtual points (i.e. $x_{u_M} \leq x_{w_{-1}}$ and $x_{u_{M+1}} \leq x_{w_0}$) and $N^n > N^{n-1}$, a point approximating $u_{N+1}^n$ is added at the right boundary of $\mathbf{u}^n$ (for both time indices $n$ and $n-1$)
+and can be inserted in Eq. \eqref{eq:linSystSolution}. 
+
+When $c$, and consequently $h$, is decreased and the boundary points surpass the virtual points (i.e. $x_{u_M} \leq x_{w_{-1}}$ and $x_{u_{M+1}} \leq x_{w_0}$) and $N^n > N^{n-1}$, a point approximating $u_{N+1}^n$ is added at the right boundary of $\mathbf{u}^n$ (for both time indices $n$ and $n-1$)
 \begin{equation}\label{eq:addingPoint}
        \mathbf{u}^n = [(\mathbf{u}^n)^T, I_3'(x_{u_{M+1}})\mathbf{v}^n]^T
 \end{equation}
@@ -543,11 +545,29 @@ Removing grid points happens when $c$, and consequently $h$, is increased and th
 \section{Results}\label{sec:results}
 This section shows the analysis of the system presented in the previous section and its behaviour.
 
-\subsection{}
+\subsection{Static}
+In order to determine that the correct frequency is achieved also 
 \begin{itemize}
     \item Comparing static linear and cubic interpolation ($N = 30.5$)
     \item Comparing full-grid interpolation at insane sample rates
 \end{itemize}
+
+
+\subsection{Dynamic}
+
+\begin{figure}[ht]
+%% \reprintcolumnwidth is the same in preprint and reprint for
+%% ease of use for authors:
+\includegraphics[width=\reprintcolumnwidth]{modesAddPointsAtRightBound.eps}
+\caption{\label{fig:addingPoint}{Modal analysis}}
+\end{figure} 
+
+\begin{figure}[ht]
+%% \reprintcolumnwidth is the same in preprint and reprint for
+%% ease of use for authors:
+\includegraphics[width=\reprintcolumnwidth]{specAddright.eps}
+\caption{\label{fig:addingPoint}{System output}}
+\end{figure} 
 
 \section{Discussion}
 Applications could be non-linear systems where parameters are modulated based on the state of the system. 
