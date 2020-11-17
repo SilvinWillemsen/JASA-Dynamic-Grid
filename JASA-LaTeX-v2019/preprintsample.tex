@@ -330,13 +330,13 @@ Although informal testing shows that adding points to the grid can happen smooth
 This section introduces the proposed method of dynamically and smoothly changing the grid to account for dynamic parameter changes. To avoid the issues of adding and removing points at the boundary due to boundary conditions, they can be added or removed along the grid instead. For the sake of simplicity in explanation, the center of the system is chosen. In the following, the location of a grid point (in m from the left boundary) $i$ (such as $i = u_0$) is denoted by $x_i$. 
 
 \subsubsection{System Setup}\label{sec:systSetup}
-Consider a grid function, $u_l^n$ with $M_u = \text{ceil}(0.5/ck)$ (or simply $M$ below for brevity) and $w_l^n$ with $M_w = \text{floor}(0.5/ck)$ points, i.e., half the number of points allowed by the stability condition, plus one for overlap (see Figure \ref{fig:twoFreeStrings}). In the following, state vectors $\mathbf{u}$ and $\mathbf{w}$ are defined as  $u_l^n$ with $l = [0, \hdots, M]$ and $w_l^n$ with $l = [0, \hdots, M_w]$ respectively and have $M + 1$ and $M_{w} + 1$ points respectively (including the boundary). The following boundary conditions are then imposed:
-\begin{equation}\label{eq:halfStringBoundaryCond}
-    \begin{aligned}
-        u_0^n = w_{M_w}^n &= 0,\quad \text{(Dirichlet)}\\
-        \delta_{x\cdot}u_M^n = \delta_{x\cdot}w_0^n &= 0.\, \quad\text{(Neumann)},
-    \end{aligned}
-\end{equation}
+Consider a grid function, $u_l^n$ with $M_u = \text{ceil}(0.5/ck)$ (or simply $M$ below for brevity) and $w_l^n$ with $M_w = \text{floor}(0.5/ck)$ points, i.e., half the number of points allowed by the stability condition, plus one for overlap (see Figure \ref{fig:twoFreeStrings}). In the following, state (column) vectors $\mathbf{u}^n = [u_0^n, u_1^n, \hdots, u_M^n]^T$ and $\mathbf{w}^n = [w_0^n, w_1^n, \hdots, w_{M_w}^n]^T$ (with $T$ denoting the transpose operation) and have $M + 1$ and $M_{w} + 1$ points respectively (including the boundary). The following boundary conditions are then imposed:
+\begin{subequations}\label{eq:halfStringBoundaryCond}
+    \begin{align}
+        u_0^n = w_{M_w}^n &= 0,\quad \text{(Dirichlet)}\label{eq:halfStringBoundaryCondDirichlet}\\
+        \delta_{x\cdot}u_M^n = \delta_{x\cdot}w_0^n &= 0.\, \quad\text{(Neumann)}, \label{eq:halfStringBoundaryCondNeumann}
+    \end{align}
+\end{subequations}
 i.e., the outer boundaries are fixed and the inner boundaries are free.
 % \begin{figure}[h]
 % \centerline{\includegraphics[width=\columnwidth]{twoFreeStrings.eps} }
@@ -442,21 +442,26 @@ Also see Figure \ref{fig:twoFreeStringsGridZoomed}.
 % \end{figure}
 
 Using $I_1$, analysis of the output shows that the expected fundamental frequency is slightly higher when interpolation needs to happen than the one expected when using Eq. \eqref{eq:fundamentalFreq}. Instead of a linear interpolation, the cubic interpolator $I_3$ can be used according to 
-\begin{equation}\label{eq:connectionInterpol}
-    \begin{aligned}
+\begin{subequations}\label{eq:connectionInterpol}
+\begin{align}
+    &\begin{aligned}\label{eq:calcUMP1}
         u_{M+1}^n &= I_3(x_{u_{M+1}})w_l^n\\
-        &= \alpha_\text{I}w_2^n + \beta_\text{I}w_1^n + \gamma_\text{I}w_0^n + \delta_\text{I} w_{-1}^n\\
+        &= \alpha_\text{I}w_2^n + \beta_\text{I}w_1^n + \gamma_\text{I}w_0^n + \delta_\text{I} w_{-1}^n
+    \end{aligned}\\
+    &\ \ \begin{aligned}\label{eq:calcWM1}
         w_{-1}^n &= I_3(x_{w_{-1}})u_l^n \\
         &=\alpha_\text{I} u_{M-2}^n + \beta_\text{I}u_{M-1}^n+ \gamma_\text{I}u_M^n + \delta_\text{I} u_{M+1}^n.
     \end{aligned}
-\end{equation}
+\end{align}
+    
+\end{subequations}
 where
 \begin{gather*}
     \alpha_\text{I} = \frac{\alpha(\alpha - 1)(\alpha - 2)}{-6}, \quad \beta_\text{I} = \frac{(\alpha - 1)(\alpha + 1)(\alpha - 2)}{2},\\
     \gamma_\text{I} = \frac{\alpha(\alpha + 1)(\alpha - 2)}{-2}, \quad \text{and} \quad\delta_\text{I} = \frac{\alpha(\alpha + 1)(\alpha - 1)}{6}\,.
 \end{gather*}
-Treating \eqref{eq:connectionInterpol} as a system of linear equations, tpvishe virtual grid points $u_{M+1}^n$ and $w_{-1}^n$ can be solved for using
-\begin{equation}
+Treating \eqref{eq:connectionInterpol} as a system of linear equations, the virtual grid points $u_{M+1}^n$ and $w_{-1}^n$ can be solved for using
+\begin{equation}\label{eq:linSystSolution}
     \begin{bmatrix}
     u_{M+1}^n \\
     w_{-1}^n
@@ -487,13 +492,25 @@ Treating \eqref{eq:connectionInterpol} as a system of linear equations, tpvishe 
 As will be shown in Section \ref{sec:results}, cubic interpolation yields the expected fundamental frequency at all times.% also when interpolation needs to happen.
 
 \subsubsection{Adding and removing Grid Points}
-The location at where points are added and removed greatly influences the behaviour of the system, especially in the higher frequencies (see Section \ref{sec:results}). The best behaviour is obtained when the location is as close to a boundary as possible. Consider grid functions $u_l^n$ and $w_l^n$ as described before, but now with $M = N - 1$ and $M_w = 2$. When $c$, and consequently $h$, is decreased and the boundary points surpass the virtual points (i.e. $x_{u_M} \leq x_{w_{-1}}$ and $x_{u_{M+1}} \leq x_{w_0}$) and $N^n > N^{n-1}$, a point is added at the right boundary of $\mathbf{u}^n$ (for both time indices $n$ and $n-1$)
+The location at where points are added and removed greatly influences the behaviour of the system, especially in the higher frequencies (see Section \ref{sec:results}). The best behaviour is obtained when the location is as close to a boundary as possible. Consider grid functions $u_l^n$ and $w_l^n$ as described before, but now with $M = N - 1$ and $M_w = 1$. This results in grid function $w_l^n$ only having one moving point $w_0^n$, the boundary at $w_1^n$ and virtual grid point $w_2^n$ (see Figure \ref{fig:addingPoint}). Condition \eqref{eq:halfStringBoundaryCondDirichlet} can be extended to be simply supported
 \begin{equation}
-       \mathbf{u}^n = [\mathbf{u}^n, I_3'(x_{u_{M+1}})\mathbf{v}^n]^T
+    w_{M_w}^n = \delta_{xx}w_{M_w}^n = 0, \quad \text{(simply supported)}
 \end{equation}
-where 
+which after expansion and knowing $M_w = 1$ can be  solved to \SWcomment[(similarly to Eq. \eqref{eq:neumannSolution})]
+\begin{equation}\label{eq:simplySupportedSolved}
+    w_1 = 0 \quad \text{and} \quad w_2^n = -w_0^n.
+\end{equation}
+This simplifies Eq. \eqref{eq:calcUMP1} to
+\begin{equation}
+    u_{M+1}^n = (\gamma_\text{I} - \alpha_\text{I})w_0^n + \delta_\text{I}w_{-1}^n.
+\end{equation}
+\SWcomment[Note that this also changes Eq. \eqref{eq:linSystSolution}.] When $c$, and consequently $h$, is decreased and the boundary points surpass the virtual points (i.e. $x_{u_M} \leq x_{w_{-1}}$ and $x_{u_{M+1}} \leq x_{w_0}$) and $N^n > N^{n-1}$, a point approximating $u_{N+1}^n$ is added at the right boundary of $\mathbf{u}^n$ (for both time indices $n$ and $n-1$)
+\begin{equation}\label{eq:addingPoint}
+       \mathbf{u}^n = [(\mathbf{u}^n)^T, I_3'(x_{u_{M+1}})\mathbf{v}^n]^T
+\end{equation}
+where
 \begin{equation*}
-\mathbf{v}^n = [u_{M-1}^n, u_M^n, w_0^n, w_1^n], 
+\mathbf{v}^n = [u_{M-1}^n, u_M^n, w_0^n, w_1^n]^T, 
 \end{equation*}
 and
 \begin{equation}\label{eq:customIp}
@@ -503,27 +520,30 @@ and
 \end{equation}
 \SWcomment[(created using 4-point Lagrange interpolation)] with
 \begin{equation}
-    \alpha' = \frac{x_{w_0} - (x_{u_M} + h)}{h}\ .
+    \alpha' = \frac{x_{w_0} - (x_{u_M} + h)}{h}\ .\nonumber
 \end{equation}
 See Figure \ref{fig:addingPoint}.
 % Note that this operation is done for both time indices $n$ and $n-1$.
 
-\begin{figure}[h]
+\begin{figure}[ht]
 %% \reprintcolumnwidth is the same in preprint and reprint for
 %% ease of use for authors:
-\includegraphics[width=\reprintcolumnwidth]{addingGridPoint}
-\caption{\label{fig:addingPoint}{The moment when a point is added to $\mathbf{u}$ at location $x_{u_M} + h$ in Eq. \eqref{eq:addingPoint}. This figure shows an extreme case where this location is far from $x_{w_0}$, i.e., $\alpha' \not\approx 0$ in Eq. \eqref{eq:customIp}.}}
+\includegraphics[width=\reprintcolumnwidth]{addingGridPoint2}
+\caption{\label{fig:addingPoint}{The system with $M = N-1$ and $M_w = 1$. System $w$ only has one moving point $w_0$, the boundary $w_1$ and virtual grid point $w_2$ defined by condition \eqref{eq:simplySupportedSolved}. The figure shows the moment when a point is added to $\mathbf{u}$ at location $x_{u_M} + h$ in Eq. \eqref{eq:addingPoint}. This figure shows an extreme case where this location is far from $x_{w_0}$, i.e., $\alpha' \not\approx 0$ in Eq. \eqref{eq:customIp}.}}
 \end{figure} 
 
-As $\alpha'$ in Eq. \eqref{eq:customIp} is expected to be close to zero \SWcomment[maybe explain that at low parameter variations this happens?], the third term in $\mathbf{v}^n$ is expected to have the biggest contribution to the newly added point. This makes sense by looking at Figure \ref{fig:twoFreeStringsGridZoomed}, as exactly when the boundary points $u_M^n$ and $w_0^n$ surpass the virtual points $w_{-1}^n$ and $u_{M+1}^n$, these are going to be close to overlapping.
+As $\alpha'$ in Eq. \eqref{eq:customIp} is expected to be close to zero \SWcomment[maybe explain that at low parameter variations this happens?], the third term in $\mathbf{v}^n$ is expected to have the biggest contribution to the newly added point. This makes sense by looking at Figure \ref{fig:twoFreeStringsGridZoomed}, as exactly when boundary point $w_0^n$ surpasses virtual point $u_{M+1}^n$, these are going to be close to overlapping.
 
-Removing grid points happens when $c$, and consequently $h$, is increased and the boundary points surpass the virtual points (i.e. $x_{u_M} \geq x_{w_{-1}}$ and $x_{u_{M+1}} \geq x_{w_0}$) and $N^n < N^{n-1}$. Compared to adding, removing grid points is slightly easier where points are simply removed from $\mathbf{u}$
-\begin{equation}\label{eq:addingPoint}
+Removing grid points happens when $c$, and consequently $h$, is increased and the boundary points surpass the virtual points (i.e. $x_{u_M} \geq x_{w_{-1}}$ and $x_{u_{M+1}} \geq x_{w_0}$) and $N^n < N^{n-1}$. Compared to adding grid points, removing them is slightly easier where points are simply removed from the end of $\mathbf{u}$
+\begin{equation}\label{eq:removingPoint}
     \mathbf{u}^n = [u_0^n, u_1^n ..., u_{M-1}^n]^T. 
 \end{equation}
 
 
 \section{Results}\label{sec:results}
+This section shows the analysis of the system presented in the previous section and its behaviour.
+
+\subsection{}
 \begin{itemize}
     \item Comparing static linear and cubic interpolation ($N = 30.5$)
     \item Comparing full-grid interpolation at insane sample rates
