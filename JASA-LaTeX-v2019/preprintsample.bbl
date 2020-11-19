@@ -1,0 +1,16 @@
+\begin{thebibliography}{1}
+\def\enquote#1{``#1,''}
+\def\plainquote#1{``#1''}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\providecommand{\dourl}[1]{\href{http://#1}{\nolinkurl{#1}}}
+\providecommand{\bibinfo}[2]{#2}
+\providecommand{\noopsort}[1]{}
+\providecommand{\switchargs}[2]{#2#1}
+  \def\eatspace #1{#1}
+
+\bibitem[{Bilbao(2009)}]{bilbao2009}
+\bibinfo{author}{Bilbao, S.} (\textbf{\bibinfo{year}{2009}}).
+  \emph{\bibinfo{title}{Numerical Sound Synthesis}} (\bibinfo{publisher}{John
+  Wiley \& Sons}, \bibinfo{address}{United Kingdom}).
+
+\end{thebibliography}
