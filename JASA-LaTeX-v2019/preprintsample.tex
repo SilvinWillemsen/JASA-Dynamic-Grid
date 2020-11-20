@@ -462,13 +462,14 @@ Using $I_1$, analysis of the output shows that the expected fundamental frequenc
         &=\alpha_\text{I} u_{M-2}^n + \beta_\text{I}u_{M-1}^n+ \gamma_\text{I}u_M^n + \delta_\text{I} u_{M+1}^n.
     \end{aligned}
 \end{align}
-    
 \end{subequations}
 where
-\begin{gather*}
+\begin{equation}\small
+\begin{gathered}\label{eq:interpolationCoeffs}
     \alpha_\text{I} = \frac{\alpha(\alpha - 1)(\alpha - 2)}{-6}, \quad \beta_\text{I} = \frac{(\alpha - 1)(\alpha + 1)(\alpha - 2)}{2},\\
     \gamma_\text{I} = \frac{\alpha(\alpha + 1)(\alpha - 2)}{-2}, \quad \text{and} \quad\delta_\text{I} = \frac{\alpha(\alpha + 1)(\alpha - 1)}{6}\,.
-\end{gather*}
+\end{gathered}
+\end{equation}
 Treating \eqref{eq:connectionInterpol} as a system of linear equations, the virtual grid points $u_{M+1}^n$ and $w_{-1}^n$ can be solved for using
 \begin{equation}\label{eq:linSystSolution}
     \begin{bmatrix}
@@ -614,21 +615,17 @@ where
      & & &  & 1 & 0 & 1 & & \\
      & &\mathbf{0} &  & \mathbf{A}_{1, 2}\alpha_\text{I} &\mathbf{A}_{1, 2}\beta_\text{I} + 1 &\mathbf{A}_{1, 2}\gamma_\text{I} & \mathbf{A}_{1, 1}(\gamma_\text{I}-\alpha_\text{I})& \\ \cline{2-8}
      & & \mathbf{0} & &\mathbf{A}_{2, 2}\alpha_\text{I} &\mathbf{A}_{2, 2}\beta_\text{I}&\mathbf{A}_{2, 2}\gamma_\text{I} & \mathbf{A}_{2,1}(\gamma_\text{I} - \alpha_\text{I}) & 
-    \end{bmatrix}
+    \end{bmatrix}.
 \end{equation}
-When $M^n > M^{n-1}$ a point is added from $\mathbf{u}^n$ and $\mathbf{u}^{n-1}$ using Eq. \eqref{eq:addingPoint}, and when $M^n < M^{n-1}$ a point is removed from the same vectors using Eq. \eqref{eq:removingPoint}.
+\SWcomment[One can see that if $\alpha \lesssim 1$ in \eqref{eq:interpolationCoeffs}, then $\gamma_\text{I} \approx 1$ and $\alpha_\text{I}\approx \beta_\text{I} \approx \delta_\text{I} \approx 0$. This will reduce $\mathbf{B}$ to a matrix with ones on the diagonals next to the main diagonal and zeros elsewhere.]
+
+Finally, when $M^n > M^{n-1}$ a point is added from $\mathbf{u}^n$ and $\mathbf{u}^{n-1}$ using Eq. \eqref{eq:addingPoint}, and when $M^n < M^{n-1}$ a point is removed from the same vectors using Eq. \eqref{eq:removingPoint}.
 
 \section{Results}\label{sec:results}
 This section shows the analysis of the system presented in the previous section and its behaviour.
 
 \subsection{Static}
-In order to determine whether the proposed method yields an output with the correct frequency content, a spectrum is taken of the system's output. The system with $N=15.5$ at a sample rate of $f_\text{s} = 44100$ Hz is compared to the same system with $f_\text{s} = 88200$ Hz resulting in $N=31$ for the same $f_0$ according to Eq. \eqref{eq:fundamentalFreq}. See Figure \ref{fig:spectra}.
-
-\begin{itemize}
-    \item Comparing static linear and cubic interpolation ($N = 30.5$)
-    \item Comparing full-grid interpolation at insane sample rates
-\end{itemize}
-
+In order to determine whether the proposed method yields an output with the correct frequency content, a spectrum is taken of the system's output. The system with $N=15.5$ (so $\alpha = 0.5$ in \eqref{eq:interpolationCoeffs}) at a sample rate of $f_\text{s} = 44100$ Hz is compared to the same system with $f_\text{s} = 88200$ Hz resulting in $N=31$ ($\alpha = 0$) for the same $f_0$ according to Eq. \eqref{eq:fundamentalFreq}. See Figure \ref{fig:spectra}.
 
 \begin{figure}[ht]
 %% \reprintcolumnwidth is the same in preprint and reprint for
@@ -637,6 +634,7 @@ In order to determine whether the proposed method yields an output with the corr
 \caption{\label{fig:spectra}{A system with $N = 15.5$ at $f_\text{s} = 44100$} compared to a system with $N = 31$ at $f_\text{s} = 88200$ which are supposed to have the same fundamental frequency $f_0$ according to Eq. \eqref{eq:fundamentalFreq}.}
 \end{figure} 
 
+\SWcomment[Discussion:] As can be seen from the figure, the first 8 harmonic partials of both systems line up exactly ($<0.2\%$ of their respetcive frequency, $<1.3\%$ of the fundamental $f_0$). 
 
 \subsection{Dynamic}
 A modal analysis can be performed on the system. The modal frequency of the $p$'th mode can be retrieved as
