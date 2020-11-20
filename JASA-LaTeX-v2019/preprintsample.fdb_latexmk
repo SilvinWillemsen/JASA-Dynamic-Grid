@@ -2,13 +2,13 @@
 ["bibtex preprintsample"] 0 "preprintsample.aux" "preprintsample.bbl" "preprintsample" 0
   "./jasaauthyear2.bst" 1602579482 48879 6362a0c328f2cf4dc6a1bae33abd6af3 ""
   "myBib.bib" 1602839146 523 9454e0ffcd9b85d2ffb75fab75d1dee4 ""
-  "preprintsample.aux" 1605802942 12880 9b2e6298ccf358b20eace14c279424a4 ""
+  "preprintsample.aux" 1605863255 12880 9b2e6298ccf358b20eace14c279424a4 ""
   "preprintsample.bcf" 0 -1 0 ""
-  "preprintsampleNotes.bib" 1605802942 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "preprintsampleNotes.bib" 1605863255 0 d41d8cd98f00b204e9800998ecf8427e ""
   (generated)
   "preprintsample.bbl"
-["pdflatex"] 1605802942 "/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.tex" "/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.pdf" "preprintsample" 1605802942
-  "/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.aux" 1605802942 8 a94a2480d3289e625eea47cd1b285758 ""
+["pdflatex"] 1605863255 "/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.tex" "/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.pdf" "preprintsample" 1605863255
+  "/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.aux" 1605863255 8 a94a2480d3289e625eea47cd1b285758 ""
   "/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.tex" 1605802926 56405 32e09530c96ceab18ea0c4570532d045 ""
   "/usr/local/texlive/2016/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm" 1246382020 1120 1e8878807317373affa7f7bba4cf2f6a ""
@@ -183,7 +183,7 @@
   (generated)
   "preprintsample.pdf"
   "preprintsampleNotes.bib"
-  "preprintsample.log"
-  "/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.log"
-  "preprintsample.aux"
   "/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.pdf"
+  "preprintsample.log"
+  "preprintsample.aux"
+  "/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.log"
