@@ -15,7 +15,7 @@
 \graphicspath{{figures/}}
 \usepackage[dvips]{epsfig,graphicx}
 \DeclareGraphicsExtensions{.pdf,.jpeg,.png, .eps}
-
+\DeclareMathAlphabet\mathbfcal{OMS}{cmsy}{b}{n}
 \usepackage{xcolor}
 \makeatletter
 \renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
@@ -109,7 +109,7 @@ Simulation of musical instruments through physical modelling is a well establish
 % Due to the vast parameter space of many instruments, using simulations is a much more viable solution for capturing the full expressivity of an instrument than sampling.
 
 
-One of the incentives of simulating the physics of musical instruments rather than recording their real-world counterparts, is that the virtual instrument can be manipulated in physically impossible ways. Examples of this could be to change material properties, or even the shape of the instrument on the fly. An example of a real-world instrument that requires these manipulations is the trombone, where tube-length needs to be dynamic in order to play the instrument. \SWcomment[In a companion article the authors describe a physical model of this instrument as a case study for the techniques presented here.] 
+One of the incentives of simulating the physics of musical instruments rather than sampling their real-world counterparts, is that the virtual instrument can be manipulated in physically impossible ways. Examples of this could be to change material properties, or even the shape of the instrument on the fly. An example of a real-world instrument that requires these manipulations is the trombone, where tube-length needs to be dynamic in order to play the instrument. %\SWcomment[In a companion article the authors describe a physical model of this instrument as a case study for the techniques presented here.] 
 
 % This can be extended from musical instruments to rooms and acoustic simulation with variable shapes
 
@@ -168,10 +168,10 @@ This section will give a brief introduction of physical modelling using FDTD met
 
 \subsection{Discretisation}
 Using FDTD methods, the continuous 1D wave equation in Eq. \eqref{eq:1dwave} can be discretised into points in space and time. The spatial variable can be discretised using $x_l = lh$ (read: $x$ at location $l$) with integer $l \in [0, \hdots, N]$, grid spacing (distance between two consecutive grid points) $h$ (in m) and total number of points $N + 1$ (including the boundaries) where
-\begin{equation}\label{eq:numberOfPoints}
+\begin{equation}\label{eq:numberOfIntervals}
     N = \text{floor}(L/h),
 \end{equation}
-is the total number of intervals between the grid points. The temporal variable can be discretised using $t_n = nk$ with positive integer $n$, time step $k = 1/f_\text{s}$ (in s) and sample rate $f_\text{s}$ (in Hz). The state variable $u$ can then be approximated using $u(x,t) \approx u_l^n$, where grid function $u_l^n$ is ``the state $u$ at spatial index $l$ and time index $n$". The total state at time index $n$ is then denoted as vector $\mathbf{u}^n$ with size $N+1$.
+describes the total number of intervals between the grid points. The temporal variable can be discretised using $t_n = nk$ with positive integer $n$, time step $k = 1/f_\text{s}$ (in s) and sample rate $f_\text{s}$ (in Hz). The state variable $u$ can then be approximated using $u(x,t) \approx u_l^n$, where grid function $u_l^n$ is ``the state $u$ at spatial index $l$ and time index $n$". The total state at time index $n$ is then denoted as vector $\mathbf{u}^n$ with size $N+1$.
 
 The following operators can then be applied to $u_l^n$ to get the following approximations to the derivatives in Eq. \eqref{eq:1dwave}
 \begin{subequations}\label{eq:operators}
@@ -231,9 +231,9 @@ One can rewrite Eq. \eqref{eq:CFL} in terms of grid spacing $h$ to get
 \end{equation}
 This shows that the CFL condition in \eqref{eq:CFL} puts a lower bound on the grid spacing, calculated from the sample rate and wave speed. Usually, the following steps are taken to calculate $\lambda$
 \begin{equation}\label{eq:orderOfCalcGrid}
-    h := ck,\ \ N := \text{floor}(L/h), \ \ h := L/N, \ \ \lambda := \frac{ck}{h}.
+    h := ck,\ \ N := \text{floor}\left(\frac{L}{h}\right), \ \ h := \frac{L}{N}, \ \ \lambda := \frac{ck}{h}.
 \end{equation}
-In other words, condition \eqref{eq:stabilityCond} is first satisfied with equality and used to calculate integer $N$ according to Eq. \eqref{eq:numberOfPoints}. Thereafter, $h$ is recalculated based on $N$ and used to calculate $\lambda$. The calculation of $\lambda$ in Eq. \eqref{eq:orderOfCalcGrid} can be compactly rewritten as
+In other words, condition \eqref{eq:stabilityCond} is first satisfied with equality and used to calculate integer $N$ according to Eq. \eqref{eq:numberOfIntervals}. Thereafter, $h$ is recalculated based on $N$ and used to calculate $\lambda$. The calculation of $\lambda$ in Eq. \eqref{eq:orderOfCalcGrid} can be compactly rewritten as
 \begin{equation}\label{eq:compactLambda}
     \lambda = \frac{ck}{L}\cdot\text{floor}\left(\frac{L}{ck}\right).
 \end{equation}
@@ -270,7 +270,7 @@ Note that only a small deviation of $\lambda$ from condition \eqref{eq:CFL} alre
 
 Secondly, choosing $\lambda < 1$ causes numerical dispersion. See Figures \ref{fig:lambda0.9} and \ref{fig:bandWidths}. Harmonic partials get closer together at higher frequencies (i.e. get more inharmonic) as $\lambda$ decreases, which is generally undesirable.
 
-Apart from the recalculation of $\lambda$ due to the flooring operation in Eq. \eqref{eq:orderOfCalcGrid}, a reason that one would choose $\lambda < 1$ could be to decrease the total number of grid points used in the simulation by increasing $h$. This makes the simulation less computationally expensive, while keeping a desired wave speed $c$ and time step $k$. For 1-dimensional systems, such as the 1D wave equation, this is rarely necessary.
+Apart from the recalculation of $\lambda$ due to the flooring operation in Eq. \eqref{eq:orderOfCalcGrid}, a reason that one would choose $\lambda < 1$ could be to decrease the total number of grid points used in the simulation by increasing $h$. This makes the simulation less computationally expensive, while keeping a desired wave speed $c$ and time step $k$. For 1-dimensional systems such as the 1D wave equation, this is rarely necessary.
 
 \section{Dynamic Parameters}
 This section describes how parameters could be made dynamic using the state of the art and what this means for the simulation quality detailed in Section \ref{sec:quality}. %To clarify, for a parameter to be dynamic refers to its ability to vary over time while the simulation is running.  
@@ -280,13 +280,13 @@ To clarify, a \textit{dynamic} parameter refers to one that is time-varying whil
 % \begin{equation}\label{eq:fundamentalFreq}
 %     f_0 = \frac{c}{2L}\,.
 % \end{equation}
-% If $\lambda = 1$ in \eqref{eq:CFL} and thus condition \eqref{eq:stabilityCond} is satisfied with equality, $L/h$ in Eq. \eqref{eq:numberOfPoints} is an integer and the flooring operation can be ignored. Substituting \eqref{eq:numberOfPoints} into \eqref{eq:fundamentalFreq} yields
+% If $\lambda = 1$ in \eqref{eq:CFL} and thus condition \eqref{eq:stabilityCond} is satisfied with equality, $L/h$ in Eq. \eqref{eq:numberOfIntervals} is an integer and the flooring operation can be ignored. Substituting \eqref{eq:numberOfIntervals} into \eqref{eq:fundamentalFreq} yields
 % \begin{equation}
 %     f_0 = \frac{1}{2Nk}\ ,
 % \end{equation}
 % which shows that if $\lambda = 1$, $N$ solely decides the fundamental frequency of the simulation.
 
-Usually when simulating instruments, the parameters that describe the system are fixed for the entire simulation. For the 1D wave equation used in Section \ref{sec:continuous}, these are the wave speed $c$ and time step $k$ (calculated from the sample rate $f_\text{s}$) from which the grid spacing $h$ and Courant number $\lambda$ are calculated. On top of this, the length $L$ can be changed, but as shown in Eq. \eqref{eq:fundamentalFreqCont}, this can be directly translated to a change in $c$ through the fundamental frequency $f_0$. As $f_\text{s}$ is rarely changed, the sole parameter that could be interesting to make time-varying is $c$. 
+Usually when simulating instruments, the parameters that describe the system are fixed for the entire simulation. For the 1D wave equation used in Section \ref{sec:continuous}, these are the wave speed $c$ and time step $k$ (calculated from the sample rate $f_\text{s}$) from which the grid spacing $h$ and Courant number $\lambda$ are calculated. On top of this, the length $L$ can be changed, but as shown in Eq. \eqref{eq:fundamentalFreqCont}, this can be directly translated to a change in $c$ through the fundamental frequency $f_0$. As $f_\text{s}$ is rarely changed \SWcomment[due to all sorts of issues], the sole parameter that could be interesting to make time-varying is $c$. 
 % Modal synthesis is based on the addition of many sinusoids and is thus defined over the entire space. One can simply change the frequency of these sinusoids and 
 
 % \begin{equation}\label{eq:modalSum}
@@ -296,10 +296,19 @@ Usually when simulating instruments, the parameters that describe the system are
 % The amount of modes that can be included also depends on a stability condition, but it is much easier to work with. One simply excludes modes that do not satisfy this condition. 
 %
 % Using FDTD methods, one uses a discrete set number of points making it hard to transition from one setting to the next.
+As $c$ changes, several things need to be taken into account. First of all, a change in $c$ causes a change in $\lambda$ according to Eq. \eqref{eq:compactLambda} affecting the simulation quality and bandwidth. Secondly, and more importantly, a change in $c$ could result in a change in $N$ through Eq. \eqref{eq:numberOfIntervals}. As $N$ directly relates to the number of grid points, this raises questions as to \textit{where} and especially \textit{how} one would add and remove points to the grid according to the now-dynamic wave speed.
 
-As the number of grid points hangs tightly together with these parameters, changing $c$ would mean a change in $N$ according to Eq. \eqref{eq:orderOfCalcGrid}. This raises questions as to \textit{where} and especially \textit{how} one would add and remove points to the grid according to the now-dynamic wave speed. To avoid this, one could set and fix the number of points of a discrete system and tune the parameters away from the stability condition, such as done in [REF]. As such, one could choose a wave speed $c$, set and fix $N$ at the beginning of the simulation and decrease the value of $c$. This would avoid problems with stability, as decreasing $c$ would continue to satisfy condition \eqref{eq:stabilityCond}, but the simulation would, however, end up with lower quality, exhibiting dispersive and bandlimiting effects as discussed in Section \ref{sec:quality}. In essence, decreasing the value of $c$ immediately translates to decreasing the value of $\lambda$ as $h$ and $k$ are left unchanged.
+A solution to the latter is to set and fix $N$ and tune $c$ away from the stability condition by decreasing it, such as done in [REF]. This would avoid problems with stability, as decreasing $c$ would continue to satisfy condition \eqref{eq:stabilityCond}, but the simulation would end up with lower quality, exhibiting dispersive and bandlimiting effects as discussed in Section \ref{sec:quality}. In essence, decreasing the value of $c$ immediately translates to decreasing the value of $\lambda$ as $h$ and $k$ are left unchanged. On top of this, $c$ is limited by Eq. \eqref{eq:CFL} and increasing it beyond a certain value would render the system unstable.
 
-To implement a physical model with dynamic parameters and an optimal simulation quality at all times, a method needs to be devised to dynamically change the number of grid points.
+The only way to circumvent the aforementioned undesirable effects such as dispersion and bandlimiting, is to somehow allow $N$ to be fractional \SWcomment[(i.e., non-integer)]. This will remove the flooring operation in Eq. \eqref{eq:numberOfIntervals} and Eq. \eqref{eq:compactLambda}, and will consequently satisfy the CFL condition in \eqref{eq:CFL} with equality at all times. Eq. \eqref{eq:fundamentalFreqCont} can then be rewritten in terms of $N$ by substituting Eq. \eqref{eq:numberOfIntervals} into Eq. \eqref{eq:fundamentalFreqCont} (using Eq. \eqref{eq:stabilityCond} satisfied with equality) yielding
+\begin{equation}\label{eq:fundamentalFreq}
+    f_0 = \frac{1}{2Nk}\ .
+\end{equation}
+This shows that if $\lambda = 1$, $N$, which is now not necessarily an integer, solely decides the fundamental frequency of the simulation. 
+
+As this still leaves the question of where and how to add and remove points to and from the grid
+%. To implement a physical model with dynamic parameters and an optimal simulation quality at all times,
+a method needs to be devised to dynamically and smoothly change the number of grid points. This paper proposes a method to do this and is described in the following section. %The following section describes the requirements for such a method to successfully do this.
 
 % Section \ref{sec:quality} shows several arguments for why these parameters should be fixed. The stability of the simulation relies on the parameters of the scheme and needs to be satisfied as close to the condition  When the stability condition is calculated,
 
@@ -312,7 +321,7 @@ To implement a physical model with dynamic parameters and an optimal simulation 
 %     f_0 = \frac{c}{2L}\,,
 % \end{equation}
 % from which one can see that, in terms of fundamental frequency a halving the length is identical to doubling the wave speed. 
-% If $\lambda = 1$ in \eqref{eq:CFL} and thus condition \eqref{eq:stabilityCond} is satisfied with equality, $L/h$ in Eq. \eqref{eq:numberOfPoints} is an integer and the flooring operation can be ignored. Substituting \eqref{eq:numberOfPoints} into \eqref{eq:fundamentalFreq} yields
+% If $\lambda = 1$ in \eqref{eq:CFL} and thus condition \eqref{eq:stabilityCond} is satisfied with equality, $L/h$ in Eq. \eqref{eq:numberOfIntervals} is an integer and the flooring operation can be ignored. Substituting \eqref{eq:numberOfIntervals} into \eqref{eq:fundamentalFreq} yields
 % \begin{equation}
 %     f_0 = \frac{1}{2Nk}\ ,
 % \end{equation}
@@ -321,14 +330,30 @@ To implement a physical model with dynamic parameters and an optimal simulation 
 \section{The Dynamic Grid}
 By now, it is hopefully clear to the reader why dynamic parameters would make an interesting case in the field of physical modelling, and why dynamic grids would be a good solution to undesirable behaviour such as a decrease in bandwidth and increase in numerical dispersion discussed in Section \ref{sec:quality}. %This section will describe the problems that arise when adding and removing grid points. Afterwards, some iterations done over the course of this project and their drawbacks will be shown, leading up to the final implementation of the dynamic grid. 
 
-The first questions that need to be answered are ``where to add points?" and ``how to add points?" The problems when doing this range from artifacts or auditory `clicks' in the output sound to ``exploding" systems due to artificial injection of energy. In this section, the iterations done over the course of this project will briefly be described, the details of each can be found in Appendix \ref{app:A}. Then, the proposed method will be described in detail.
+% The first questions that need to be answered are ``where to add points?" and ``how to add points?" The problems when doing this range from artifacts or auditory `clicks' in the output sound to ``exploding" systems due to artificial injection of energy. 
+In this section, the requirements of a method that dynamically changes the grid will be explained. After this the iterations done over the course of this project will briefly be described, the details of each can be found in Appendix \ref{app:A}. Finally, the proposed method will be described in detail and summarised in the end.
 
+\subsection{Method requirements}
+Ideally, a method that dynamically changes the grid size of finite-difference schemes should
+\begin{enumerate}
+    \item generate an output with a fundamental frequency $f_0$ %described by Eq. \eqref{eq:fundamentalFreq} 
+    which is (linearly) proportional to $c$ ($f_0 \propto c$),
+    \item allow for a fractional $N$ to smoothly transition 
+    %between different $f_0$s,
+    %\item smoothly transition 
+    between different numbers of grid points so that no artefacts (auditory clicks) are present in the output sound,
+    \item generate an output containing harmonic partials -- or modes -- which are integer multiples of the fundamental ($f_p = f_0 p$ with integer $p$),
+    \item generate an output with $N-1$ modes corresponding to the number of moving points of the system ($p = [1, \hdots, N-1]$),\\
+    \item work in real time.
+\end{enumerate}
+%
+% The total amount of modes is expected to be equal to $N-1$ corresponding to the total number of moving grid points (points excluding the boundary).
 %As the variables $c$, $h$, $\lambda$ and $N$ are now time-varying, a superscript $n$ or $n-1$ is added when necessary. If omitted, a time index $n$ is assumed.
 
 \subsection{Iterations}\label{sec:iterations}
 One method that could be used to go from one grid configuration to the next is full-grid interpolation as described in \cite[Chap. 5]{bilbao2009}. However, this method essentially has a lowpassing effect on the system state and can cause `clicks' in the output sound due to the interpolation. A (much) higher sample rate could be used to avoid these issues, but this would render this method impossible to work in real time.
 
-Another method is to add and remove points at the boundary using an interpolated boundary condition, the possibility of which has been briefly mentioned in \cite[p. 145]{bilbao2009}. If the boundary is fixed through Eq. \eqref{eq:contDirichlet}, the state at this location will always be $0$ and potentially allows for smooth entry and exit of grid points. This method can be seen analogous to tuning a guitar string where string-material enters and leaves the playable part of the string at the nut, the boundary. The interpolated nature of the boundary allows for a ``fractional" number of points, removing the flooring operation in Eq. \eqref{eq:compactLambda} and always satisfying the CFL condition with equality. \SWcomment[This has the added feature that $L/h$ in Eq. \eqref{eq:numberOfPoints} is an integer and the flooring operation can be ignored. Substituting Eq. \eqref{eq:numberOfPoints} into Eq. \eqref{eq:fundamentalFreqCont} (using Eq. \eqref{eq:stabilityCond} satisfied with equality) yields
+Another method is to add and remove points at the boundary using an interpolated boundary condition, the possibility of which has been briefly mentioned in \cite[p. 145]{bilbao2009}. If the boundary is fixed through Eq. \eqref{eq:contDirichlet}, the state at this location will always be $0$ and potentially allows for smooth entry and exit of grid points. This method can be seen analogous to tuning a guitar string where string-material enters and leaves the playable part of the string at the nut, the boundary. The interpolated nature of the boundary allows for a ``fractional" number of points, removing the flooring operation in Eq. \eqref{eq:compactLambda} and always satisfying the CFL condition with equality. \SWcomment[This has the added feature that $L/h$ in Eq. \eqref{eq:numberOfIntervals} is an integer and the flooring operation can be ignored. Substituting Eq. \eqref{eq:numberOfIntervals} into Eq. \eqref{eq:fundamentalFreqCont} (using Eq. \eqref{eq:stabilityCond} satisfied with equality) yields
 \begin{equation}\label{eq:fundamentalFreq}
     f_0 = \frac{1}{2Nk}\ ,
 \end{equation}
@@ -339,7 +364,7 @@ Although informal testing shows that adding points to the grid can happen smooth
 This section introduces the proposed method of dynamically and smoothly changing the grid to account for dynamic parameter changes. To avoid the issues of adding and removing points at the boundary due to boundary conditions, they can be added or removed along the grid instead. For the sake of simplicity in explanation, the location is chosen to be the center of the system. At the end of this section, the location exhibiting the best behaviour will be shown. In the following, the location of a grid point (in m from the left boundary) $i$ (such as $i = u_0$) is denoted by $x_i$. 
 
 \subsubsection{System Setup}\label{sec:systSetup}
-Consider a grid function, $u_l^n$ with integer $M_u = \text{ceil}(0.5/ck)$ (or simply $M$ below for brevity) and $w_l^n$ with integer $M_w = \text{floor}(0.5/ck)$ points, i.e., half the number of points allowed by the stability condition, plus one for overlap (see Figure \ref{fig:twoFreeStrings}). In the following, state (column) vectors $\mathbf{u}^n = [u_0^n, u_1^n, \hdots, u_M^n]^T$ and $\mathbf{w}^n = [w_0^n, w_1^n, \hdots, w_{M_w}^n]^T$ (with $T$ denoting the transpose operation) and have $M + 1$ and $M_{w} + 1$ points respectively (including the boundary). The following boundary conditions are then imposed:
+Consider a grid function, $u_l^n$ with integer $M_u = \text{ceil}(0.5L/ck)$ (or simply $M$ below for brevity) and $w_l^n$ with integer $M_w = \text{floor}(0.5L/ck)$ points, i.e., half the number of points allowed by the stability condition, plus one for overlap (see Figure \ref{fig:twoFreeStrings}). In the following, state (column) vectors $\mathbf{u}^n = [u_0^n, u_1^n, \hdots, u_M^n]^T$ and $\mathbf{w}^n = [w_0^n, w_1^n, \hdots, w_{M_w}^n]^T$ (with $T$ denoting the transpose operation) and have $M + 1$ and $M_{w} + 1$ points respectively (including the boundary). The following boundary conditions are then imposed:
 \begin{subequations}\label{eq:halfStringBoundaryCond}
     \begin{align}
         u_0^n = w_{M_w}^n &= 0,\quad \text{(Dirichlet)}\label{eq:halfStringBoundaryCondDirichlet}\\
@@ -400,7 +425,7 @@ Because of Eq. \eqref{eq:rigid}, it is also true that $\delta_{tt}u_M^n = \delta
 Substituting this into system \eqref{eq:expandedSystem} after expansion of the second-time derivative yields
 \begin{equation}\label{eq:resultOneConnectedPoint}
     \!\begin{cases}
-    u^{n+1}_M = 2u_M^n - u_n^{n-1} + \lambda^2(u_{M-1}^n-2u_M^n+w_1^n)\\
+    u^{n+1}_M = 2u_M^n - u_M^{n-1} + \lambda^2(u_{M-1}^n-2u_M^n+w_1^n)\\
     w^{n+1}_0 = 2w_0^n - w_0^{n-1} + \lambda^2(u_{M-1}^n-2w_0^n+w_1^n)
     \end{cases}
 \end{equation}
@@ -418,14 +443,15 @@ If the wave speed $c$ is then decreased, and consequently the grid spacing $h$ a
 % \caption{\label{fig:twoFreeStringsGridMove}{When the grid changes ($N = 30.5$). The x-axis shows the location (in m) of the respective grid points (fx. $x_{u_l^n}$), but the $x$ is omitted for clarity.}}
 % \end{figure}
 %
-As mentioned above, the state of $\mathbf{w}$ can be used to calculate the virtual grid point needed at the right boundary of $\mathbf{u}$ and vice versa. If $x_{u_{M+1}} \neq x_{w_1}$ (and thus $x_{w_{-1}} \neq x_{u_{M-1}}$) \SWcomment[$\leftarrow$ I think this is clearer than simply saying $x_{w_0} \neq x_{u_M}$ as these are used in the Eqs. in \eqref{eq:interpolationGeneral} below] an interpolator $I(x_i)$ at location $x_i$ (in m) can be used to calculate the value of this virtual grid point
+As mentioned above, the state of $\mathbf{w}$ can be used to calculate the virtual grid point needed at the right boundary of $\mathbf{u}$ and vice versa. If $x^n_{u_{M+1}} \neq x^n_{w_1}$ (and thus $x^n_{w_{-1}} \neq x^n_{u_{M-1}}$) \SWcomment[$\leftarrow$ I think this is clearer than simply saying $x_{w_0} \neq x_{u_M}$ as these are used in the Eqs. in \eqref{eq:interpolationGeneral} below] an interpolator $I(x_i)$ at location $x_i$ (in m) can be used to calculate the value of this virtual grid point
 \begin{subequations}\label{eq:interpolationGeneral}
     \begin{align}
-        u_{M+1}^n &= I(x_{u_{M+1}})w_l^n% = (1-\alpha)w_1^n + \alpha w_0^n
+        u_{M+1}^n &= I^*(x^n_{u_{M+1}})w_l^n% = (1-\alpha)w_1^n + \alpha w_0^n
         \\
-        w_{-1}^n &= I(x_{w_{-1}})u_l^n.% = (1-\alpha)u_{M-1}^n + \alpha u_M^n
+        w_{-1}^n &= I(x^n_{w_{-1}})u_l^n,% = (1-\alpha)u_{M-1}^n + \alpha u_M^n
     \end{align}
 \end{subequations}
+where $I^*$ \SWcomment[interpolates right to left (uses $\alpha = (1-\alpha)$)]. 
 % where
 % \begin{equation}
 %     \alpha = \frac{x_{w_0} - x_{u_M}}{h},
@@ -435,14 +461,14 @@ As mentioned above, the state of $\mathbf{w}$ can be used to calculate the virtu
 If linear interpolator $I_1$ is used, the Eqs. in \eqref{eq:interpolationGeneral} can easily be calculated from known values according to
 \begin{subequations}
     \begin{align}
-        u_{M+1}^n &= I_1(x_{u_{M+1}})w_l^n = (1-\alpha)w_1^n + \alpha w_0^n
+        u_{M+1}^n &= I_1^*(x^n_{u_{M+1}})w_l^n = (1-\alpha)w_1^n + \alpha w_0^n
         \\
-        w_{-1}^n &= I_1(x_{w_{-1}})u_l^n = (1-\alpha)u_{M-1}^n + \alpha u_M^n
+        w_{-1}^n &= I_1(x^n_{w_{-1}})u_l^n = (1-\alpha)u_{M-1}^n + \alpha u_M^n
     \end{align}
 \end{subequations}
 where
 \begin{equation}
-    \alpha = \frac{x_{w_0} - x_{u_M}}{h}\,.
+    \alpha = \alpha^n = \frac{x^n_{w_0} - x^n_{u_M}}{h}\,.
 \end{equation}
 Also see Figure \ref{fig:twoFreeStringsGridZoomed}.
 % \begin{figure}[h]
@@ -454,11 +480,11 @@ Using $I_1$, analysis of the output shows that the expected fundamental frequenc
 \begin{subequations}\label{eq:connectionInterpol}
 \begin{align}
     &\begin{aligned}\label{eq:calcUMP1}
-        u_{M+1}^n &= I_3(x_{u_{M+1}})w_l^n\\
+        u_{M+1}^n &= I_3^*(x^n_{u_{M+1}})w_l^n\\
         &= \alpha_\text{I}w_2^n + \beta_\text{I}w_1^n + \gamma_\text{I}w_0^n + \delta_\text{I} w_{-1}^n
     \end{aligned}\\
     &\ \ \begin{aligned}\label{eq:calcWM1}
-        w_{-1}^n &= I_3(x_{w_{-1}})u_l^n \\
+        w_{-1}^n &= I_3(x^n_{w_{-1}})u_l^n \\
         &=\alpha_\text{I} u_{M-2}^n + \beta_\text{I}u_{M-1}^n+ \gamma_\text{I}u_M^n + \delta_\text{I} u_{M+1}^n.
     \end{aligned}
 \end{align}
@@ -477,21 +503,21 @@ Treating \eqref{eq:connectionInterpol} as a system of linear equations, the virt
     w_{-1}^n
     \end{bmatrix}
     =
-    \mathbf{A}\begin{bmatrix}
+    \mathbfcal{A}\begin{bmatrix}
     \alpha_\text{I} w_2^n+ \beta_\text{I}w_1^n + \gamma_\text{I}w_0^n \\
     \alpha_\text{I} u_{M-2}^n + \beta_\text{I}u_{M-1}^n + \gamma_\text{I} u_{M}^n
     \end{bmatrix},
 \end{equation}
 where
-\begin{equation}
-    \mathbf{A} = \begin{bmatrix}
+\begin{equation}\label{eq:Amat}
+    \mathbfcal{A} = \begin{bmatrix}
          1 & -\delta_\text{I} \\
          -\delta_\text{I} & 1
     \end{bmatrix}^{-1}.\nonumber
 \end{equation}
 % where
 % \begin{equation}\nonumber
-%     \mathbf{A} = \begin{bmatrix}
+%     \mathbfcal{A} = \begin{bmatrix}
 %          1 & -\delta_\text{I} \\
 %          -\delta_\text{I} & 1
 %     \end{bmatrix},
@@ -575,7 +601,7 @@ The inner boundaries are calculated using
     w_0^{n+1} &= w_{-1}^n - w_0^{n-1}.
 \end{align}
 where virtual grid points $u_{M+1}^n$ and $w_{-1}^n$ can be calculated using Eq. \eqref{eq:linSystSolution} with Eq. \eqref{eq:uMP1Simplified} instead of Eq. \eqref{eq:calcUMP1} and yields
-\begin{equation}
+\begin{equation}\label{eq:calcVirtualGridPoints}
     \begin{bmatrix}
     u_{M+1}^n \\
     w_{-1}^n
@@ -585,43 +611,61 @@ where virtual grid points $u_{M+1}^n$ and $w_{-1}^n$ can be calculated using Eq.
     %      1 & -\delta_\text{I} \\
     %      -\delta_\text{I} & 1
     % \end{bmatrix}^{-1}
-    \mathbf{A}
+    \mathbfcal{A}
     \begin{bmatrix}
     (\gamma_\text{I}-\alpha_\text{I}) w_0^n \\
     \alpha_\text{I} u_{M-2}^n + \beta_\text{I}u_{M-1}^n + \gamma_\text{I} u_{M}^n
-    \end{bmatrix}.
+    \end{bmatrix},
 \end{equation}
-The total system can then be written in matrix form as
+where definitions for  $\alpha_\text{I}$, $\beta_\text{I}$, $\gamma_\text{I}$ (, $\delta_\text{I}$) and $\mathbfcal{A}$ can be found in \eqref{eq:interpolationCoeffs} and \eqref{eq:Amat}.
+
+Defining state vector $\mathbfcal{U}^n$ as a concatenation of $\mathbf{u}^n$ and $\mathbf{w}^n$ excluding the boundaries
 \begin{equation}
-    \begin{bmatrix}
-        \mathbf{u}^{n+1} \\
-        \mathbf{w}^{n+1}
-    \end{bmatrix} = 
+    \mathbfcal{U}^n = [u_1^n, u_2^n, \hdots u_M^n, w_0^n]^T,
+\end{equation}
+the total system can then be written in matrix form as
+\begin{equation}\label{eq:totalSystem}
+    \mathbfcal{U}^{n+1} = 
     \mathbf{B} 
-    \begin{bmatrix}
-        \mathbf{u}^{n} \\
-        \mathbf{w}^{n}
-    \end{bmatrix}
-    - \begin{bmatrix}
-        \mathbf{u}^{n-1} \\
-        \mathbf{w}^{n-1}
+    \mathbfcal{U}^n
+    - \mathbfcal{U}^{n-1}
+\end{equation}
+with $N \times N$ matrix
+\begin{equation}\small
+    \mathbf{B} = \begin{bmatrix}[cccccccc|cc]
+    & & 0 & 1 & & & & & & \\
+    & & 1 & 0 & 1 & & \mathbf{0} & &\mathbf{0} & \\
+    & & &\ddots &\ddots & \ddots  & & & & \\
+    & & & &1 & 0 & 1 & & & \\
+    & & \mathbf{0} & &  & 1 & 0 & 1 & & \\
+    & & & &  & \mathbfcal{I}_{1,1} &\mathbfcal{I}_{1,2} + 1 &\mathbfcal{I}_{1,3} & \mathbfcal{I}_{1,4}& \\ \cline{2-9}
+    & & \mathbf{0} & & &\mathbfcal{I}_{2,1} &\mathbfcal{I}_{2,2}&\mathbfcal{I}_{2,3} & \mathbfcal{I}_{2,4} & 
     \end{bmatrix}
 \end{equation}
-where
-\begin{equation}\small\label{eq:BMat}
-    \mathbf{B} = \begin{bmatrix}[ccccccc|cc]
-    & &\ddots &\ddots & \ddots  & & \mathbf{0} & & \\
-     & & &1 & 0 & 1 & & \mathbf{0} & \\
-     & & &  & 1 & 0 & 1 & & \\
-     & &\mathbf{0} &  & \mathbf{A}_{1, 2}\alpha_\text{I} &\mathbf{A}_{1, 2}\beta_\text{I} + 1 &\mathbf{A}_{1, 2}\gamma_\text{I} & \mathbf{A}_{1, 1}(\gamma_\text{I}-\alpha_\text{I})& \\ \cline{2-8}
-     & & \mathbf{0} & &\mathbf{A}_{2, 2}\alpha_\text{I} &\mathbf{A}_{2, 2}\beta_\text{I}&\mathbf{A}_{2, 2}\gamma_\text{I} & \mathbf{A}_{2,1}(\gamma_\text{I} - \alpha_\text{I}) & 
-    \end{bmatrix}.
+%
+% \begin{equation}\small
+%     \mathbf{B} = \begin{bmatrix}[ccccccc|cc]
+%     & &\ddots &\ddots & \ddots  & & \mathbf{0} & & \\
+%      & & &1 & 0 & 1 & & \mathbf{0} & \\
+%      & & &  & 1 & 0 & 1 & & \\
+%      & &\mathbf{0} &  & \mathbfcal{A}_{1, 2}\alpha_\text{I} &\mathbfcal{A}_{1, 2}\beta_\text{I} + 1 &\mathbfcal{A}_{1, 2}\gamma_\text{I} & \mathbfcal{A}_{1, 1}(\gamma_\text{I}-\alpha_\text{I})& \\ \cline{2-8}
+%      & & \mathbf{0} & &\mathbfcal{A}_{2, 2}\alpha_\text{I} &\mathbfcal{A}_{2, 2}\beta_\text{I}&\mathbfcal{A}_{2, 2}\gamma_\text{I} & \mathbfcal{A}_{2,1}(\gamma_\text{I} - \alpha_\text{I}) & 
+%     \end{bmatrix}
+% \end{equation}
+and interpolation matrix
+\begin{equation}
+    \mathbfcal{I} = \begin{bmatrix}
+        \mathbfcal{A}_{1,2}\alpha_\text{I}&   \mathbfcal{A}_{1,2}\beta_\text{I}&  \mathbfcal{A}_{1,2}\gamma_\text{I} &  \mathbfcal{A}_{1,1}(\gamma_\text{I} - \alpha_\text{I}) \\
+        \mathbfcal{A}_{2,2}\alpha_\text{I}&   \mathbfcal{A}_{2,2}\beta_\text{I}&  \mathbfcal{A}_{2,2}\gamma_\text{I} &  \mathbfcal{A}_{2,1}(\gamma_\text{I} - \alpha_\text{I}) 
+    \end{bmatrix}.\nonumber
 \end{equation}
+
 \SWcomment[One can see that if $\alpha \lesssim 1$ in \eqref{eq:interpolationCoeffs}, then $\gamma_\text{I} \approx 1$ and $\alpha_\text{I}\approx \beta_\text{I} \approx \delta_\text{I} \approx 0$. This will reduce $\mathbf{B}$ to a matrix with ones on the diagonals next to the main diagonal and zeros elsewhere.]
 
 Finally, when $M^n > M^{n-1}$ a point is added from $\mathbf{u}^n$ and $\mathbf{u}^{n-1}$ using Eq. \eqref{eq:addingPoint}, and when $M^n < M^{n-1}$ a point is removed from the same vectors using Eq. \eqref{eq:removingPoint}.
 
 \section{Results}\label{sec:results}
+% \subsection{Expected behaviour}
 This section shows the analysis of the system presented in the previous section and its behaviour.
 
 \subsection{Static}
@@ -637,13 +681,12 @@ In order to determine whether the proposed method yields an output with the corr
 \SWcomment[Discussion:] As can be seen from the figure, the first 8 harmonic partials of both systems line up exactly ($<0.2\%$ of their respetcive frequency, $<1.3\%$ of the fundamental $f_0$). 
 
 \subsection{Dynamic}
-A modal analysis can be performed on the system. The modal frequency of the $p$'th mode can be retrieved as
+A modal analysis can be performed on system \eqref{eq:totalSystem}. The modal frequency of the $p$'th mode can be retrieved as
 \begin{equation}
-    f_p = \frac{1}{2\pi k}\cos^{-1}\left(\frac{1}{2}\text{eig}_p(\mathbf{B})\right)
+    f_p = \frac{1}{2\pi k}\cos^{-1}\left(\frac{1}{2}\text{eig}_p(\mathbf{B})\right).
 \end{equation}
-with $\mathbf{B}$ as defined in Eq. \eqref{eq:BMat}.
 
-As a test case, the wave speed is changed from $c = 2940$ ($N = 15$) to $c = 2205$ ($N = 20$) and the results are shown in Figure \ref{fig:modalAnalysis}. Figure \ref{fig:spectrogram} shows the resulting spectrogram of the system excited at $n=0$ with a narrow raised cosine
+As a test case, the wave speed is dynamically varied from $c = 2940$ ($N = 15$) to $c = 2205$ ($N = 20$), changing $\mathbf{B}$ and thus the modal frequencies over time, and the results of the analysis are shown in Figure \ref{fig:modalAnalysis}. Figure \ref{fig:spectrogram} shows the resulting spectrogram of the system excited at $n=0$ with a narrow raised cosine and the output retrieved at $u_1^n$.
 
 \begin{figure}[ht]
 %% \reprintcolumnwidth is the same in preprint and reprint for
@@ -651,7 +694,6 @@ As a test case, the wave speed is changed from $c = 2940$ ($N = 15$) to $c = 220
 \includegraphics[width=\reprintcolumnwidth]{modesAddPointsAtRightBound.eps}
 \caption{\label{fig:modalAnalysis}{Modal analysis}}
 \end{figure} 
-
 \begin{figure}[ht]
 %% \reprintcolumnwidth is the same in preprint and reprint for
 %% ease of use for authors:
@@ -659,13 +701,35 @@ As a test case, the wave speed is changed from $c = 2940$ ($N = 15$) to $c = 220
 \caption{\label{fig:spectrogram}{System output}}
 \end{figure} 
 
+From Figure \ref{fig:modalAnalysis} one can observe several things. 
+\begin{itemize}
+    \item At every integer $N$ there are $N$ modes, $N-1$ of which are integer multiples of each other corresponding to the amount of moving points,  plus one extra due to the overlap. 
+\end{itemize}
+
+As can be seen from the spectrum in Figure \ref{fig:spectrogram}
+
+\subsection{Limit on speed of change}
+The method presented in this paper can only add one point per sample using Eq. \eqref{eq:addingPoint}. The speed of decreasing $f_0$ by increasing the number of points is thus limited by the following condition
+\begin{equation}\label{eq:pointCondition}
+    N^n - N^{n-1} \leq 1 
+\end{equation}
+
+Notes:
+In the case that $\alpha = 0$ in Eq. \eqref{eq:totalSystem} (and thus $x_{u_M} = x_{w_0}$), one could go up to adding two points at a time by adding $u_{M+1}^n$ according to Eq. \eqref{eq:addingPoint} and adding an extra point $u_{M+2}^n$ using \eqref{eq:calcVirtualGridPoints} (in this case $u_{M+2}^n = w_0^n$). This would, however, not work if $\alpha \neq 0$, as a point added to $\mathbf{u}^n$ with $x_\text{i} < w_0$ needs interpolator \eqref{eq:customIp} and $\alpha'$ would be greater than $1$. As Eq. \eqref{eq:customIp} only works if $0\leq \alpha' \leq 1$, it is best to abide condition \eqref{eq:pointCondition} to be safe. 
+
+No speed limit if
+\begin{equation}
+    \text{floor}(N^n) = \text{floor}(N^{n-1})\Rightarrow M^n = M^{n-1},
+\end{equation}
+i.e., if no points are added or removed from the system. 
+
 \section{Discussion}
 Applications could be non-linear systems where parameters are modulated based on the state of the system. 
 
 The proposed method does not provide the exact solution to the problem, but does circumvent the need for upsampling and higher orders of computations necessary to approximate this solution. Even though interpolation needs to happen, the drawbacks of full-grid interpolation can be avoided by not `listening' to the location where points are added but rather closer to the boundary. If one wants to listen to the center, the location where points are added or removed can easily be changed.
 
 
- frequency domain, the locations of the partials comparing the discrete 1D wave with $N = 30.5$ and $f_\text{s} = 44100$ (interpolation needs to happen) with $N = 61$ and $f$ 
+frequency domain, the locations of the partials comparing the discrete 1D wave with $N = 30.5$ and $f_\text{s} = 44100$ (interpolation needs to happen) with $N = 61$ and $f$ 
 
 If the amount that a parameter changes within a small enough period of time (give values here, hopefully referring back to the results) the fact that points are added at a specific location (rather than distributed over the grid) will not matter as... 
 
@@ -724,7 +788,7 @@ This is visualised in Figure \ref{fig:simplySupportedBound}.
 \caption{\label{fig:simplySupportedBound}{The simply supported boundary condition: both the state and the curvature at the boundary -- at $l=0$ -- should be $0$.}}
 \end{figure} 
 
-If the flooring operation in Eq. \eqref{eq:numberOfPoints} is removed this introduces a fractional number of grid points.
+If the flooring operation in Eq. \eqref{eq:numberOfIntervals} is removed this introduces a fractional number of grid points.
 
 
 The by-product of using a fractional $N$ this is that the CFL condition in \eqref{eq:CFL} can now always be satisfied with equality no matter what the wave speed is.
