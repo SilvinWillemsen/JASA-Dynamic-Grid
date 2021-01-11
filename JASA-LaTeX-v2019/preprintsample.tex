@@ -382,7 +382,7 @@ i.e., the outer boundaries are fixed and the inner boundaries are free.
 \figcolumn{
 \fig{twoFreeStrings}{\reprintcolumnwidth}{(A)}\label{fig:twoFreeStrings}
 \fig{twoFreeStringGridMove}{\reprintcolumnwidth}{(B)}\label{fig:twoFreeStringsGridMove}
-\fig{twoFreeStringGridMoveZoomed}{\reprintcolumnwidth}{(C)}\label{fig:twoFreeStringsGridZoomed}
+\fig{twoFreeStringGridMoveZoomed2}{\reprintcolumnwidth}{(C)}\label{fig:twoFreeStringsGridZoomed}
 }
 \caption{Illustration of the proposed method. (A) Locations of the states of two (1D wave) systems connected at the inner boundary ($N = 30$, $x_{u_M} = x_{w_0}$). (B) When $c$ -- and consequently $h$ -- are decreased and the positions of the grid points change ($N = 30.5$, $x_{u_M} \neq x_{w_0}$). (C) Figure \ref{fig:twoFreeStringsGridMove} zoomed-in around $x_{u_M}$ and $x_{w_0}$. The states at the inner boundaries $u_M$ and $w_0$ are shown together with virtual grid points $u_{M+1}$ and $w_{-1}$. In all figures, the x-axis shows the location (in m) of the respective grid points (fx. $x_{u_l}$), but the $x$ is omitted for brevity.}
 \end{figure}
@@ -550,9 +550,11 @@ This simplifies Eq. \eqref{eq:calcUMP1} to
 \end{equation}
 and can be inserted in Eq. \eqref{eq:linSystSolution}. 
 
-When $c$, and consequently $h$, is decreased and the boundary points surpass the virtual points (i.e. $x_{u_M} \leq x_{w_{-1}}$ and $x_{u_{M+1}} \leq x_{w_0}$) and $M^n > M^{n-1}$ (calculated using \eqref{eq:Mdefinition}), a point approximating $u_{M+1}^n$ is added at the right boundary of $\mathbf{u}^n$ (for both time indices $n$ and $n-1$)
+When $c$, and consequently $h$, is decreased and the boundary points surpass the virtual points (i.e. $x^n_{u_M} \leq x^n_{w_{-1}}$ and $x^n_{u_{M+1}} \leq x^n_{w_0}$) and $M^n > M^{n-1}$ (calculated using \eqref{eq:Mdefinition}), a point approximating $u_{M+1}^n$ is added at the right boundary of $\mathbf{u}^n$ (for both time indices $n$ and $n-1$)
 \begin{equation}\label{eq:addingPoint}
-       \mathbf{u}^n = [(\mathbf{u}^n)^T, I_3'(x_{u_{M+1}})\mathbf{v}^n]^T
+       \mathbf{u}^n = \begin{bmatrix}
+       \mathbf{u}^n\\ I_3'(x^n_{u_{M+1}})\mathbf{v}^n
+       \end{bmatrix},
 \end{equation}
 where
 \begin{equation*}
@@ -566,8 +568,8 @@ and
 \end{equation}
 \SWcomment[(created using 4-point Lagrange interpolation)] with
 \begin{equation}
-    \alpha' = \frac{x_{w_0} - (x_{u_M} + h)}{h}\ .\nonumber
-\end{equation}
+    \alpha' = \frac{x^n_{w_0} - (x^n_{u_M} + h)}{h}\ .\nonumber
+\end{equation}  
 See Figure \ref{fig:addingPoint}.
 % Note that this operation is done for both time indices $n$ and $n-1$.
 
