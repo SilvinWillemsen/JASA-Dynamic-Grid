@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.11.3)  26 JAN 2021 17:26
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.11.3)  26 JAN 2021 17:35
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -547,10 +547,10 @@ File: ulnLambda1-eps-converted-to.pdf Graphic file (type pdf)
 Package pdftex.def Info: ulnLambda1-eps-converted-to.pdf used on input line 225.
 (pdftex.def)             Requested size: 127.5pt x 95.6222pt.
 Package epstopdf Info: Source file: <ulnLambda09.eps>
-(epstopdf)                    date: 2021-01-26 11:48:20
+(epstopdf)                    date: 2021-01-26 17:30:33
 (epstopdf)                    size: 19732 bytes
 (epstopdf)             Output file: <ulnLambda09-eps-converted-to.pdf>
-(epstopdf)                    date: 2021-01-26 11:48:21
+(epstopdf)                    date: 2021-01-26 17:34:10
 (epstopdf)                    size: 8269 bytes
 (epstopdf)             Command: <repstopdf --outfile=ulnLambda09-eps-converted-to.pdf ulnLambda09.eps>
 (epstopdf)             \includegraphics on input line 225.
@@ -594,10 +594,10 @@ File: bandwidthLambda1-eps-converted-to.pdf Graphic file (type pdf)
 Package pdftex.def Info: bandwidthLambda1-eps-converted-to.pdf used on input line 253.
 (pdftex.def)             Requested size: 127.5pt x 95.6222pt.
 Package epstopdf Info: Source file: <bandwidthLambda09.eps>
-(epstopdf)                    date: 2021-01-26 11:48:20
+(epstopdf)                    date: 2021-01-26 17:30:33
 (epstopdf)                    size: 84999 bytes
 (epstopdf)             Output file: <bandwidthLambda09-eps-converted-to.pdf>
-(epstopdf)                    date: 2021-01-26 11:48:22
+(epstopdf)                    date: 2021-01-26 17:34:10
 (epstopdf)                    size: 36324 bytes
 (epstopdf)             Command: <repstopdf --outfile=bandwidthLambda09-eps-converted-to.pdf bandwidthLambda09.eps>
 (epstopdf)             \includegraphics on input line 253.
@@ -608,10 +608,10 @@ File: bandwidthLambda09-eps-converted-to.pdf Graphic file (type pdf)
 Package pdftex.def Info: bandwidthLambda09-eps-converted-to.pdf used on input line 253.
 (pdftex.def)             Requested size: 127.5pt x 95.6222pt.
 Package epstopdf Info: Source file: <bandwidthLambda05.eps>
-(epstopdf)                    date: 2021-01-26 11:48:20
+(epstopdf)                    date: 2021-01-26 17:30:33
 (epstopdf)                    size: 87073 bytes
 (epstopdf)             Output file: <bandwidthLambda05-eps-converted-to.pdf>
-(epstopdf)                    date: 2021-01-26 11:48:22
+(epstopdf)                    date: 2021-01-26 17:34:11
 (epstopdf)                    size: 36236 bytes
 (epstopdf)             Command: <repstopdf --outfile=bandwidthLambda05-eps-converted-to.pdf bandwidthLambda05.eps>
 (epstopdf)             \includegraphics on input line 253.
@@ -683,10 +683,10 @@ File: twoFreeStringGridMove-eps-converted-to.pdf Graphic file (type pdf)
 Package pdftex.def Info: twoFreeStringGridMove-eps-converted-to.pdf used on input line 393.
 (pdftex.def)             Requested size: 246.0pt x 103.32216pt.
 Package epstopdf Info: Source file: <twoFreeStringGridMoveZoomed2.eps>
-(epstopdf)                    date: 2020-11-29 17:19:27
+(epstopdf)                    date: 2021-01-26 17:30:33
 (epstopdf)                    size: 44160 bytes
 (epstopdf)             Output file: <twoFreeStringGridMoveZoomed2-eps-converted-to.pdf>
-(epstopdf)                    date: 2021-01-26 11:43:26
+(epstopdf)                    date: 2021-01-26 17:34:11
 (epstopdf)                    size: 12466 bytes
 (epstopdf)             Command: <repstopdf --outfile=twoFreeStringGridMoveZoomed2-eps-converted-to.pdf twoFreeStringGridMoveZoomed2.eps>
 (epstopdf)             \includegraphics on input line 393.
@@ -711,15 +711,15 @@ Class revtex4-1 Warning: Deferred float stuck during \clearpage processing.
 LaTeX Warning: Reference `eq:linSystSolution' on page 7 undefined on input line 584.
 
 Package epstopdf Info: Source file: <addingGridPoint3.eps>
-(epstopdf)                    date: 2021-01-26 17:23:05
+(epstopdf)                    date: 2021-01-26 17:30:33
 (epstopdf)                    size: 39186 bytes
 (epstopdf)             Output file: <addingGridPoint3-eps-converted-to.pdf>
-(epstopdf)                    date: 2021-01-26 17:23:36
+(epstopdf)                    date: 2021-01-26 17:34:11
 (epstopdf)                    size: 19863 bytes
 (epstopdf)             Command: <repstopdf --outfile=addingGridPoint3-eps-converted-to.pdf addingGridPoint3.eps>
 (epstopdf)             \includegraphics on input line 591.
 Package epstopdf Info: Output file is already uptodate.
-<addingGridPoint3-eps-converted-to.pdf, id=281, 501.875pt x 200.75pt>
+<addingGridPoint3-eps-converted-to.pdf, id=282, 501.875pt x 200.75pt>
 File: addingGridPoint3-eps-converted-to.pdf Graphic file (type pdf)
  <use addingGridPoint3-eps-converted-to.pdf>
 Package pdftex.def Info: addingGridPoint3-eps-converted-to.pdf used on input line 591.
@@ -835,15 +835,15 @@ LaTeX Warning: Reference `eq:interpolationCoeffs' on page 8 undefined on input l
 LaTeX Warning: Reference `eq:interpolationCoeffs' on page 8 undefined on input line 686.
 
 Package epstopdf Info: Source file: <spectraDoubleSampleRateQuadratic.eps>
-(epstopdf)                    date: 2021-01-26 14:54:09
+(epstopdf)                    date: 2021-01-26 17:30:33
 (epstopdf)                    size: 127256 bytes
 (epstopdf)             Output file: <spectraDoubleSampleRateQuadratic-eps-converted-to.pdf>
-(epstopdf)                    date: 2021-01-26 14:55:14
+(epstopdf)                    date: 2021-01-26 17:34:12
 (epstopdf)                    size: 54730 bytes
 (epstopdf)             Command: <repstopdf --outfile=spectraDoubleSampleRateQuadratic-eps-converted-to.pdf spectraDoubleSampleRateQuadratic.eps>
 (epstopdf)             \includegraphics on input line 691.
 Package epstopdf Info: Output file is already uptodate.
-<spectraDoubleSampleRateQuadratic-eps-converted-to.pdf, id=326, 602.25pt x 351.3125pt>
+<spectraDoubleSampleRateQuadratic-eps-converted-to.pdf, id=327, 602.25pt x 351.3125pt>
 File: spectraDoubleSampleRateQuadratic-eps-converted-to.pdf Graphic file (type pdf)
  <use spectraDoubleSampleRateQuadratic-eps-converted-to.pdf>
 Package pdftex.def Info: spectraDoubleSampleRateQuadratic-eps-converted-to.pdf used on input line 691.
@@ -857,21 +857,21 @@ Package epstopdf Info: Source file: <modesAddPointsAtRightBound.eps>
 (epstopdf)             Command: <repstopdf --outfile=modesAddPointsAtRightBound-eps-converted-to.pdf modesAddPointsAtRightBound.eps>
 (epstopdf)             \includegraphics on input line 708.
 Package epstopdf Info: Output file is already uptodate.
- <modesAddPointsAtRightBound-eps-converted-to.pdf, id=332, 562.1pt x 421.575pt>
+ <modesAddPointsAtRightBound-eps-converted-to.pdf, id=333, 562.1pt x 421.575pt>
 File: modesAddPointsAtRightBound-eps-converted-to.pdf Graphic file (type pdf)
  <use modesAddPointsAtRightBound-eps-converted-to.pdf>
 Package pdftex.def Info: modesAddPointsAtRightBound-eps-converted-to.pdf used on input line 708.
 (pdftex.def)             Requested size: 246.0pt x 184.49649pt.
 Package epstopdf Info: Source file: <specAddPointsAtRightBound.eps>
-(epstopdf)                    date: 2020-11-19 17:22:15
+(epstopdf)                    date: 2021-01-26 17:30:33
 (epstopdf)                    size: 313313 bytes
 (epstopdf)             Output file: <specAddPointsAtRightBound-eps-converted-to.pdf>
-(epstopdf)                    date: 2021-01-26 11:43:28
+(epstopdf)                    date: 2021-01-26 17:34:12
 (epstopdf)                    size: 341499 bytes
 (epstopdf)             Command: <repstopdf --outfile=specAddPointsAtRightBound-eps-converted-to.pdf specAddPointsAtRightBound.eps>
 (epstopdf)             \includegraphics on input line 714.
 Package epstopdf Info: Output file is already uptodate.
- <specAddPointsAtRightBound-eps-converted-to.pdf, id=333, 562.1pt x 421.575pt>
+ <specAddPointsAtRightBound-eps-converted-to.pdf, id=334, 562.1pt x 421.575pt>
 File: specAddPointsAtRightBound-eps-converted-to.pdf Graphic file (type pdf)
  <use specAddPointsAtRightBound-eps-converted-to.pdf>
 Package pdftex.def Info: specAddPointsAtRightBound-eps-converted-to.pdf used on input line 714.
@@ -895,7 +895,7 @@ Package epstopdf Info: Source file: <fullGrid.eps>
 (epstopdf)             Command: <repstopdf --outfile=fullGrid-eps-converted-to.pdf fullGrid.eps>
 (epstopdf)             \includegraphics on input line 764.
 Package epstopdf Info: Output file is already uptodate.
-<fullGrid-eps-converted-to.pdf, id=380, 501.875pt x 301.125pt>
+<fullGrid-eps-converted-to.pdf, id=381, 501.875pt x 301.125pt>
 File: fullGrid-eps-converted-to.pdf Graphic file (type pdf)
  <use fullGrid-eps-converted-to.pdf>
 Package pdftex.def Info: fullGrid-eps-converted-to.pdf used on input line 764.
@@ -910,7 +910,7 @@ Package epstopdf Info: Source file: <simplySupportedBoundary.eps>
 (epstopdf)             Command: <repstopdf --outfile=simplySupportedBoundary-eps-converted-to.pdf simplySupportedBoundary.eps>
 (epstopdf)             \includegraphics on input line 801.
 Package epstopdf Info: Output file is already uptodate.
- <simplySupportedBoundary-eps-converted-to.pdf, id=411, 562.1pt x 421.575pt>
+ <simplySupportedBoundary-eps-converted-to.pdf, id=412, 562.1pt x 421.575pt>
 File: simplySupportedBoundary-eps-converted-to.pdf Graphic file (type pdf)
  <use simplySupportedBoundary-eps-converted-to.pdf>
 Package pdftex.def Info: simplySupportedBoundary-eps-converted-to.pdf used on input line 801.
@@ -924,7 +924,7 @@ Package epstopdf Info: Source file: <boundaryGrid.eps>
 (epstopdf)             Command: <repstopdf --outfile=boundaryGrid-eps-converted-to.pdf boundaryGrid.eps>
 (epstopdf)             \includegraphics on input line 817.
 Package epstopdf Info: Output file is already uptodate.
- <boundaryGrid-eps-converted-to.pdf, id=414, 562.1pt x 421.575pt>
+ <boundaryGrid-eps-converted-to.pdf, id=415, 562.1pt x 421.575pt>
 File: boundaryGrid-eps-converted-to.pdf Graphic file (type pdf)
  <use boundaryGrid-eps-converted-to.pdf>
 Package pdftex.def Info: boundaryGrid-eps-converted-to.pdf used on input line 817.
@@ -952,18 +952,18 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 10517 strings out of 493014
- 151804 string characters out of 6133351
- 277419 words of memory out of 5000000
- 13726 multiletter control sequences out of 15000+600000
+ 10518 strings out of 493014
+ 151818 string characters out of 6133351
+ 277453 words of memory out of 5000000
+ 13727 multiletter control sequences out of 15000+600000
  21751 words of font info for 85 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  40i,15n,37p,1323b,401s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmbsy9.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on /Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.pdf (10 pages, 1108769 bytes).
+Output written on /Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.pdf (10 pages, 1108823 bytes).
 PDF statistics:
- 564 PDF objects out of 1000 (max. 8388607)
- 474 compressed objects within 5 object streams
+ 565 PDF objects out of 1000 (max. 8388607)
+ 475 compressed objects within 5 object streams
  121 named destinations out of 1000 (max. 500000)
  86 words of extra memory for PDF output out of 10000 (max. 10000000)
 

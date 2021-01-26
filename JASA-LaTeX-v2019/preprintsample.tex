@@ -365,7 +365,7 @@ This section introduces the proposed method of dynamically and smoothly changing
 
 \subsubsection{System Setup}\label{sec:systSetup}
 Consider a grid function, $u_l^n$ with integer $M_u = \text{ceil}(0.5L/ck)$ (or simply $M$ below for brevity) and $w_l^n$ with integer $M_w = \text{floor}(0.5L/ck)$ points, i.e., half the number of points allowed by the stability condition, plus one for overlap (see Figure \ref{fig:twoFreeStrings}). In the following, state (column) vectors $\mathbf{u}^n = [u_0^n, u_1^n, \hdots, u_M^n]^T$ and $\mathbf{w}^n = [w_0^n, w_1^n, \hdots, w_{M_w}^n]^T$ (with $T$ denoting the transpose operation) and have $M + 1$ and $M_{w} + 1$ points respectively (including the boundary). The vector concatenating these is then defined as 
-\begin{equation}
+\begin{equation}\label{eq:fullState}
     \mathbfcal{U}^n = \begin{bmatrix}
         \mathbf{u}^n \\
         \mathbf{w}^n
@@ -487,7 +487,7 @@ Using $I_1$, analysis of the output shows that the expected fundamental frequenc
 
 One could extend the range of interpolation by one point to each side, and using a cubic interpolator. Though this would require $w_{-1}$ to calculate $u_{M+1}$ and vice versa, it is possible to solve this by treating the interpolation equations as a system of linear equations. Analysis of this method, though yielding a correct $f_0$ at all times, shows similar behaviour to the linear interpolation, with odd behaviour regarding to modes higher than $f_\text{s}/2$.
 
-Much better behaviour is observed when points of both $u$ and $w$ are used, i.e., using $u_M$ to calculate $u_{M+1}$ and $w_0$ for $w_{-1}$. Now, the grid points used in the interpolation are not equidistant and a custom interpolator needs to be created. The quadratic Lagrangian interpolator $I_2$ used here is defined as follows
+Much better behaviour is observed when points of both $u$ and $w$ are used, i.e., using $u_M$ to calculate $u_{M+1}$ and $w_0$ for $w_{-1}$. Now, the grid points used in the interpolation are not equidistant and a custom interpolator needs to be created. The lowest order interpolator that can be used here is the quadratic Lagrangian interpolator $I_2$ and when applied to Eq. \eqref{eq:fullState} yields
 \begin{subequations}\label{eq:connectionInterpol}
 \begin{align}
     &\begin{aligned}\label{eq:calcUMP1}
