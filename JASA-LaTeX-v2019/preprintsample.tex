@@ -219,7 +219,7 @@ referred to as the Courant-Friedrichs-Lewy (CFL) stability condition. The closer
 [REF] (see Figures \ref{fig:lambda1} and \ref{fig:lambda0.9}). If $\lambda > 1$ the system will become unstable (see Figure \ref{fig:lambda1.001}).
 \begin{figure*}
 \figline{\fig{ulnLambda1}{.25\textwidth}{(A)}\label{fig:lambda1}
-\fig{ulnLambda0.9}{.25\textwidth}{(B)}\label{fig:lambda0.9}
+\fig{ulnLambda09}{.25\textwidth}{(B)}\label{fig:lambda0.9}
 \fig{ulnLambda1001}{.25\textwidth}{(C)}\label{fig:lambda1.001}
 \narrowcaption{.25\textwidth}{State $u_l^n$ with $N = 50$ and $f_\text{s} = 44100$ visualised. (A) If $\lambda = 1$, the solution is exact. (B) If $\lambda < 1$ dispersive behaviour shows. (C) If $\lambda > 1$ the CFL condition in Eq. \eqref{eq:CFL} is not satisfied and the system ``explodes".
 \label{fig:dispersion}}}
@@ -244,8 +244,8 @@ As mentioned above, the Courant number $\lambda$ decides the quality of the simu
 %
 \begin{figure*}
 \figline{\fig{bandwidthLambda1}{.25\textwidth}{(A)}
-\fig{bandwidthLambda0.9}{.25\textwidth}{(B)}
-\fig{bandwidthLambda0.5}{.25\textwidth}{(C)}
+\fig{bandwidthLambda09}{.25\textwidth}{(B)}
+\fig{bandwidthLambda05}{.25\textwidth}{(C)}
 \narrowcaption{.25\textwidth}{Bandwidths of the simulation output %at $l = 16$ 
 with $f_\text{s} = 44100$ Hz and 
 %$N = 50$ excited with a raised cosine with a width of 5 at center-location $N = 25$. The Courant number is set to 
