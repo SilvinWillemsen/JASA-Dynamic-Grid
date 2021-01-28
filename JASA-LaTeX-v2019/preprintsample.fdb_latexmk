@@ -1,16 +1,16 @@
 # Fdb version 3
-["bibtex preprintsample"] 1611836537 "preprintsample.aux" "preprintsample.bbl" "preprintsample" 1611837702
+["bibtex preprintsample"] 1611846608 "preprintsample.aux" "preprintsample.bbl" "preprintsample" 1611846610
   "./jasaauthyear2.bst" 1602579482 48879 6362a0c328f2cf4dc6a1bae33abd6af3 ""
   "myBib.bib" 1602839146 523 9454e0ffcd9b85d2ffb75fab75d1dee4 ""
-  "preprintsample.aux" 1611837702 12916 9d37075212389cfe886461ae4358d787 ""
+  "preprintsample.aux" 1611846609 13272 fc0b7a31e630d742bd785525a321f45f ""
   "preprintsample.bcf" 0 -1 0 ""
-  "preprintsampleNotes.bib" 1611837701 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "preprintsampleNotes.bib" 1611846609 0 d41d8cd98f00b204e9800998ecf8427e ""
   (generated)
   "preprintsample.bbl"
   "preprintsample.blg"
-["pdflatex"] 1611837701 "/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.tex" "/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.pdf" "preprintsample" 1611837702
-  "/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.aux" 1611837702 12916 9d37075212389cfe886461ae4358d787 ""
-  "/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.tex" 1611837700 64947 a7392e594a9a5d74f346309f2730f903 ""
+["pdflatex"] 1611846609 "/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.tex" "/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.pdf" "preprintsample" 1611846610
+  "/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.aux" 1611846609 13272 fc0b7a31e630d742bd785525a321f45f ""
+  "/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.tex" 1611846607 65773 ad75dca4e2a85c0a4b8a653d7d75febe ""
   "/usr/local/texlive/2016/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm" 1246382020 1120 1e8878807317373affa7f7bba4cf2f6a ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm" 1246382020 1124 14ccf5552bc7f77ca02a8a402bea8bfb ""
@@ -173,10 +173,10 @@
   "boundaryGrid.eps" 1602839146 21885 7a15b127a9cd578540594db7ab4d7839 ""
   "fullGrid.eps" 1602858567 38683 a3b1809c5eba9e6ba4b0ad63e8ac3bec ""
   "modalAnalysisQuadratic.eps" 1611758345 110839 1ac694975bb59eb81944f751e0bbc039 ""
-  "preprintsample.aux" 1611837702 12916 9d37075212389cfe886461ae4358d787 ""
-  "preprintsample.bbl" 1611836538 590 6b68c531a9f92f6a8e556452db296bed "bibtex preprintsample"
+  "preprintsample.aux" 1611846609 13272 fc0b7a31e630d742bd785525a321f45f ""
+  "preprintsample.bbl" 1611846609 590 6b68c531a9f92f6a8e556452db296bed "bibtex preprintsample"
   "preprintsample.ent" 0 -1 0 ""
-  "preprintsample.tex" 1611837700 64947 a7392e594a9a5d74f346309f2730f903 ""
+  "preprintsample.tex" 1611846607 65773 ad75dca4e2a85c0a4b8a653d7d75febe ""
   "simplySupportedBoundary.eps" 1602855789 20778 28bcaf75fdcac155b6991f1ece130715 ""
   "specQuadratic.eps" 1611758473 298853 baac5d48045a19fdeaba9b6b19c5dd18 ""
   "spectraDoubleSampleRateQuadratic.eps" 1611679339 127256 3da40a98d1067b9bfe7da3db97ce2784 ""
@@ -187,9 +187,9 @@
   "ulnLambda1.eps" 1602602412 19877 2ed349549f0bcc463c9144fbedcbe451 ""
   "ulnLambda1001.eps" 1602602511 19771 7ce26aa8f5662ecedf44017a7b8f2109 ""
   (generated)
-  "preprintsample.log"
-  "preprintsample.aux"
-  "/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.log"
-  "preprintsampleNotes.bib"
-  "/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.pdf"
   "preprintsample.pdf"
+  "/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.log"
+  "preprintsample.aux"
+  "/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.pdf"
+  "preprintsample.log"
+  "preprintsampleNotes.bib"
