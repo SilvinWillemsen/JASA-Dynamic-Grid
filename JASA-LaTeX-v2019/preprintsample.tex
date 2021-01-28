@@ -155,7 +155,7 @@ parameterised by wave speed $c$ (in m/s). As $x$ in Eq. \eqref{eq:1dwave} is onl
 \end{subequations}
 which describe a `fixed' and `free' boundary respectively.
 
-\subsection{Dynamic parameters}
+\subsection{Dynamic parameters}\label{sec:dynamicParamsCont}
 In the case of the 1D wave equation, only the wave speed $c$ and length $L$ can be altered. If Dirichlet-type boundary conditions -- as in Eq. \eqref{eq:contDirichlet} -- are used, the fundamental frequency $f_0$ of the 1D wave equation can be calculated according to
 \begin{equation}\label{eq:fundamentalFreqCont}
     f_0 = \frac{c}{2L}\,.
@@ -276,7 +276,7 @@ Secondly, choosing $\lambda < 1$ causes numerical dispersion. See Figures \ref{f
 
 Apart from the recalculation of $\lambda$ due to the flooring operation in Eq. \eqref{eq:orderOfCalcGrid}, a reason that one would choose $\lambda < 1$ could be to decrease the total number of grid points used in the simulation by increasing $h$. This makes the simulation less computationally expensive, while keeping a desired wave speed $c$ and time step $k$. For 1-dimensional systems such as the 1D wave equation, this is rarely necessary.
 
-\section{Dynamic Parameters}
+\section{Dynamic Parameters}\label{sec:dynamicParams}
 This section describes how parameters could be made dynamic using the state of the art and what this means for the simulation quality detailed in Section \ref{sec:quality}. %To clarify, for a parameter to be dynamic refers to its ability to vary over time while the simulation is running.  
 To clarify, a \textit{dynamic} parameter refers to one that is time-varying while the simulation is running. 
 
@@ -290,7 +290,7 @@ To clarify, a \textit{dynamic} parameter refers to one that is time-varying whil
 % \end{equation}
 % which shows that if $\lambda = 1$, $N$ solely decides the fundamental frequency of the simulation.
 
-Usually when simulating instruments, the parameters that describe the system are fixed for the entire simulation. For the 1D wave equation used in Section \ref{sec:continuous}, these are the wave speed $c$ and time step $k$ (calculated from the sample rate $f_\text{s}$) from which the grid spacing $h$ and Courant number $\lambda$ are calculated. On top of this, the length $L$ can be changed, but as shown in Eq. \eqref{eq:fundamentalFreqCont}, this can be directly translated to a change in $c$ through the fundamental frequency $f_0$. As $f_\text{s}$ is rarely changed \SWcomment[due to all sorts of issues], the sole parameter that could be interesting to make time-varying is $c$. 
+Usually when simulating instruments, the parameters that describe the system are fixed for the entire simulation. For the 1D wave equation used in Section \ref{sec:continuous}, these are the wave speed $c$ and time step $k$ (calculated from the sample rate $f_\text{s}$) from which the grid spacing $h$ and Courant number $\lambda$ are calculated. On top of this, the length $L$ can be changed, but as elaborated on in Section \ref{sec:dynamicParamsCont}, this can be directly translated to a change in $c$ through the fundamental frequency $f_0$. As $f_\text{s}$ is rarely changed \SWcomment[due to all sorts of issues], the sole parameter that could be interesting to make time-varying is $c$. 
 % Modal synthesis is based on the addition of many sinusoids and is thus defined over the entire space. One can simply change the frequency of these sinusoids and 
 
 % \begin{equation}\label{eq:modalSum}
@@ -302,7 +302,7 @@ Usually when simulating instruments, the parameters that describe the system are
 % Using FDTD methods, one uses a discrete set number of points making it hard to transition from one setting to the next.
 As $c$ changes, several things need to be taken into account. First of all, a change in $c$ causes a change in $\lambda$ according to Eq. \eqref{eq:compactLambda} affecting the simulation quality and bandwidth. Secondly, and more importantly, a change in $c$ could result in a change in $N$ through Eq. \eqref{eq:numberOfIntervals}. As $N$ directly relates to the number of grid points, this raises questions as to \textit{where} and especially \textit{how} one would add and remove points to the grid according to the now-dynamic wave speed.
 
-A solution to the latter is to set and fix $N$ and tune $c$ away from the stability condition by decreasing it, such as done in [REF]. This would avoid problems with stability, as decreasing $c$ would continue to satisfy condition \eqref{eq:stabilityCond}, but the simulation would end up with lower quality, exhibiting dispersive and bandlimiting effects as discussed in Section \ref{sec:quality}. In essence, decreasing the value of $c$ immediately translates to decreasing the value of $\lambda$ as $h$ and $k$ are left unchanged. On top of this, $c$ is limited by Eq. \eqref{eq:CFL} and increasing it beyond a certain value would render the system unstable.
+A solution to the latter is to set and fix $N$ and tune $c$ away from the stability condition by decreasing it, such as done in [REF]. This would avoid problems with stability, as decreasing $c$ would continue to satisfy condition \eqref{eq:CFL}, but the simulation would end up with lower quality, exhibiting dispersive and bandlimiting effects as discussed in Section \ref{sec:quality}. In essence, decreasing the value of $c$ immediately translates to decreasing the value of $\lambda$ as $h$ and $k$ are left unchanged. On top of this, $c$ is limited by Eq. \eqref{eq:CFL} and increasing it beyond a certain value would render the system unstable.
 
 The only way to circumvent the aforementioned undesirable effects such as dispersion and bandlimiting, is to somehow allow $N$ to be fractional \SWcomment[(i.e., non-integer)]. This will remove the flooring operation in Eq. \eqref{eq:numberOfIntervals} and Eq. \eqref{eq:compactLambda}, and will consequently satisfy the CFL condition in \eqref{eq:CFL} with equality at all times. Eq. \eqref{eq:fundamentalFreqCont} can then be rewritten in terms of $N$ by substituting Eq. \eqref{eq:numberOfIntervals} into Eq. \eqref{eq:fundamentalFreqCont} (using Eq. \eqref{eq:stabilityCond} satisfied with equality) yielding
 \begin{equation}\label{eq:fundamentalFreq}
@@ -335,9 +335,9 @@ a method needs to be devised to dynamically and smoothly change the number of gr
 By now, it is hopefully clear to the reader why dynamic parameters would make an interesting case in the field of physical modelling, and why dynamic grids would be a good solution to undesirable behaviour such as a decrease in bandwidth and increase in numerical dispersion discussed in Section \ref{sec:quality}. %This section will describe the problems that arise when adding and removing grid points. Afterwards, some iterations done over the course of this project and their drawbacks will be shown, leading up to the final implementation of the dynamic grid. 
 
 % The first questions that need to be answered are ``where to add points?" and ``how to add points?" The problems when doing this range from artifacts or auditory `clicks' in the output sound to ``exploding" systems due to artificial injection of energy. 
-In this section, the requirements of a method that dynamically changes the grid will be explained. After this the iterations done over the course of this project will briefly be described, the details of each can be found in Appendix \ref{app:A}. Finally, the proposed method will be described in detail and summarised in the end.
+In this section, the requirements of a method that dynamically changes the grid will be explained. Then, the iterations done over the course of this project will briefly be described, the details of each can be found in Appendix \ref{app:A}. Finally, the proposed method will be described in detail and summarised in the end.
 
-\subsection{Method requirements}
+\subsection{Method requirements}\label{sec:methodReq}
 Ideally, a method that dynamically changes the grid size of finite-difference schemes should
 \begin{enumerate}
     \item generate an output with a fundamental frequency $f_0$ %described by Eq. \eqref{eq:fundamentalFreq} 
@@ -357,11 +357,11 @@ Ideally, a method that dynamically changes the grid size of finite-difference sc
 \subsection{Iterations}\label{sec:iterations}
 One method that could be used to go from one grid configuration to the next is full-grid interpolation as described in \cite[Chap. 5]{bilbao2009}. However, this method essentially has a lowpassing effect on the system state and can cause `clicks' in the output sound due to the interpolation. A (much) higher sample rate could be used to avoid these issues, but this would render this method impossible to work in real time.
 
-Another method is to add and remove points at the boundary using an interpolated boundary condition, the possibility of which has been briefly mentioned in \cite[p. 145]{bilbao2009}. If the boundary is fixed through Eq. \eqref{eq:contDirichlet}, the state at this location will always be $0$ and potentially allows for smooth entry and exit of grid points. This method can be seen analogous to tuning a guitar string where string-material enters and leaves the playable part of the string at the nut, the boundary. The interpolated nature of the boundary allows for a ``fractional" number of points, removing the flooring operation in Eq. \eqref{eq:compactLambda} and always satisfying the CFL condition with equality. \SWcomment[This has the added feature that $L/h$ in Eq. \eqref{eq:numberOfIntervals} is an integer and the flooring operation can be ignored. Substituting Eq. \eqref{eq:numberOfIntervals} into Eq. \eqref{eq:fundamentalFreqCont} (using Eq. \eqref{eq:stabilityCond} satisfied with equality) yields
-\begin{equation}%\label{eq:fundamentalFreq}
-    f_0 = \frac{1}{2Nk}\ ,
-\end{equation}
-which shows that if $\lambda = 1$, $N$, which is now not necessarily an integer, solely decides the fundamental frequency of the simulation.] 
+Another method is to add and remove points at the boundary using an interpolated boundary condition, the possibility of which has been briefly mentioned in \cite[p. 145]{bilbao2009}. If the boundary is fixed through Eq. \eqref{eq:contDirichlet}, the state at this location will always be $0$ and potentially allows for smooth entry and exit of grid points. This method can be seen analogous to tuning a guitar string where string-material enters and leaves the playable part of the string at the nut, the boundary. The interpolated nature of the boundary does allow for a ``fractional" $N$ as described in Section \ref{sec:dynamicParams} and has a fundamental frequency calculated using \eqref{eq:fundamentalFreq}. %removing the flooring operation in Eq. \eqref{eq:compactLambda} and always satisfying the CFL condition with equality. \SWcomment[This has the added feature that $L/h$ in Eq. \eqref{eq:numberOfIntervals} is an integer and the flooring operation can be ignored. Substituting Eq. \eqref{eq:numberOfIntervals} into Eq. \eqref{eq:fundamentalFreqCont} (using Eq. \eqref{eq:stabilityCond} satisfied with equality) yields
+%\begin{equation}%\label{eq:fundamentalFreq}
+%     f_0 = \frac{1}{2Nk}\ ,
+% \end{equation}
+% which shows that if $\lambda = 1$, $N$, which is now not necessarily an integer, solely decides the fundamental frequency of the simulation.] 
 Although informal testing shows that adding points to the grid can happen smoothly, removing points smoothly is more challenging. This is due to the fact that the grid point at the boundary will be moving right before it is removed and its displacement needs to (somehow) smoothly be reduced to 0 to satisfy the fixed boundary condition in Eq. \eqref{eq:contDirichlet}. %\SWcomment[$\leftarrow$ if simply supported condition is mentioned here] Even though the $\delta_{xx}u$ part of this condition can be easily satisfied, the $u=0$ part can not.
 
 \subsection{Proposed Method}\label{sec:proposedMethod}
@@ -597,7 +597,7 @@ Removing grid points happens when $c$, and consequently $h$, is increased and th
 \end{equation}
 
 A problem that arises from simply removing a grid points, is that it is possible that $u_M^n \not\approx w_0^n$ at the time of removal, which causes audible artefacts. A method of displacement correction is proposed that decreases the relative displacement of the inner boundaries the closer their grid-locations are together, not unlike a simple low-pass filter:
-\begin{equation}\label{eq:lowPass}
+\begin{equation}\label{eq:dispCorr}
     \begin{aligned}
     u_M^n := u_M^n +\beta (w_0^n - u_M^n),\\
     w_0^n := w_0^n - \beta  (w_0^n - u_M^n),
@@ -637,7 +637,7 @@ The inner boundaries are calculated using
 %
 where virtual grid points $u_{M+1}^n$ and $w_{-1}^n$ can be calculated using Eq. \eqref{eq:connectionInterpol}.
 
-Then, when $\lfloor N^n \rfloor > \lfloor N^{n-1} \rfloor$ a point is added to $\mathbf{u}^n$ and $\mathbf{u}^{n-1}$ (or $\mathbf{w}^n$ and $\mathbf{w}^{n-1}$) using Eq. \eqref{eq:addingPoint}, and when $\lfloor N^n \rfloor <\lfloor N^{n-1} \rfloor$ a point is removed from the same vectors using Eq. \eqref{eq:removingPoint}. In order to prevent audible artefacts when increasing $c$ (and thus decreasing $N$), the displacement correction in \eqref{eq:lowPass} is proposed to ensure that the inner boundaries have a similar displacement when one of them is removed.
+Then, when $\lfloor N^n \rfloor > \lfloor N^{n-1} \rfloor$ a point is added to $\mathbf{u}^n$ and $\mathbf{u}^{n-1}$ (or $\mathbf{w}^n$ and $\mathbf{w}^{n-1}$) using Eq. \eqref{eq:addingPoint}, and when $\lfloor N^n \rfloor <\lfloor N^{n-1} \rfloor$ a point is removed from the same vectors using Eq. \eqref{eq:removingPoint}. In order to prevent audible artefacts when increasing $c$ (and thus decreasing $N$), the displacement correction in \eqref{eq:dispCorr} is proposed to ensure that the inner boundaries have a similar displacement when one of them is removed.
 
 Finally, using $\mathbfcal{U}$ from Eq. \eqref{eq:fullState} the total system can then be written in matrix form as
 \begin{equation}\label{eq:totalSystem}
@@ -670,7 +670,7 @@ with $\lfloor N\rfloor \times \lfloor N\rfloor$ matrix
 %
 Notice that when $\alpha$ approaches $1$, $\mathbf{B}$ will reduce to a matrix with ones on the diagonals next to the main diagonal and zeros elsewhere, which translates directly to the usual situation in Eq. \eqref{eq:updateEq} with $N = M + M_w + 1$. 
 
-\section{Results}\label{sec:results}
+\section{Analysis and Results}\label{sec:results}
 % \subsection{Expected behaviour}
 This section shows the analysis of the system presented in the previous section and its behaviour.
 
@@ -695,7 +695,7 @@ A modal analysis can be performed on system \eqref{eq:totalSystem}. The modal fr
     f_p = \frac{1}{2\pi k}\cos^{-1}\left(\frac{1}{2}\text{eig}_p(\mathbf{B})\right).
 \end{equation}
 
-As a test case, the wave speed is dynamically varied from $c = 2940$ ($N = 15$) to $c = 2205$ ($N = 20$), changing $\mathbf{B}$ and thus the modal frequencies over time, and the results of the analysis are shown in Figure \ref{fig:modalAnalysis}. Figure \ref{fig:spectrogram} shows the resulting spectrogram of the system excited at $n=0$ with a narrow raised cosine and the output retrieved at $u_1^n$.
+As a test case, the wave speed is dynamically varied from $c = 2940$ ($N = 15$) to $c = 2205$ ($N = 20$), changing $\mathbf{B}$ and thus the modal frequencies over time. The displacement correction presented in Eq. \eqref{eq:dispCorr} is not included in this analysis ($\epsilon \gg 1$), but will be elaborated on later. The results of the analysis are shown in Figure \ref{fig:modalAnalysis}. Figure \ref{fig:spectrogram} shows the resulting spectrogram of the system excited at $n=0$ with a narrow raised cosine and the output retrieved at $u_1^n$.
 
 \begin{figure}[ht]
 %% \reprintcolumnwidth is the same in preprint and reprint for
@@ -719,14 +719,16 @@ As can be seen from the spectrum in Figure \ref{fig:spectrogram} the highest mod
 
 Using the quadratic interpolation from \eqref{eq:connectionInterpol}, or any other even-ordered Lagrange interpolator for that matter, the modal behaviour of the system does not change based on location. Experiments done with odd-ordered Lagrange interpolators showed that better behaviour is observed when points are added / removed closer to the boundaries. 
 
+\subsection{Displacement correction}
+(FIR) Comb filtering effect where resonances appear depending on the location of correction. Middle has least
+
 \subsection{Limit on speed of change}
 The method presented in this paper can only add or remove a maximum one point per sample using Eqs. \eqref{eq:addingPoint} and \eqref{eq:removingPoint}. The speed of decreasing $f_0$ according to \eqref{eq:fundamentalFreq} is thus limited by the following condition
 \begin{equation}\label{eq:pointCondition}
     |N^n - N^{n-1}| \leq 1. 
 \end{equation}
-If no points are added or removed, there is no speed 
-Notes:
-In the case that $\alpha = 0$ in Eq. \eqref{eq:totalSystem} (and thus $x_{u_M} = x_{w_0}$), one could go up to adding two points at a time by adding $u_{M+1}^n$ according to Eq. \eqref{eq:addingPoint} and adding an extra point $u_{M+2}^n$ using \eqref{eq:calcVirtualGridPoints} (in this case $u_{M+2}^n = w_0^n$). This would, however, not work if $\alpha \neq 0$, as a point added to $\mathbf{u}^n$ with $x_\text{i} < w_0$ needs interpolator \eqref{eq:customIp} and $\alpha'$ would be greater than $1$. As Eq. \eqref{eq:customIp} only works if $0\leq \alpha' \leq 1$, it is best to abide condition \eqref{eq:pointCondition} to be safe. 
+% Notes:
+% In the case that $\alpha = 0$ in Eq. \eqref{eq:totalSystem} (and thus $x_{u_M} = x_{w_0}$), one could go up to adding two points at a time by adding $u_{M+1}^n$ according to Eq. \eqref{eq:addingPoint} and adding an extra point $u_{M+2}^n$ using \eqref{eq:calcVirtualGridPoints} (in this case $u_{M+2}^n = w_0^n$). This would, however, not work if $\alpha \neq 0$, as a point added to $\mathbf{u}^n$ with $x_\text{i} < w_0$ needs interpolator \eqref{eq:customIp} and $\alpha'$ would be greater than $1$. As Eq. \eqref{eq:customIp} only works if $0\leq \alpha' \leq 1$, it is best to abide condition \eqref{eq:pointCondition} to be safe. 
 
 No speed limit if
 \begin{equation}
@@ -735,6 +737,12 @@ No speed limit if
 i.e., if no points are added or removed from the system. 
 
 \section{Discussion}
+Taking the method requirements from Section \ref{sec:methodReq} and looking at the results 
+
+We can discuss whether the proposed method is satisfactory by looking at the results with regards to the method requirements listed in Section \eqref{sec:methodReq}. 
+
+One can observe from the Figures presented in \ref{sec:results} that the method yields a fundamental frequency 
+
 Applications could be non-linear systems where parameters are modulated based on the state of the system. 
 
 The proposed method does not provide the exact solution to the problem, but does circumvent the need for upsampling and higher orders of computations necessary to approximate this solution. Even though interpolation needs to happen, the drawbacks of full-grid interpolation can be avoided by not `listening' to the location where points are added but rather closer to the boundary. If one wants to listen to the center, the location where points are added or removed can easily be changed.
