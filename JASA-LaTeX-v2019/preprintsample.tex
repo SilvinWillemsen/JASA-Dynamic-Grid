@@ -639,7 +639,7 @@ where virtual grid points $u_{M+1}^n$ and $w_{-1}^n$ can be calculated using Eq.
 
 Then, when $\lfloor N^n \rfloor > \lfloor N^{n-1} \rfloor$ a point is added to $\mathbf{u}^n$ and $\mathbf{u}^{n-1}$ (or $\mathbf{w}^n$ and $\mathbf{w}^{n-1}$) using Eq. \eqref{eq:addingPoint}, and when $\lfloor N^n \rfloor <\lfloor N^{n-1} \rfloor$ a point is removed from the same vectors using Eq. \eqref{eq:removingPoint}. In order to prevent audible artefacts when increasing $c$ (and thus decreasing $N$), the displacement correction in \eqref{eq:dispCorr} is proposed to ensure that the inner boundaries have a similar displacement when one of them is removed.
 
-Finally, using $\mathbfcal{U}$ from Eq. \eqref{eq:fullState} the total system can then be written in matrix form as
+Finally, using $\mathbfcal{U}$ from Eq. \eqref{eq:fullState} the total system can then be compactly written in matrix form as
 \begin{equation}\label{eq:totalSystem}
     \mathbfcal{U}^{n+1} = 
     \mathbf{B} 
@@ -674,7 +674,8 @@ Notice that when $\alpha$ approaches $1$, $\mathbf{B}$ will reduce to a matrix w
 % \subsection{Expected behaviour}
 This section shows the analysis of the system presented in the previous section and its behaviour.
 
-\subsection{Static}
+% \subsection{Static}
+\subsection{Frequency}
 In order to determine whether the proposed method yields an output with the correct frequency content, a spectrum is taken of the system's output. The system with $N=15.5$ (so $\alpha = 0.5$ in \eqref{eq:bMat}) at a sample rate of $f_\text{s} = 44100$ Hz is compared to the same system with $f_\text{s} = 88200$ Hz resulting in $N=31$ ($\alpha = 0$) for the same $f_0$ according to Eq. \eqref{eq:fundamentalFreq}. See Figure \ref{fig:spectra}.
 
 \begin{figure}[ht]
@@ -684,42 +685,44 @@ In order to determine whether the proposed method yields an output with the corr
 \caption{\label{fig:spectra}{A system with $N = 15.5$ at $f_\text{s} = 44100$} compared to a system with $N = 31$ at $f_\text{s} = 88200$. Both are supposed to have the same fundamental frequency $f_0$ according to Eq. \eqref{eq:fundamentalFreq}.}
 \end{figure} 
 
-\SWcomment[Discussion:] As can be seen from the figure, the lower harmonic partials of both systems line up almost exactly before the partials interpolated start to deviate towards the lower end of the spectrum.
+The output of the system at integer $N = 31$ contains partials at perfect integer multiples of $f_0$ (Eq. \eqref{eq:fundamentalFreq}). When this is compared to the output of the system with $N = 15.5$, one can observe that the lower partials are nearly perfectly overlapping, whereas higher partials exhibit slight downwards deviations, exponentially increasing with frequency.
 
-($<0.2\%$ of their respetcive frequency, $<1.3\%$ of the fundamental $f_0$). 
-
- 
-\subsection{Dynamic}
-A modal analysis can be performed on system \eqref{eq:totalSystem}. The modal frequency of the $p$'th mode can be retrieved as
-\begin{equation}
+% \subsection{Dynamic}
+For a more detailed look at the behaviour of the system, a modal analysis can be performed on system \eqref{eq:totalSystem}. The modal frequency of the $p$'th mode can be retrieved as
+\begin{equation}\label{eq:modalAnalysis}
     f_p = \frac{1}{2\pi k}\cos^{-1}\left(\frac{1}{2}\text{eig}_p(\mathbf{B})\right).
 \end{equation}
 
-As a test case, the wave speed is dynamically varied from $c = 2940$ ($N = 15$) to $c = 2205$ ($N = 20$), changing $\mathbf{B}$ and thus the modal frequencies over time. The displacement correction presented in Eq. \eqref{eq:dispCorr} is not included in this analysis ($\epsilon \gg 1$), but will be elaborated on later. The results of the analysis are shown in Figure \ref{fig:modalAnalysis}. Figure \ref{fig:spectrogram} shows the resulting spectrogram of the system excited at $n=0$ with a narrow raised cosine and the output retrieved at $u_1^n$.
+As a test case, the wave speed is dynamically varied from $c = 2940$ ($N = 15$) to $c = 2205$ ($N = 20$), changing $\mathbf{B}$ and thus the modal frequencies over time. The displacement correction presented in Eq. \eqref{eq:dispCorr} is not included in this analysis ($\epsilon \gg 1$), but will be elaborated on in Section \ref{sec:dispCorrRes}. The results of the analysis are shown in Figure \ref{fig:modalAnalysis}. Figure \ref{fig:spectrogram} shows the resulting spectrogram of the system excited at $n=0$ with a narrow raised cosine and the output retrieved at $u_1$.
 
 \begin{figure}[ht]
 %% \reprintcolumnwidth is the same in preprint and reprint for
 %% ease of use for authors:
 \includegraphics[width=\reprintcolumnwidth]{modalAnalysisQuadratic.eps}
-\caption{\label{fig:modalAnalysis}{Modal analysis}}
+\caption{\label{fig:modalAnalysis}{Modal analysis of system \eqref{eq:totalSystem} using \eqref{eq:modalAnalysis}. The wave speed is reduced from $c = 2940$ ($N = 15$) to $c = 2205$ ($N = 20$).}}
 \end{figure} 
 \begin{figure}[ht]
 %% \reprintcolumnwidth is the same in preprint and reprint for
 %% ease of use for authors:
 \includegraphics[width=\reprintcolumnwidth]{specQuadratic.eps}
-\caption{\label{fig:spectrogram}{System output}}
+\caption{\label{fig:spectrogram}{System output. The sound output follows the same pattern as predicted by the analysis shown in Figure \ref{fig:modalAnalysis}.}}
 \end{figure} 
 
-From Figure \ref{fig:modalAnalysis} one can observe several things. 
-\begin{itemize}
-    \item There are $\lfloor N\rfloor$ modes at all times corresponding to the number of moving points of the system. 
-\end{itemize}
+In the following 
+\begin{equation}
+    \varepsilon_p = \frac{f_p - pf_0}{f_0}\quad \text{[\%]}
+\end{equation}
+is used to calculate the harmonic deviation of mode $p$ from an integer multiple of the fundamental. Furthermore, the lowest mode generated by the analysis is referred to as $f_1$ and should ideally be equal to $f_0$ calculated using Eq. \eqref{eq:fundamentalFreqCont}.
 
-As can be seen from the spectrum in Figure \ref{fig:spectrogram} the highest mode is not excited, probably due to the restriction imposed on the two moving but connected points through the rigid connection.
+The first thing one can observe from Figure \ref{fig:modalAnalysis} is that the frequencies of the modes decrease as $c$ decreases. The lower the mode, the more linear this decrease happens. Between $N = 15$ and $N = 16$, $f_1$ maximally deviates by $-0.12$ Hz or $\varepsilon_1 = -0.008\%$. In this same interval $f_{15}$ maximally deviates by $-827.15$ Hz or $\varepsilon_{15} = -57\%$. This deviation for mode number $p$ gets progressively less as $N$ increases. The maximum deviation for the highest mode number $f_{\lfloor N\rfloor}$, however, gets larger with a larger $N$, with $\text{max}(\varepsilon_{\lfloor N \rfloor})$ approaching $-100\%$ for extremely large values of $N$ ($>1000$). These deviations only happen between integer values of $N$ where at integer $N$ all modes are perfect integer multiples of $f_0$ and $\varepsilon_p = 0 \%$ for all $p$.
+
+Experiments with higher even-ordered Lagrange interpolators shows that $\varepsilon_p$ becomes smaller, but not by a substantial amount. The quadratic interpolator has thus been chosen for being simpler and more flexible while not being substantially worse than higher order interpolators.
+
+Another observation from Figure \ref{fig:modalAnalysis} is that there are always $\lfloor N \rfloor$ modes present, corresponding to the number of moving points of the system. As can be seen from the spectrum in Figure \ref{fig:spectrogram} the highest mode is not excited. When an implementation of the system using this method, with wave speed $c = 2940$ m/s (static) is compared to a normal implementation of the 1D wave equation (shown in Section \ref{sec:FDTD}) with the same wavespeed, identical outputs are observed, even though the latter has $N-1$ moving points. This proves that at integer $N$ the method reduces to the normal case. If the system is excited when $N$ is not an integer, the highest mode will also be excited.
 
 Using the quadratic interpolation from \eqref{eq:connectionInterpol}, or any other even-ordered Lagrange interpolator for that matter, the modal behaviour of the system does not change based on location. Experiments done with odd-ordered Lagrange interpolators showed that better behaviour is observed when points are added / removed closer to the boundaries. 
 
-\subsection{Displacement correction}
+\subsection{Displacement correction}\label{sec:dispCorrRes}
 (FIR) Comb filtering effect where resonances appear depending on the location of correction. Middle has least
 
 \subsection{Limit on speed of change}
@@ -727,21 +730,32 @@ The method presented in this paper can only add or remove a maximum one point pe
 \begin{equation}\label{eq:pointCondition}
     |N^n - N^{n-1}| \leq 1. 
 \end{equation}
+Though this is the maximal limitation on speed, a much lower limitation needs to be placed 
 % Notes:
 % In the case that $\alpha = 0$ in Eq. \eqref{eq:totalSystem} (and thus $x_{u_M} = x_{w_0}$), one could go up to adding two points at a time by adding $u_{M+1}^n$ according to Eq. \eqref{eq:addingPoint} and adding an extra point $u_{M+2}^n$ using \eqref{eq:calcVirtualGridPoints} (in this case $u_{M+2}^n = w_0^n$). This would, however, not work if $\alpha \neq 0$, as a point added to $\mathbf{u}^n$ with $x_\text{i} < w_0$ needs interpolator \eqref{eq:customIp} and $\alpha'$ would be greater than $1$. As Eq. \eqref{eq:customIp} only works if $0\leq \alpha' \leq 1$, it is best to abide condition \eqref{eq:pointCondition} to be safe. 
 
-No speed limit if
-\begin{equation}
-    \text{floor}(N^n) = \text{floor}(N^{n-1})\Rightarrow M^n = M^{n-1},
-\end{equation}
-i.e., if no points are added or removed from the system. 
+% No speed limit if
+% \begin{equation}
+%     \text{floor}(N^n) = \text{floor}(N^{n-1})\Rightarrow M^n = M^{n-1},
+% \end{equation}
+% i.e., if no points are added or removed from the system. 
 
 \section{Discussion}
-Taking the method requirements from Section \ref{sec:methodReq} and looking at the results 
+To decide whether the proposed method works satisfactory, the results presented in the previous section are compared to the method requirements listed in Section \eqref{sec:methodReq}. 
 
-We can discuss whether the proposed method is satisfactory by looking at the results with regards to the method requirements listed in Section \eqref{sec:methodReq}. 
+The fact that he highest mode is not excited is probably due to the restriction imposed on the two moving but connected points through the rigid connection.
 
-One can observe from the Figures presented in \ref{sec:results} that the method yields a fundamental frequency 
+
+All issues with the proposed method happen in higher frequencies. Physical processes usually lose the highest frequencies first
+
+Due to high-frequency losses in physical systems. 
+
+Higher modes
+
+\SWcomment[Discussion:] As can be seen from the figure, the lower harmonic partials of both systems line up almost exactly before the partials interpolated start to deviate towards the lower end of the spectrum.
+
+($<0.2\%$ of their respetcive frequency, $<1.3\%$ of the fundamental $f_0$). 
+
 
 Applications could be non-linear systems where parameters are modulated based on the state of the system. 
 
@@ -757,6 +771,14 @@ If the amount that a parameter changes within a small enough period of time (giv
 \SWcomment[Notes (warning, very pretentious, and probably untrue..):] The aforementioned drawbacks of the method are eclipsed by the advantages it brings in terms of dynamic parameter changes and quality improvements. 
 
 The 
+
+
+\section{Conclusion and Future Work}
+
+Future work includes creating an adaptive version of the displacement correction that changes its effect depending on the speed at which the grid is changed.  
+Though this method has only been presented using the 1D wave equation it could potentially be applied to any kind of 1D FDS 
+
+
 
 \appendix
 \section{Iterations}\label{app:A}
