@@ -25,7 +25,7 @@
 \makeatother
 
 
-\def\SBcomment[#1]{\tex tcolor{Red}{#1}}
+\def\SBcomment[#1]{\textcolor{Red}{#1}}
 \def\SWcomment[#1]{\textcolor{Bittersweet}{#1}}
 \def\MDcomment[#1]{\textcolor{Blue}{#1}}
 \def\SScomment[#1]{\textcolor{OliveGreen}{#1}}
@@ -99,7 +99,7 @@
 \begin{abstract}
     \textbf{This paper is part of a special issue on Modeling of Musical Instruments.}\\
     \\
-Simulating musical instruments using physical modelling is a well-established field. Among the reasons of why one would simulate an instrument rather than sample an existing one, is that one could extend the capabilities of this instrument beyond what is physically possible, such as changing material properties or size of the instrument on the fly. Many modelling techniques exist of which finite-difference time-domain (FDTD) methods are considered the most flexible and generalisable in terms of the type of systems they can model, both linear and nonlinear. These methods do, however, lack the capability of handling smooth parameter changes while retaining optimal simulation quality, something other techniques are better suited for. This article proposes a method to dynamically alter the grids of simulations based on FDTD methods by smoothly adding and removing grid points from the system, which allows for dynamic parameter changes in physical models of musical instruments which are based on this technique. Furthermore, this technique allows the stability condition that the schemes using FDTD methods are based on, to always be satisfied with equality and thus have the highest simulation quality possible. 
+    Simulating musical instruments using physical modelling is a well-established field. Among the reasons of why one would simulate an instrument rather than sample an existing one, is that one could extend the capabilities of this instrument beyond what is physically possible, such as changing material properties or size of the instrument \SBcomment["on the fly" is too informal. Maybe "under dynamic playing conditions"]on the fly. \SBcomment[I would remove the first two sentences completely (can do this in the main body of the paper)] Many modelling techniques exist of which finite-difference time-domain (FDTD) methods are considered the most flexible and generalisable in terms of the type of systems they can model, both linear and nonlinear. \SBcomment[Also, have to be careful about claims of superiority of FDTD...better to just say "time-stepping methods (e.g., the finite difference time domain method or FDTD)."] These methods do, however, lack the capability of handling smooth parameter changes while retaining optimal simulation quality, something other techniques are better suited for. \SBcomment[Not sure this is completely true either...the reviewers will definitely point out examples from the massive FDTD literature (like CFD e.g., where they use immersed boundary techniques for fluid structure interaction with moving boundaries). ]This article proposes a method to dynamically alter the grids of simulations based on FDTD methods by smoothly adding and removing grid points from the system, which allows for dynamic parameter changes in physical models of musical instruments which are based on this technique. Furthermore, this technique allows the stability condition that the schemes using FDTD methods are based on, to always be satisfied with equality and thus have the highest simulation quality possible.\SBcomment[Too technical for the abstract: can say "Stability analysis follows directly as in the static case"] 
 \end{abstract}
 
 %% pacs numbers not used
@@ -119,17 +119,17 @@ Simulation of musical instruments through physical modelling is a well establish
 
 % Due to the vast parameter space of many instruments, using simulations is a much more viable solution for capturing the full expressivity of an instrument than sampling.
 
-One of the incentives of simulating the physics of musical instruments rather than sampling their real-world counterparts, is that the virtual instrument can be manipulated in physically impossible ways. Examples of this could be to change material properties, or even the shape of the instrument on the fly. An example of a real-world instrument that requires these manipulations is the trombone, where tube-length needs to be dynamic in order to play the instrument.
+One of the incentives of simulating the physics of musical instruments rather than sampling their real-world counterparts, is that the virtual instrument can be manipulated in physically impossible ways. \SBcomment[OK, it's good to have this in here, but this is immediately kind of a red flag for JASA, where they'd expect you to be attacking a problem from the real world first. Otherwise, they might well say that this belongs in CMJ. So: suggesting referring to real world examples first, then bring up the idea of imaginary instruments... ] Examples of this could be to change material properties, or even the shape of the instrument on the fly\SBcomment[See comment in abstract]. An example of a real-world instrument that requires these manipulations is the trombone, where tube length is dynamically controlled by the player.
 
 % This can be extended from musical instruments to rooms and acoustic simulation with variable shapes
 
-Existing physical modelling techniques include mass-spring systems [REF] and digital waveguides [REF]. Modal synthesis [REF], though requiring some assumptions and simplifications for most systems, does allow for easy and smooth parameter changes -- as seen in [REF] and [REF] -- and could thus be a good candidate for implementing the aforementioned manipulations. \SWcomment[In the case of the trombone, and due to its non-homogenous geometry, there is no closed-form solution available and the modes would need to be calculated for every single slide configuration.] Finite-difference time domain (FDTD) methods on the other hand, though generally more computationally expensive than other techniques, are more flexible and generalisable and do not need as many simplifications as modal synthesis does. These methods subdivide continuous partial differential equations (PDEs) that describe the physics of the system at hand into a grid of discrete points in space and time. 
+Existing physical modelling techniques include mass-spring systems [REF] and digital waveguides [REF]. Modal synthesis [REF], though requiring some assumptions and simplifications for most systems, does allow for easy and smooth parameter changes -- as seen in [REF] and [REF] -- and could thus be a good candidate for implementing the aforementioned manipulations. \SWcomment[In the case of the trombone, and due to its non-homogenous geometry, there is no closed-form solution available and the modes would need to be calculated for every single slide configuration.] Finite-difference time domain (FDTD) methods on the other hand, though generally more computationally expensive than other techniques, are more flexible and generalisable and do not need as many simplifications as modal synthesis does.\SBcomment[OK, I think reviewers may not like this at all. Particularly in the case of the trombone, where people like Perry Cook were doing things with variable delay lines (I think) a long time ago. if a waveguide person gets this for review, they will probably get annoyed. ] These methods subdivide continuous partial differential equations (PDEs) that describe the physics of the system at hand into a grid of discrete points in space and time. 
 %
 % Below, a brief introduction about grids and their relationship to stability is explained.
 %
 % \subsection{Grids and stability}
-The distance between two discrete points in space (the grid spacing) and the time step between two discrete moments in time are closely connected through a \textit{stability condition}. This condition dictates the maximum number of points allowed to describe system before it gets unstable and the simulation ``explodes''. The closer the grid spacing is to the stability condition, the higher the quality of the simulation. If the condition is satisfied with equality, the quality of the simulation is at a maximum. 
-Furthermore, the stability condition depends on the parameters of the model, such as material properties or size of the system, i.e., parameters that could be changed on the fly.
+The distance between two discrete points in space (the grid spacing) and the time step between two discrete moments in time are closely connected through a \textit{stability condition}. This condition dictates the maximum number of points allowed to describe system before it gets unstable and the simulation ``explodes''. The closer the grid spacing is to the stability condition, the higher the quality of the simulation. If the condition is satisfied with equality, the quality of the simulation is at a maximum. \SBcomment[OK, this whole argument above seems out of place at little. Plus there are no references, or an indication of what quality means. As in: reviewers probably will not grasp why this is an important problem to solve. I suggest removing. Better to focus attention here away from the detailed numerical details (like grid spacings and numerical stability conditions and stuff) as the reviewers will probably see these as just small technical details. The important thing is the dynamic behaviour...]
+Furthermore, the stability condition depends on the parameters of the model, such as material properties or size of the system, i.e., parameters that could be changed on the fly \SBcomment[As above].
 
 This article proposes a method to smoothly add and subtract points from a system in real time so that the stability condition is always satisfied with equality. This allows for a simulation where the parameters can be changed dynamically without running into either stability or quality issues. One can consider this work an introduction to implementing the trombone using FDTD methods, 
 
@@ -152,27 +152,28 @@ This article is structured as follows:
 %
 The physics of dynamic systems is commonly described using partial differential equations (PDEs) operating in continuous time. To aid the illustration of the proposed method, the 1D wave equation will be used. This does not mean that the method is limited to this, and could be extended to other (linear) systems, possibly even higher dimensional ones.
 
-Consider a 1-dimensional system with length $L$ (in m) its displacement described by state variable $u = u(x, t)$ defined over spatial domain $x \in [0, L]$ (in m) and time $t \geq 0$ (in s). The partial differential equation (PDE) of the 1D wave equation is then described as
+The 1D wave equation may be written
 \begin{equation}\label{eq:1dwave}
     \frac{\partial^2 u}{\partial t^2}= c^2\frac{\partial^2 u}{\partial x^2}\ ,
 \end{equation}
-parameterised by wave speed $c$ (in m/s). As $x$ in Eq. \eqref{eq:1dwave} is only defined over a finite region in space, boundary conditions need to be provided. Two possible conditions are
+and is defined over spatial domain $x \in [0, L]$, for length $L$ (in m) and time $t \geq 0$ (in s). $c$ (in m/s) is the wave speed. The dependent variable $u(x,t)$ in equation \eqref{eq:1dwave} may be interpreted as the displacement of an ideal string, or the acoustic pressure in the case of a cylindrical tube. Two possible choices of boundary conditions are
 \begin{subequations}\label{eq:continuousBoundaries}
     \begin{align}
         u(0, t) = u(L, t) &= 0\quad \text{(Dirichlet)},\label{eq:contDirichlet}\\
         \frac{\partial}{\partial x} u(0, t) = \frac{\partial}{\partial x} u(L, t) &= 0\quad \text{(Neumann)},\label{eq:contNeumann}
     \end{align}
 \end{subequations}
-which describe a `fixed' and `free' boundary respectively.
+which describe a `fixed' and `free' boundary respectively in the case of an ideal string, and `open' and `closed' conditions respectively in the case of a cylindrical acoustic tube.
 
 \subsection{Dynamic parameters}\label{sec:dynamicParamsCont}
 In the case of the 1D wave equation, only the wave speed $c$ and length $L$ can be altered. If Dirichlet-type boundary conditions -- as in Eq. \eqref{eq:contDirichlet} -- are used, the fundamental frequency $f_0$ of the 1D wave equation can be calculated according to
 \begin{equation}\label{eq:fundamentalFreqCont}
     f_0 = \frac{c}{2L}\,.
 \end{equation}
+\SBcomment[OK, but this notion of a frequency is only true under static conditions...kind of confusing]
 From Eq. \eqref{eq:fundamentalFreqCont}, one can easily conclude that in terms of fundamental frequency, halving the length of Eq. \eqref{eq:1dwave} is identical to doubling the wave speed and vice versa. Looking at system \eqref{eq:1dwave} in isolation, $f_0$ is the only behaviour that can be changed. One can thus leave $L$ fixed %($L = 1$ for simplicity) 
 and make $c$ dynamic (or time-varying), i.e., $c = c(t)$, which will prove easier to work with in the following section.
-
+\SBcomment[OK: here, need to refer back to the two primary cases here: the trombone, and the string under variable tensioning, and justify the use of a time-varying $c$ only in these cases. Otherwise this becomes too abstract. ]
 \section{Numerical methods}\label{sec:FDTD}
 This section will give a brief introduction of physical modelling using FDTD methods, including details on stability and quality of the simulations based on these methods.
 
