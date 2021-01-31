@@ -140,9 +140,9 @@ This article is structured as follows:
 %
 %using the famous 1D wave equation.
 %
-The physics of dynamic systems is commonly described using partial differential equations (PDEs) operating in continuous time. To aid the illustration of the proposed method, the 1D wave equation will be used. \SWcomment[This does not mean that the method is limited to this, and could be extended to other (linear) systems, possibly even higher dimensional ones.]
+The physics of dynamic systems is commonly described using partial differential equations (PDEs) operating in continuous time. To aid the illustration of the proposed method, the 1D wave equation will be used. This does not mean that the method is limited to this, and could be extended to other (linear) systems, possibly even higher dimensional ones.
 
-Consider a 1-dimensional system with length $L$ (in m) described by state variable $u = u(x, t)$ defined over spatial domain $x \in [0, L]$ (in m) and time $t \geq 0$ (in s). The partial differential equation (PDE) of the 1D wave equation is then described as
+Consider a 1-dimensional system with length $L$ (in m) its displacement described by state variable $u = u(x, t)$ defined over spatial domain $x \in [0, L]$ (in m) and time $t \geq 0$ (in s). The partial differential equation (PDE) of the 1D wave equation is then described as
 \begin{equation}\label{eq:1dwave}
     \frac{\partial^2 u}{\partial t^2}= c^2\frac{\partial^2 u}{\partial x^2}\ ,
 \end{equation}
@@ -160,14 +160,14 @@ In the case of the 1D wave equation, only the wave speed $c$ and length $L$ can 
 \begin{equation}\label{eq:fundamentalFreqCont}
     f_0 = \frac{c}{2L}\,.
 \end{equation}
-From Eq. \eqref{eq:fundamentalFreqCont}, one can easily conclude that, in terms of fundamental frequency halving the length of Eq. \eqref{eq:1dwave} is identical to doubling the wave speed and vice versa. Looking at system \eqref{eq:1dwave} in isolation, $f_0$ is the only behaviour of the system that can be changed. One can thus leave $L$ fixed %($L = 1$ for simplicity) 
+From Eq. \eqref{eq:fundamentalFreqCont}, one can easily conclude that in terms of fundamental frequency, halving the length of Eq. \eqref{eq:1dwave} is identical to doubling the wave speed and vice versa. Looking at system \eqref{eq:1dwave} in isolation, $f_0$ is the only behaviour that can be changed. One can thus leave $L$ fixed %($L = 1$ for simplicity) 
 and make $c$ dynamic (or time-varying), i.e., $c = c(t)$, which will prove easier to work with in the following section.
 
 \section{Numerical methods}\label{sec:FDTD}
 This section will give a brief introduction of physical modelling using FDTD methods, including details on stability and quality of the simulations based on these methods.
 
 \subsection{Discretisation}
-Using FDTD methods, the continuous 1D wave equation in Eq. \eqref{eq:1dwave} can be discretised into points in space and time. The spatial variable can be discretised using $x_l = lh$ (read: $x$ at location $l$) with integer $l \in [0, \hdots, N]$, grid spacing (distance between two consecutive grid points) $h$ (in m) and total number of points $N + 1$ (including the boundaries) where the total number of intervals between the grid points is described as
+Using FDTD methods, the continuous 1D wave equation in Eq. \eqref{eq:1dwave} can be discretised into points in space and time. The spatial variable can be discretised using $x_l = lh$ (read: $x$ at location $l$) with integer $l \in [0, \hdots, N]$, distance between two consecutive grid points $h$ (in m), also referred to as the grid spacing, and total number of points $N + 1$ (including the boundaries) where the total number of intervals between the grid points is described as
 \begin{equation}\label{eq:numberOfIntervals}
     N = \lfloor L/h\rfloor,
 \end{equation}
@@ -189,7 +189,7 @@ Expanding the operators as in %the Eqs. in
 \begin{equation}\label{eq:updateEq}
     u_l^{n+1} = 2u_l^n-u_l^{n-1} + \lambda^2 \left(u_{l+1}^n-2u_l^n + u_{l-1}^n\right),
 \end{equation}
-saying that $u$ at the next time index ($n+1$) can be calculated using only values of $u$ at the current ($n$) and previous time indices ($n-1$). \SWcomment[This update can be implemented in software, such as {\tt MATLAB} or {\tt C++}.] Here,
+saying that $u$ at the next time index ($n+1$) can be calculated using only values of $u$ at the current ($n$) and previous time indices ($n-1$). This update can be implemented in software, such as {\tt MATLAB} or {\tt C++}. Here,
 \begin{equation}\label{eq:lambdaDef}
     \lambda = \frac{ck}{h}
 \end{equation}
@@ -205,22 +205,22 @@ by using the boundary conditions in Eq. \eqref{eq:continuousBoundaries}. Discret
 \end{subequations}
 where 
 \begin{equation}
-    \frac{\partial u}{\partial x} \approx \delta_{x\cdot}u_l^n = \frac{1}{2h}\left(u_{l+1}^n - u_{l-1}^n\right)
+    \delta_{x\cdot}u_l^n = \frac{1}{2h}\left(u_{l+1}^n - u_{l-1}^n\right)\quad \approx\quad \frac{\partial u}{\partial x}
 \end{equation}
-is a second-order accurate approximation of the first-order spatial derivative. The Dirichlet condition in \eqref{eq:discreteDirichlet} says that the states at the boundary locations are always 0. In practice, this means that these grid points do not need to be updated and the spatial range of calculation for Eq. \eqref{eq:updateEq} then becomes $l = [1, \hdots, N-1]$. If the Neumann condition is used, the boundary points do need to be updated as these are not necessarily $0$; rather, their `slope' is $0$. Eq. \eqref{eq:discreteNeumann} can then be expanded to yield defnitions for these virtual grid points
+is a second-order accurate approximation of the first-order spatial derivative. The Dirichlet condition in \eqref{eq:discreteDirichlet} says that the displacement of $u$ at the boundary locations are always 0. In practice, this means that these grid points do not need to be updated and the spatial range of calculation for Eq. \eqref{eq:updateEq} then becomes $l = [1, \hdots, N-1]$. If the Neumann condition is used, the boundary points do need to be updated as these are not necessarily $0$; rather, their `slope' is $0$. Eq. \eqref{eq:discreteNeumann} can then be expanded to yield defnitions for these virtual grid points
 \begin{equation}\label{eq:neumannSolution}
     u_{-1}^n = u_1^n \quad \text{and} \quad u_{N+1}^n = u_{N-1}^n\,.
 \end{equation}
 
-Now that the full system is described the output sound can be retrieved by following the state $u_l^n$ in Eq. \eqref{eq:updateEq} at $0 < l < N$ (when using fixed boundary conditions \SWcomment[, unless silence is your thing]) and listening to that at the given sample rate $f_\text{s}$.
+Now that the full system is described, the output sound can be retrieved by `recording' the state $u_l^n$ in Eq. \eqref{eq:updateEq} at $0 < l < N$ (when using fixed boundary conditions) and listening to that at the given sample rate $f_\text{s}$. Though the output location does not change the behaviour of the system, it will determine the amplitude of different harmonic partials in the system output.
 
 \subsection{Stability}\label{sec:stability}
-Discretising continuous equations using numerical methods places limits on the parameters describing it. A wrong choice of parameters could render the system unstable and make it ``explode". In the case of the update in Eq. \eqref{eq:updateEq} it can be shown -- using Von Neumann stability analysis [REF] -- that the system is stable if
+Discretising continuous equations using numerical methods places limits on the parameters describing it. A wrong choice of parameters could render the system unstable and make it ``explode". In the case of the update in Eq. \eqref{eq:updateEq} it can be shown -- using Von Neumann analysis -- that the system is stable if
 \begin{equation}\label{eq:CFL}
     \lambda \leq 1,
 \end{equation}
-which is referred to as the Courant-Friedrichs-Lewy (CFL) stability condition. The closer $\lambda$ is to this condition, the higher the quality of the simulation (see Section \ref{sec:quality}) and if $\lambda = 1$, Eq. \eqref{eq:updateEq} provides an exact solution to Eq. \eqref{eq:1dwave} %(this is true for the 1D wave equation)
-[REF] (see Figures \ref{fig:lambda1} and \ref{fig:lambda0.9}). If $\lambda > 1$ the system will become unstable (see Figure \ref{fig:lambda1.001}).
+which is referred to as the Courant-Friedrichs-Lewy (CFL) stability condition \cite{Strikwerda1989}. The closer $\lambda$ is to this condition, the higher the quality of the simulation (see Section \ref{sec:quality}) and if $\lambda = 1$, Eq. \eqref{eq:updateEq} provides an exact solution to Eq. \eqref{eq:1dwave} %(this is true for the 1D wave equation)
+(see Figures \ref{fig:lambda1} and \ref{fig:lambda0.9}). If $\lambda > 1$ the system will become unstable (see Figure \ref{fig:lambda1.001}).
 \begin{figure*}
 \figline{\fig{ulnLambda1}{.25\textwidth}{(A)}\label{fig:lambda1}
 \fig{ulnLambda09}{.25\textwidth}{(B)}\label{fig:lambda0.9}
@@ -233,7 +233,7 @@ Recalling \eqref{eq:lambdaDef} can rewrite Eq. \eqref{eq:CFL} in terms of grid s
 \begin{equation}\label{eq:stabilityCond}
     h \geq ck.
 \end{equation}
-This shows that the CFL condition in \eqref{eq:CFL} puts a lower bound on the grid spacing, calculated from the sample rate and wave speed. Usually, the following steps are taken to calculate $\lambda$
+This shows that the CFL condition in \eqref{eq:CFL} puts a lower bound on the grid spacing, determined by the sample rate and wave speed. Usually, the following steps are taken to calculate $\lambda$
 \begin{equation}\label{eq:orderOfCalcGrid}
     h := ck,\ \ N := \left\lfloor\frac{L}{h}\right\rfloor, \ \ h := \frac{L}{N}, \ \ \lambda := \frac{ck}{h}.
 \end{equation}
@@ -259,19 +259,18 @@ with $f_\text{s} = 44100$ Hz and
 %
 By analysing the scheme in Eq. \eqref{eq:updateEq}, it can be shown that the maximum frequency produced by the system can be calculated using \cite[Chap. 6]{bilbao2009}
 \begin{equation}\label{eq:fmax}
-    f_\text{max} = \frac{f_\text{s}}{\pi} \sin^{-1}(\lambda),
+    f_\text{max} = \frac{f_\text{s}}{\pi} \sin^{-1}(\lambda).
 \end{equation}
-shown in Figure \ref{fig:bandWidthFormula}.
+% shown in Figure \ref{fig:bandWidthFormula}.
 %
 Note that only a small deviation of $\lambda$ from condition \eqref{eq:CFL} already has a profound effect on the bandwidth of the output.
-
-\begin{figure}
-%% \reprintcolumnwidth is the same in preprint and reprint for
-%% ease of use for authors:
-\includegraphics[width=0.8\reprintcolumnwidth]{bandwidthPlot}
-\caption{\label{fig:bandWidthFormula}{The effect of the Courant number $\lambda$ on the output bandwidth. \SWcomment[This figure should probably be much more compact, if not removed altogether.]}}
-\end{figure} 
-
+%
+% \begin{figure}
+% %% \reprintcolumnwidth is the same in preprint and reprint for
+% %% ease of use for authors:
+% \includegraphics[width=0.8\reprintcolumnwidth]{bandwidthPlot}
+% \caption{\label{fig:bandWidthFormula}{The effect of the Courant number $\lambda$ on the output bandwidth. \SWcomment[This figure should probably be much more compact, if not removed altogether.]}}
+% \end{figure} 
 Secondly, choosing $\lambda < 1$ causes numerical dispersion. See Figures \ref{fig:lambda0.9} and \ref{fig:bandWidths}. Harmonic partials get closer together at higher frequencies (i.e. get more inharmonic) as $\lambda$ decreases, which is generally undesirable.
 
 Apart from the recalculation of $\lambda$ due to the flooring operation in Eq. \eqref{eq:orderOfCalcGrid}, a reason that one would choose $\lambda < 1$ could be to decrease the total number of grid points used in the simulation by increasing $h$. This makes the simulation less computationally expensive, while keeping a desired wave speed $c$ and time step $k$. For 1-dimensional systems such as the 1D wave equation, this is rarely necessary.
@@ -722,10 +721,10 @@ Another observation from Figure \ref{fig:modalAnalysis} is that there are always
 
 Using the quadratic interpolation from \eqref{eq:connectionInterpol}, or any other even-ordered Lagrange interpolator for that matter, the modal behaviour of the system does not change based on location. Experiments done with odd-ordered Lagrange interpolators showed that better behaviour is observed when points are added / removed closer to the boundaries. 
 
-\subsection{Displacement correction}\label{sec:dispCorrRes}
+\subsection{Displacement Correction}\label{sec:dispCorrRes}
 (FIR) Comb filtering effect where resonances appear depending on the location of correction. Middle has least
 
-\subsection{Limit on speed of change}
+\subsection{Limit on Speed of Change}
 The method presented in this paper can only add or remove a maximum one point per sample using Eqs. \eqref{eq:addingPoint} and \eqref{eq:removingPoint}. The speed of decreasing $f_0$ according to \eqref{eq:fundamentalFreq} is thus limited by the following condition
 \begin{equation}\label{eq:pointCondition}
     |N^n - N^{n-1}| \leq 1. 

@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{2}
 \def\enquote#1{``#1,''}
 \def\plainquote#1{``#1''}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
@@ -12,5 +12,11 @@
 \bibinfo{author}{Bilbao, S.} (\textbf{\bibinfo{year}{2009}}).
   \emph{\bibinfo{title}{Numerical Sound Synthesis}} (\bibinfo{publisher}{John
   Wiley \& Sons}, \bibinfo{address}{United Kingdom}).
+
+\bibitem[{Strikwerda(1989)}]{Strikwerda1989}
+\bibinfo{author}{Strikwerda, J.} (\textbf{\bibinfo{year}{1989}}).
+  \emph{\bibinfo{title}{Finite Difference Schemes and Partial Differential
+  Equations}} (\bibinfo{publisher}{Wadsworth \& Brooks/Cole Advanced Books \&
+  Software}, \bibinfo{address}{Pacific Grove, California}).
 
 \end{thebibliography}
