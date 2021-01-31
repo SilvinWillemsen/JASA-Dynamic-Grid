@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.11.3)  31 JAN 2021 10:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.11.3)  31 JAN 2021 13:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -410,61 +410,98 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 28
 Package: epsfig 1999/02/16 v1.7a (e)psfig emulation (SPQR)
 \epsfxsize=\dimen139
 \epsfysize=\dimen140
-) (/usr/local/texlive/2016/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
-Package: algpseudocode 
+) (/usr/local/texlive/2016/texmf-dist/tex/latex/cases/cases.sty
+Package: cases 2002/05/02 ver 2.5 
+) (/usr/local/texlive/2016/texmf-dist/tex/latex/algorithm2e/algorithm2e.sty
+Package: algorithm2e 2013/01/06 v5.00 algorithms environments
+\c@AlgoLine=\count135
  (/usr/local/texlive/2016/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
-) (/usr/local/texlive/2016/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
-Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
-
-Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
-\c@ALG@line=\count135
-\c@ALG@rem=\count136
-\c@ALG@nested=\count137
-\ALG@tlm=\skip53
-\ALG@thistlm=\skip54
-\c@ALG@Lnr=\count138
-\c@ALG@blocknr=\count139
-\c@ALG@storecount=\count140
-\c@ALG@tmpcounter=\count141
-\ALG@tmplength=\skip55
 )
-Document Style - pseudocode environments for use with the `algorithmicx' style
+\algocf@hangindent=\skip53
+ (/usr/local/texlive/2016/texmf-dist/tex/latex/tools/xspace.sty
+Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
+) (/usr/local/texlive/2016/texmf-dist/tex/latex/relsize/relsize.sty
+Package: relsize 2013/03/29 ver 4.1
 )
-Class revtex4-1 Info: Patching array package. on input line 71.
-Class revtex4-1 Info: Robustifying \LaTeX's \boldmath command on input line 71.
-Class revtex4-1 Info: cite was not loaded (OK!) on input line 71.
-Class revtex4-1 Info: mcite was not loaded (OK!) on input line 71.
-Class revtex4-1 Info: multicol was not loaded (OK!) on input line 71.
+********************************************************
+Package `algorithm2e' Release 5.1 -- october 19 2015 --
+- algorithm2e-announce@lirmm.fr mailing list for announcement about releases
+- algorithm2e-discussion@lirmm.fr mailing list for discussion about package
+subscribe by emailing sympa@lirmm.fr with 'subscribe <list> <firstname name>'
+- Author: Christophe Fiorio (christophe.fiorio@umontpellier.fr)
+********************************************************
+\skiptotal=\skip54
+\skiplinenumber=\skip55
+\skiprule=\skip56
+\skiphlne=\skip57
+\skiptext=\skip58
+\skiplength=\skip59
+\algomargin=\skip60
+\skipalgocfslide=\skip61
+\algowidth=\dimen141
+\inoutsize=\dimen142
+\inoutindent=\dimen143
+\interspacetitleruled=\dimen144
+\interspacealgoruled=\dimen145
+\interspacetitleboxruled=\dimen146
+\algocf@ruledwidth=\skip62
+\algocf@inoutbox=\box49
+\algocf@inputbox=\box50
+\AlCapSkip=\skip63
+\AlCapHSkip=\skip64
+\algoskipindent=\skip65
+\algocf@nlbox=\box51
+\algocf@hangingbox=\box52
+\algocf@untilbox=\box53
+\algocf@skipuntil=\skip66
+\algocf@capbox=\box54
+\algoheightruledefault=\skip67
+\algoheightrule=\skip68
+\algotitleheightruledefault=\skip69
+\algotitleheightrule=\skip70
+\c@algocfline=\count136
+\c@algocfproc=\count137
+\c@algocf=\count138
+\algocf@algoframe=\box55
+\algocf@algobox=\box56
+) (/usr/local/texlive/2016/texmf-dist/tex/latex/setspace/setspace.sty
+Package: setspace 2011/12/19 v6.7a set line spacing
+)
+Class revtex4-1 Info: Patching array package. on input line 73.
+Class revtex4-1 Info: Robustifying \LaTeX's \boldmath command on input line 73.
+Class revtex4-1 Info: cite was not loaded (OK!) on input line 73.
+Class revtex4-1 Info: mcite was not loaded (OK!) on input line 73.
+Class revtex4-1 Info: multicol was not loaded (OK!) on input line 73.
  (/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.aux)
 \openout1 = `preprintsample.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 71.
-LaTeX Font Info:    ... okay on input line 71.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 71.
-LaTeX Font Info:    ... okay on input line 71.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 71.
-LaTeX Font Info:    ... okay on input line 71.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 71.
-LaTeX Font Info:    ... okay on input line 71.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 71.
-LaTeX Font Info:    ... okay on input line 71.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 71.
-LaTeX Font Info:    ... okay on input line 71.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 71.
-LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
  (/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count142
-\scratchdimen=\dimen141
-\scratchbox=\box49
-\nofMPsegments=\count143
-\nofMParguments=\count144
+\scratchcounter=\count139
+\scratchdimen=\dimen147
+\scratchbox=\box57
+\nofMPsegments=\count140
+\nofMParguments=\count141
 \everyMPshowfont=\toks28
-\MPscratchCnt=\count145
-\MPscratchDim=\dimen142
-\MPnumerator=\count146
-\makeMPintoPDFobject=\count147
+\MPscratchCnt=\count142
+\MPscratchDim=\dimen148
+\MPnumerator=\count143
+\makeMPintoPDFobject=\count144
 \everyMPtoPDFconversion=\toks29
 ) (/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
@@ -477,55 +514,65 @@ Package grfext Info: Graphics extension search list:
  (/usr/local/texlive/2016/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-\AtBeginShipoutBox=\box50
-Package hyperref Info: Link coloring ON on input line 71.
+\AtBeginShipoutBox=\box58
+Package hyperref Info: Link coloring ON on input line 73.
  (/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
  (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count148
+\c@section@level=\count145
 )
-LaTeX Info: Redefining \ref on input line 71.
-LaTeX Info: Redefining \pageref on input line 71.
-LaTeX Info: Redefining \nameref on input line 71.
-Class revtex4-1 Info: Overriding lineo.sty, restoring output routine, on input line 71.
-Class revtex4-1 Info: Line numbering not turned on yet on input line 71.
+LaTeX Info: Redefining \ref on input line 73.
+LaTeX Info: Redefining \pageref on input line 73.
+LaTeX Info: Redefining \nameref on input line 73.
+Class revtex4-1 Info: Overriding lineo.sty, restoring output routine, on input line 73.
+Class revtex4-1 Info: Line numbering not turned on yet on input line 73.
 \openout3 = `preprintsampleNotes.bib'.
 
-Class revtex4-1 Info: Overriding \@LN@LLerror on input line 71.
-LaTeX Font Info:    Try loading font information for U+msa on input line 98.
- (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
+Class revtex4-1 Info: Overriding \@LN@LLerror on input line 73.
+
+Underfull \hbox (badness 10000) in paragraph at lines 100--103
+  
+ []
+
+
+Underfull \hbox (badness 1776) in paragraph at lines 100--103
+ \OT1/cmr/m/n/10 Simulating mu-si-cal in-stru-ments us-ing phys-i-cal mod-elling is a well-established field. 
+ []
+
+LaTeX Font Info:    Try loading font information for U+msa on input line 107.
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 98.
+LaTeX Font Info:    Try loading font information for U+msb on input line 107.
  (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+lasy on input line 98.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 107.
  (/usr/local/texlive/2016/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 98.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 107.
  (/usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 98.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 107.
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 98.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 107.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <9.5> not available
-(Font)              size <9> substituted on input line 104.
+(Font)              size <9> substituted on input line 113.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <9.5> not available
-(Font)              size <9> substituted on input line 104.
+(Font)              size <9> substituted on input line 113.
 
 
 LaTeX Font Warning: Font shape `OT1/cmss/bx/n' in size <9.5> not available
-(Font)              size <9> substituted on input line 104.
+(Font)              size <9> substituted on input line 113.
 
 [1{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2]
 Package epstopdf Info: Source file: <ulnLambda1.eps>
@@ -535,12 +582,12 @@ Package epstopdf Info: Source file: <ulnLambda1.eps>
 (epstopdf)                    date: 2021-01-26 11:43:24
 (epstopdf)                    size: 8052 bytes
 (epstopdf)             Command: <repstopdf --outfile=ulnLambda1-eps-converted-to.pdf ulnLambda1.eps>
-(epstopdf)             \includegraphics on input line 229.
+(epstopdf)             \includegraphics on input line 239.
 Package epstopdf Info: Output file is already uptodate.
- <ulnLambda1-eps-converted-to.pdf, id=88, 401.5pt x 301.125pt>
+ <ulnLambda1-eps-converted-to.pdf, id=83, 401.5pt x 301.125pt>
 File: ulnLambda1-eps-converted-to.pdf Graphic file (type pdf)
  <use ulnLambda1-eps-converted-to.pdf>
-Package pdftex.def Info: ulnLambda1-eps-converted-to.pdf used on input line 229.
+Package pdftex.def Info: ulnLambda1-eps-converted-to.pdf used on input line 239.
 (pdftex.def)             Requested size: 127.5pt x 95.6222pt.
 Package epstopdf Info: Source file: <ulnLambda09.eps>
 (epstopdf)                    date: 2021-01-26 17:42:19
@@ -549,12 +596,12 @@ Package epstopdf Info: Source file: <ulnLambda09.eps>
 (epstopdf)                    date: 2021-01-26 17:44:51
 (epstopdf)                    size: 8269 bytes
 (epstopdf)             Command: <repstopdf --outfile=ulnLambda09-eps-converted-to.pdf ulnLambda09.eps>
-(epstopdf)             \includegraphics on input line 229.
+(epstopdf)             \includegraphics on input line 239.
 Package epstopdf Info: Output file is already uptodate.
- <ulnLambda09-eps-converted-to.pdf, id=89, 401.5pt x 301.125pt>
+ <ulnLambda09-eps-converted-to.pdf, id=84, 401.5pt x 301.125pt>
 File: ulnLambda09-eps-converted-to.pdf Graphic file (type pdf)
  <use ulnLambda09-eps-converted-to.pdf>
-Package pdftex.def Info: ulnLambda09-eps-converted-to.pdf used on input line 229.
+Package pdftex.def Info: ulnLambda09-eps-converted-to.pdf used on input line 239.
 (pdftex.def)             Requested size: 127.5pt x 95.6222pt.
 Package epstopdf Info: Source file: <ulnLambda1001.eps>
 (epstopdf)                    date: 2020-10-13 17:21:51
@@ -563,15 +610,15 @@ Package epstopdf Info: Source file: <ulnLambda1001.eps>
 (epstopdf)                    date: 2021-01-26 11:43:24
 (epstopdf)                    size: 8289 bytes
 (epstopdf)             Command: <repstopdf --outfile=ulnLambda1001-eps-converted-to.pdf ulnLambda1001.eps>
-(epstopdf)             \includegraphics on input line 229.
+(epstopdf)             \includegraphics on input line 239.
 Package epstopdf Info: Output file is already uptodate.
- <ulnLambda1001-eps-converted-to.pdf, id=90, 401.5pt x 301.125pt>
+ <ulnLambda1001-eps-converted-to.pdf, id=85, 401.5pt x 301.125pt>
 File: ulnLambda1001-eps-converted-to.pdf Graphic file (type pdf)
  <use ulnLambda1001-eps-converted-to.pdf>
-Package pdftex.def Info: ulnLambda1001-eps-converted-to.pdf used on input line 229.
+Package pdftex.def Info: ulnLambda1001-eps-converted-to.pdf used on input line 239.
 (pdftex.def)             Requested size: 127.5pt x 95.6222pt.
 
-Overfull \hbox (12.33325pt too wide) detected at line 229
+Overfull \hbox (13.33328pt too wide) detected at line 239
  $[]$ [] $[]$ [] $[]$ [] $[]$
  []
 
@@ -582,12 +629,12 @@ Package epstopdf Info: Source file: <bandwidthLambda1.eps>
 (epstopdf)                    date: 2021-01-26 11:43:25
 (epstopdf)                    size: 35605 bytes
 (epstopdf)             Command: <repstopdf --outfile=bandwidthLambda1-eps-converted-to.pdf bandwidthLambda1.eps>
-(epstopdf)             \includegraphics on input line 257.
+(epstopdf)             \includegraphics on input line 267.
 Package epstopdf Info: Output file is already uptodate.
-<bandwidthLambda1-eps-converted-to.pdf, id=101, 401.5pt x 301.125pt>
+<bandwidthLambda1-eps-converted-to.pdf, id=96, 401.5pt x 301.125pt>
 File: bandwidthLambda1-eps-converted-to.pdf Graphic file (type pdf)
  <use bandwidthLambda1-eps-converted-to.pdf>
-Package pdftex.def Info: bandwidthLambda1-eps-converted-to.pdf used on input line 257.
+Package pdftex.def Info: bandwidthLambda1-eps-converted-to.pdf used on input line 267.
 (pdftex.def)             Requested size: 127.5pt x 95.6222pt.
 Package epstopdf Info: Source file: <bandwidthLambda09.eps>
 (epstopdf)                    date: 2021-01-26 17:42:19
@@ -596,12 +643,12 @@ Package epstopdf Info: Source file: <bandwidthLambda09.eps>
 (epstopdf)                    date: 2021-01-26 17:44:51
 (epstopdf)                    size: 36324 bytes
 (epstopdf)             Command: <repstopdf --outfile=bandwidthLambda09-eps-converted-to.pdf bandwidthLambda09.eps>
-(epstopdf)             \includegraphics on input line 257.
+(epstopdf)             \includegraphics on input line 267.
 Package epstopdf Info: Output file is already uptodate.
- <bandwidthLambda09-eps-converted-to.pdf, id=102, 401.5pt x 301.125pt>
+ <bandwidthLambda09-eps-converted-to.pdf, id=97, 401.5pt x 301.125pt>
 File: bandwidthLambda09-eps-converted-to.pdf Graphic file (type pdf)
  <use bandwidthLambda09-eps-converted-to.pdf>
-Package pdftex.def Info: bandwidthLambda09-eps-converted-to.pdf used on input line 257.
+Package pdftex.def Info: bandwidthLambda09-eps-converted-to.pdf used on input line 267.
 (pdftex.def)             Requested size: 127.5pt x 95.6222pt.
 Package epstopdf Info: Source file: <bandwidthLambda05.eps>
 (epstopdf)                    date: 2021-01-26 17:42:19
@@ -610,27 +657,26 @@ Package epstopdf Info: Source file: <bandwidthLambda05.eps>
 (epstopdf)                    date: 2021-01-26 17:44:51
 (epstopdf)                    size: 36236 bytes
 (epstopdf)             Command: <repstopdf --outfile=bandwidthLambda05-eps-converted-to.pdf bandwidthLambda05.eps>
-(epstopdf)             \includegraphics on input line 257.
+(epstopdf)             \includegraphics on input line 267.
 Package epstopdf Info: Output file is already uptodate.
- <bandwidthLambda05-eps-converted-to.pdf, id=103, 401.5pt x 301.125pt>
+ <bandwidthLambda05-eps-converted-to.pdf, id=98, 401.5pt x 301.125pt>
 File: bandwidthLambda05-eps-converted-to.pdf Graphic file (type pdf)
  <use bandwidthLambda05-eps-converted-to.pdf>
-Package pdftex.def Info: bandwidthLambda05-eps-converted-to.pdf used on input line 257.
+Package pdftex.def Info: bandwidthLambda05-eps-converted-to.pdf used on input line 267.
 (pdftex.def)             Requested size: 127.5pt x 95.6222pt.
 
-Overfull \hbox (18.49988pt too wide) detected at line 257
+Overfull \hbox (19.99992pt too wide) detected at line 267
  $[]$   $[]$   $[]$   $[]$
  []
 
-[3]
-Underfull \hbox (badness 10000) in paragraph at lines 349--350
+[3] [4 </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/ulnLambda1-eps-converted-to.pdf> </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/ulnLambda09-eps-converted-to.pdf> </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/ulnLambda1001-eps-converted-to.pdf> </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/bandwidthLambda1-eps-converted-to.pdf> </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/bandwidthLambda09-eps-converted-to.pdf> </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/bandwidthLambda05-eps-converted-to.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 359--360
  
  []
 
-[4 </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/ulnLambda1-eps-converted-to.pdf> </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/ulnLambda09-eps-converted-to.pdf> </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/ulnLambda1001-eps-converted-to.pdf> </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/bandwidthLambda1-eps-converted-to.pdf> </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/bandwidthLambda09-eps-converted-to.pdf> </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/bandwidthLambda05-eps-converted-to.pdf>]
 
 LaTeX Font Warning: Font shape `OT1/cmss/bx/it' undefined
-(Font)              using `OT1/cmss/bx/n' instead on input line 369.
+(Font)              using `OT1/cmss/bx/n' instead on input line 381.
 
 Package epstopdf Info: Source file: <twoFreeStrings.eps>
 (epstopdf)                    date: 2020-10-20 10:55:58
@@ -639,12 +685,12 @@ Package epstopdf Info: Source file: <twoFreeStrings.eps>
 (epstopdf)                    date: 2021-01-26 11:43:26
 (epstopdf)                    size: 17332 bytes
 (epstopdf)             Command: <repstopdf --outfile=twoFreeStrings-eps-converted-to.pdf twoFreeStrings.eps>
-(epstopdf)             \includegraphics on input line 389.
+(epstopdf)             \includegraphics on input line 401.
 Package epstopdf Info: Output file is already uptodate.
-<twoFreeStrings-eps-converted-to.pdf, id=199, 501.875pt x 210.7875pt>
+<twoFreeStrings-eps-converted-to.pdf, id=197, 501.875pt x 210.7875pt>
 File: twoFreeStrings-eps-converted-to.pdf Graphic file (type pdf)
  <use twoFreeStrings-eps-converted-to.pdf>
-Package pdftex.def Info: twoFreeStrings-eps-converted-to.pdf used on input line 389.
+Package pdftex.def Info: twoFreeStrings-eps-converted-to.pdf used on input line 401.
 (pdftex.def)             Requested size: 246.0pt x 103.32216pt.
 Package epstopdf Info: Source file: <twoFreeStringGridMove.eps>
 (epstopdf)                    date: 2020-10-20 11:40:13
@@ -653,12 +699,12 @@ Package epstopdf Info: Source file: <twoFreeStringGridMove.eps>
 (epstopdf)                    date: 2021-01-26 11:43:26
 (epstopdf)                    size: 17199 bytes
 (epstopdf)             Command: <repstopdf --outfile=twoFreeStringGridMove-eps-converted-to.pdf twoFreeStringGridMove.eps>
-(epstopdf)             \includegraphics on input line 389.
+(epstopdf)             \includegraphics on input line 401.
 Package epstopdf Info: Output file is already uptodate.
- <twoFreeStringGridMove-eps-converted-to.pdf, id=200, 501.875pt x 210.7875pt>
+ <twoFreeStringGridMove-eps-converted-to.pdf, id=198, 501.875pt x 210.7875pt>
 File: twoFreeStringGridMove-eps-converted-to.pdf Graphic file (type pdf)
  <use twoFreeStringGridMove-eps-converted-to.pdf>
-Package pdftex.def Info: twoFreeStringGridMove-eps-converted-to.pdf used on input line 389.
+Package pdftex.def Info: twoFreeStringGridMove-eps-converted-to.pdf used on input line 401.
 (pdftex.def)             Requested size: 246.0pt x 103.32216pt.
 Package epstopdf Info: Source file: <twoFreeStringGridMoveZoomed2.eps>
 (epstopdf)                    date: 2021-01-26 17:42:19
@@ -667,14 +713,24 @@ Package epstopdf Info: Source file: <twoFreeStringGridMoveZoomed2.eps>
 (epstopdf)                    date: 2021-01-26 17:44:52
 (epstopdf)                    size: 12466 bytes
 (epstopdf)             Command: <repstopdf --outfile=twoFreeStringGridMoveZoomed2-eps-converted-to.pdf twoFreeStringGridMoveZoomed2.eps>
-(epstopdf)             \includegraphics on input line 389.
+(epstopdf)             \includegraphics on input line 401.
 Package epstopdf Info: Output file is already uptodate.
- <twoFreeStringGridMoveZoomed2-eps-converted-to.pdf, id=201, 501.875pt x 200.75pt>
+ <twoFreeStringGridMoveZoomed2-eps-converted-to.pdf, id=199, 501.875pt x 200.75pt>
 File: twoFreeStringGridMoveZoomed2-eps-converted-to.pdf Graphic file (type pdf)
  <use twoFreeStringGridMoveZoomed2-eps-converted-to.pdf>
-Package pdftex.def Info: twoFreeStringGridMoveZoomed2-eps-converted-to.pdf used on input line 389.
+Package pdftex.def Info: twoFreeStringGridMoveZoomed2-eps-converted-to.pdf used on input line 401.
 (pdftex.def)             Requested size: 246.0pt x 98.40204pt.
- [5 </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/twoFreeStrings-eps-converted-to.pdf> </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/twoFreeStringGridMove-eps-converted-to.pdf> </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/twoFreeStringGridMoveZoomed2-eps-converted-to.pdf>] [6]
+ [5]
+
+LaTeX Warning: A float is stuck (cannot be placed) on input line 443.
+
+
+LaTeX Warning: A float is stuck (cannot be placed) on input line 443.
+
+
+Class revtex4-1 Warning: Deferred float stuck during \clearpage processing.
+
+[6 </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/twoFreeStrings-eps-converted-to.pdf> </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/twoFreeStringGridMove-eps-converted-to.pdf> </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/twoFreeStringGridMoveZoomed2-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <addingGridPoint4.eps>
 (epstopdf)                    date: 2021-01-27 11:19:18
 (epstopdf)                    size: 37798 bytes
@@ -682,101 +738,101 @@ Package epstopdf Info: Source file: <addingGridPoint4.eps>
 (epstopdf)                    date: 2021-01-27 11:19:20
 (epstopdf)                    size: 17787 bytes
 (epstopdf)             Command: <repstopdf --outfile=addingGridPoint4-eps-converted-to.pdf addingGridPoint4.eps>
-(epstopdf)             \includegraphics on input line 584.
+(epstopdf)             \includegraphics on input line 597.
 Package epstopdf Info: Output file is already uptodate.
- <addingGridPoint4-eps-converted-to.pdf, id=275, 501.875pt x 200.75pt>
+ <addingGridPoint4-eps-converted-to.pdf, id=280, 501.875pt x 200.75pt>
 File: addingGridPoint4-eps-converted-to.pdf Graphic file (type pdf)
  <use addingGridPoint4-eps-converted-to.pdf>
-Package pdftex.def Info: addingGridPoint4-eps-converted-to.pdf used on input line 584.
+Package pdftex.def Info: addingGridPoint4-eps-converted-to.pdf used on input line 597.
 (pdftex.def)             Requested size: 246.0pt x 98.40204pt.
  [7 </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/addingGridPoint4-eps-converted-to.pdf>]
 
-LaTeX Font Warning: Command \small invalid in math mode on input line 649.
+LaTeX Font Warning: Command \small invalid in math mode on input line 712.
 
-LaTeX Font Info:    Calculating math sizes for size <> on input line 658.
+LaTeX Font Info:    Calculating math sizes for size <> on input line 721.
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <> not available
-(Font)              size <5> substituted on input line 658.
+(Font)              size <5> substituted on input line 721.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.7> not available
-(Font)              size <5> substituted on input line 658.
+(Font)              size <5> substituted on input line 721.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.5> not available
-(Font)              size <5> substituted on input line 658.
+(Font)              size <5> substituted on input line 721.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <> not available
-(Font)              size <5> substituted on input line 658.
+(Font)              size <5> substituted on input line 721.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.7> not available
-(Font)              size <5> substituted on input line 658.
+(Font)              size <5> substituted on input line 721.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.5> not available
-(Font)              size <5> substituted on input line 658.
+(Font)              size <5> substituted on input line 721.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <> not available
-(Font)              size <5> substituted on input line 658.
+(Font)              size <5> substituted on input line 721.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.7> not available
-(Font)              size <5> substituted on input line 658.
+(Font)              size <5> substituted on input line 721.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.5> not available
-(Font)              size <5> substituted on input line 658.
+(Font)              size <5> substituted on input line 721.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <> not available
-(Font)              size <5> substituted on input line 658.
+(Font)              size <5> substituted on input line 721.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <0.7> not available
-(Font)              size <5> substituted on input line 658.
+(Font)              size <5> substituted on input line 721.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <0.5> not available
-(Font)              size <5> substituted on input line 658.
+(Font)              size <5> substituted on input line 721.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/b/it' in size <> not available
-(Font)              size <5> substituted on input line 658.
+(Font)              size <5> substituted on input line 721.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/b/it' in size <0.7> not available
-(Font)              size <5> substituted on input line 658.
+(Font)              size <5> substituted on input line 721.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/b/it' in size <0.5> not available
-(Font)              size <5> substituted on input line 658.
+(Font)              size <5> substituted on input line 721.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <> not available
-(Font)              size <5> substituted on input line 658.
+(Font)              size <5> substituted on input line 721.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <0.7> not available
-(Font)              size <5> substituted on input line 658.
+(Font)              size <5> substituted on input line 721.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <0.5> not available
-(Font)              size <5> substituted on input line 658.
+(Font)              size <5> substituted on input line 721.
 
 
 LaTeX Font Warning: Font shape `U/lasy/m/n' in size <> not available
-(Font)              size <5> substituted on input line 658.
+(Font)              size <5> substituted on input line 721.
 
 
 LaTeX Font Warning: Font shape `U/lasy/m/n' in size <0.7> not available
-(Font)              size <5> substituted on input line 658.
+(Font)              size <5> substituted on input line 721.
 
 
 LaTeX Font Warning: Font shape `U/lasy/m/n' in size <0.5> not available
-(Font)              size <5> substituted on input line 658.
+(Font)              size <5> substituted on input line 721.
 
 Package epstopdf Info: Source file: <spectraDoubleSampleRateQuadratic.eps>
 (epstopdf)                    date: 2021-01-26 17:42:19
@@ -785,13 +841,23 @@ Package epstopdf Info: Source file: <spectraDoubleSampleRateQuadratic.eps>
 (epstopdf)                    date: 2021-01-26 17:44:52
 (epstopdf)                    size: 54730 bytes
 (epstopdf)             Command: <repstopdf --outfile=spectraDoubleSampleRateQuadratic-eps-converted-to.pdf spectraDoubleSampleRateQuadratic.eps>
-(epstopdf)             \includegraphics on input line 683.
+(epstopdf)             \includegraphics on input line 746.
 Package epstopdf Info: Output file is already uptodate.
-<spectraDoubleSampleRateQuadratic-eps-converted-to.pdf, id=321, 602.25pt x 351.3125pt>
+<spectraDoubleSampleRateQuadratic-eps-converted-to.pdf, id=329, 602.25pt x 351.3125pt>
 File: spectraDoubleSampleRateQuadratic-eps-converted-to.pdf Graphic file (type pdf)
  <use spectraDoubleSampleRateQuadratic-eps-converted-to.pdf>
-Package pdftex.def Info: spectraDoubleSampleRateQuadratic-eps-converted-to.pdf used on input line 683.
+Package pdftex.def Info: spectraDoubleSampleRateQuadratic-eps-converted-to.pdf used on input line 746.
 (pdftex.def)             Requested size: 246.0pt x 143.50299pt.
+ [8]
+
+LaTeX Warning: A float is stuck (cannot be placed) on input line 759.
+
+
+LaTeX Warning: A float is stuck (cannot be placed) on input line 759.
+
+
+Class revtex4-1 Warning: Deferred float stuck during \clearpage processing.
+
 Package epstopdf Info: Source file: <modalAnalysisQuadratic.eps>
 (epstopdf)                    date: 2021-01-27 15:39:05
 (epstopdf)                    size: 110839 bytes
@@ -799,12 +865,12 @@ Package epstopdf Info: Source file: <modalAnalysisQuadratic.eps>
 (epstopdf)                    date: 2021-01-27 15:39:13
 (epstopdf)                    size: 104415 bytes
 (epstopdf)             Command: <repstopdf --outfile=modalAnalysisQuadratic-eps-converted-to.pdf modalAnalysisQuadratic.eps>
-(epstopdf)             \includegraphics on input line 700.
+(epstopdf)             \includegraphics on input line 763.
 Package epstopdf Info: Output file is already uptodate.
- <modalAnalysisQuadratic-eps-converted-to.pdf, id=330, 562.1pt x 421.575pt>
+<modalAnalysisQuadratic-eps-converted-to.pdf, id=357, 562.1pt x 421.575pt>
 File: modalAnalysisQuadratic-eps-converted-to.pdf Graphic file (type pdf)
  <use modalAnalysisQuadratic-eps-converted-to.pdf>
-Package pdftex.def Info: modalAnalysisQuadratic-eps-converted-to.pdf used on input line 700.
+Package pdftex.def Info: modalAnalysisQuadratic-eps-converted-to.pdf used on input line 763.
 (pdftex.def)             Requested size: 246.0pt x 184.49649pt.
 Package epstopdf Info: Source file: <specQuadratic.eps>
 (epstopdf)                    date: 2021-01-27 15:41:13
@@ -813,24 +879,14 @@ Package epstopdf Info: Source file: <specQuadratic.eps>
 (epstopdf)                    date: 2021-01-27 15:41:14
 (epstopdf)                    size: 344624 bytes
 (epstopdf)             Command: <repstopdf --outfile=specQuadratic-eps-converted-to.pdf specQuadratic.eps>
-(epstopdf)             \includegraphics on input line 706.
+(epstopdf)             \includegraphics on input line 769.
 Package epstopdf Info: Output file is already uptodate.
- <specQuadratic-eps-converted-to.pdf, id=335, 562.1pt x 421.575pt>
+ <specQuadratic-eps-converted-to.pdf, id=362, 562.1pt x 421.575pt>
 File: specQuadratic-eps-converted-to.pdf Graphic file (type pdf)
  <use specQuadratic-eps-converted-to.pdf>
-Package pdftex.def Info: specQuadratic-eps-converted-to.pdf used on input line 706.
+Package pdftex.def Info: specQuadratic-eps-converted-to.pdf used on input line 769.
 (pdftex.def)             Requested size: 246.0pt x 184.49649pt.
- [8 </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/spectraDoubleSampleRateQuadratic-eps-converted-to.pdf> </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/modalAnalysisQuadratic-eps-converted-to.pdf>]
-
-LaTeX Warning: A float is stuck (cannot be placed) on input line 717.
-
-
-LaTeX Warning: A float is stuck (cannot be placed) on input line 717.
-
-
-Class revtex4-1 Warning: Deferred float stuck during \clearpage processing.
-
-[9 </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/specQuadratic-eps-converted-to.pdf>]
+ [9 </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/spectraDoubleSampleRateQuadratic-eps-converted-to.pdf> </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/modalAnalysisQuadratic-eps-converted-to.pdf> </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/specQuadratic-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <fullGrid.eps>
 (epstopdf)                    date: 2020-10-16 16:29:27
 (epstopdf)                    size: 38683 bytes
@@ -838,13 +894,14 @@ Package epstopdf Info: Source file: <fullGrid.eps>
 (epstopdf)                    date: 2021-01-26 11:43:29
 (epstopdf)                    size: 18795 bytes
 (epstopdf)             Command: <repstopdf --outfile=fullGrid-eps-converted-to.pdf fullGrid.eps>
-(epstopdf)             \includegraphics on input line 792.
+(epstopdf)             \includegraphics on input line 855.
 Package epstopdf Info: Output file is already uptodate.
- <fullGrid-eps-converted-to.pdf, id=396, 501.875pt x 301.125pt>
+ <fullGrid-eps-converted-to.pdf, id=409, 501.875pt x 301.125pt>
 File: fullGrid-eps-converted-to.pdf Graphic file (type pdf)
  <use fullGrid-eps-converted-to.pdf>
-Package pdftex.def Info: fullGrid-eps-converted-to.pdf used on input line 792.
+Package pdftex.def Info: fullGrid-eps-converted-to.pdf used on input line 855.
 (pdftex.def)             Requested size: 246.0pt x 147.60307pt.
+ [10 </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/fullGrid-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <simplySupportedBoundary.eps>
 (epstopdf)                    date: 2020-10-16 15:43:09
 (epstopdf)                    size: 20778 bytes
@@ -852,12 +909,12 @@ Package epstopdf Info: Source file: <simplySupportedBoundary.eps>
 (epstopdf)                    date: 2021-01-26 11:43:29
 (epstopdf)                    size: 8765 bytes
 (epstopdf)             Command: <repstopdf --outfile=simplySupportedBoundary-eps-converted-to.pdf simplySupportedBoundary.eps>
-(epstopdf)             \includegraphics on input line 829.
+(epstopdf)             \includegraphics on input line 892.
 Package epstopdf Info: Output file is already uptodate.
- <simplySupportedBoundary-eps-converted-to.pdf, id=404, 562.1pt x 421.575pt>
+ <simplySupportedBoundary-eps-converted-to.pdf, id=432, 562.1pt x 421.575pt>
 File: simplySupportedBoundary-eps-converted-to.pdf Graphic file (type pdf)
  <use simplySupportedBoundary-eps-converted-to.pdf>
-Package pdftex.def Info: simplySupportedBoundary-eps-converted-to.pdf used on input line 829.
+Package pdftex.def Info: simplySupportedBoundary-eps-converted-to.pdf used on input line 892.
 (pdftex.def)             Requested size: 246.0pt x 184.49649pt.
 Package epstopdf Info: Source file: <boundaryGrid.eps>
 (epstopdf)                    date: 2020-10-16 11:05:46
@@ -866,28 +923,18 @@ Package epstopdf Info: Source file: <boundaryGrid.eps>
 (epstopdf)                    date: 2021-01-26 11:43:30
 (epstopdf)                    size: 23013 bytes
 (epstopdf)             Command: <repstopdf --outfile=boundaryGrid-eps-converted-to.pdf boundaryGrid.eps>
-(epstopdf)             \includegraphics on input line 845.
+(epstopdf)             \includegraphics on input line 908.
 Package epstopdf Info: Output file is already uptodate.
- <boundaryGrid-eps-converted-to.pdf, id=407, 562.1pt x 421.575pt>
+ <boundaryGrid-eps-converted-to.pdf, id=435, 562.1pt x 421.575pt>
 File: boundaryGrid-eps-converted-to.pdf Graphic file (type pdf)
  <use boundaryGrid-eps-converted-to.pdf>
-Package pdftex.def Info: boundaryGrid-eps-converted-to.pdf used on input line 845.
+Package pdftex.def Info: boundaryGrid-eps-converted-to.pdf used on input line 908.
 (pdftex.def)             Requested size: 246.0pt x 184.49649pt.
- (/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.bbl (/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.ent) [10 </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/fullGrid-eps-converted-to.pdf>]
-
-LaTeX Warning: A float is stuck (cannot be placed) on input line 1.
-
-
-LaTeX Warning: A float is stuck (cannot be placed) on input line 1.
-
-
-Class revtex4-1 Warning: Deferred float stuck during \clearpage processing.
-
-) [11 </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/simplySupportedBoundary-eps-converted-to.pdf> </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/boundaryGrid-eps-converted-to.pdf>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 851.
+ (/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.bbl (/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.ent)) [11 </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/simplySupportedBoundary-eps-converted-to.pdf> </Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/boundaryGrid-eps-converted-to.pdf>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 914.
  (/Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 851.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 851.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 914.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 914.
 
 
 LaTeX Font Warning: Size substitutions with differences
@@ -896,20 +943,24 @@ LaTeX Font Warning: Size substitutions with differences
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
- ) 
+ )
+(\end occurred inside a group at level 1)
+
+### simple group (level 1) entered at line 1061 ({)
+### bottom level 
 Here is how much of TeX's memory you used:
- 10524 strings out of 493014
- 151862 string characters out of 6133351
- 278790 words of memory out of 5000000
- 13731 multiletter control sequences out of 15000+600000
+ 11037 strings out of 493014
+ 161056 string characters out of 6133351
+ 298962 words of memory out of 5000000
+ 14235 multiletter control sequences out of 15000+600000
  21751 words of font info for 85 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 40i,15n,37p,1323b,382s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 40i,15n,37p,1306b,2308s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on /Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.pdf (11 pages, 1117548 bytes).
+Output written on /Users/SilvinW/repositories/JASA-Dynamic-Grid/JASA-LaTeX-v2019/preprintsample.pdf (11 pages, 1126417 bytes).
 PDF statistics:
- 572 PDF objects out of 1000 (max. 8388607)
- 480 compressed objects within 5 object streams
+ 588 PDF objects out of 1000 (max. 8388607)
+ 496 compressed objects within 5 object streams
  122 named destinations out of 1000 (max. 500000)
  81 words of extra memory for PDF output out of 10000 (max. 10000000)
 

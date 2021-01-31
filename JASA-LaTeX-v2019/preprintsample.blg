@@ -5,44 +5,44 @@ The style file: jasaauthyear2.bst
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Database file #1: preprintsampleNotes.bib
 Database file #2: myBib.bib
-You've used 2 entries,
+You've used 3 entries,
             3868 wiz_defined-function locations,
-            1214 strings with 10712 characters,
-and the built_in function-call counts, 901 in all, are:
-= -- 52
-> -- 20
+            1221 strings with 10960 characters,
+and the built_in function-call counts, 1724 in all, are:
+= -- 121
+> -- 56
 < -- 2
-+ -- 8
-- -- 6
-* -- 96
-:= -- 138
-add.period$ -- 4
-call.type$ -- 2
-change.case$ -- 10
-chr.to.int$ -- 2
-cite$ -- 2
-duplicate$ -- 70
-empty$ -- 93
-format.name$ -- 8
-if$ -- 169
++ -- 21
+- -- 18
+* -- 188
+:= -- 251
+add.period$ -- 6
+call.type$ -- 3
+change.case$ -- 19
+chr.to.int$ -- 3
+cite$ -- 3
+duplicate$ -- 125
+empty$ -- 151
+format.name$ -- 23
+if$ -- 335
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 14
-newline$ -- 17
-num.names$ -- 8
-pop$ -- 22
+missing$ -- 23
+newline$ -- 20
+num.names$ -- 12
+pop$ -- 37
 preamble$ -- 1
-purify$ -- 10
+purify$ -- 18
 quote$ -- 0
-skip$ -- 29
+skip$ -- 54
 stack$ -- 0
-substring$ -- 22
-swap$ -- 46
+substring$ -- 65
+swap$ -- 93
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 12
+type$ -- 21
 warning$ -- 0
-while$ -- 6
+while$ -- 12
 width$ -- 0
-write$ -- 30
+write$ -- 41
